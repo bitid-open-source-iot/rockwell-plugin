@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { Router, CanActivate } from '@angular/router';
 import { LocalstorageService } from '../localstorage/localstorage.service';
-import { Router, CanActivate, RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
 
 @Injectable({
     providedIn: 'root'
@@ -11,7 +11,7 @@ export class AuthService implements CanActivate {
 
     constructor(private router: Router, private localstorage: LocalstorageService) { };
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    canActivate() {
         let now = new Date();
         let valid = true;
         let email = this.localstorage.get('email');

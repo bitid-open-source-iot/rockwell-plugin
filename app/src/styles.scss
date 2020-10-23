@@ -1,5 +1,131 @@
+* {
+    user-select: none;
+    -ms-user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+}
 html, body {
     height: 100%;
     margin: 0px;
     font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+h1, h2, h3, h4, p {
+    margin: 0px !important;
+    padding: 0px !important;
+}
+form {
+    width: calc(100% - 20px) !important;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    h2 {
+        height: 20px !important;
+        font-size: 14px !important;
+        line-height: 14px !important;
+    }
+    section {
+        flex: 1 auto;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        mat-form-field {
+            flex: 0 calc(50% - 5px);
+        }
+    }
+    mat-form-field {
+        flex: 1 auto;
+    }
+}
+input {
+    -webkit-user-select: all !important;
+}
+input[type=number] {
+  -moz-appearance: textfield;
+}
+table {
+    width: 100%;
+    border-collapse: collapse !important;
+}
+.spacer {
+    flex: 1 auto;
+}
+.page-title {
+    font-size: 16px;
+    text-transform: uppercase;
+}
+.mat-header-row {
+    height: 30px !important;
+    min-height: 30px !important;
+}
+mat-toolbar {
+    min-height: 56px;
+    max-height: 56px;
+}
+mat-form-field {
+    min-width: 0px;
+}
+mat-progress-bar {
+    margin-top: -4px;
+}
+simple-snack-bar {
+    justify-content: center !important;
+}
+.toast-error {
+    text-transform: uppercase;
+    background-color: #F44336 !important;
+}
+.toast-success {
+    text-transform: uppercase;
+    background-color: #4CAF50 !important;
+}
+home-page,
+signin-page,
+configure-page {
+    flex: 1 auto;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+[mat-flat-button] {
+    height: 46px !important;
+    text-transform: uppercase;
+}
+[mat-flat-button][color=dark] {
+    color: #FFF;
+    background-color: #000;
+    .mat-progress-spinner circle, .mat-spinner circle {
+        stroke: #FFFFFF;
+    }
+}
+.container {
+    width: 50%;
+    margin: auto;
+}
+@media screen and (max-width: 1500px) {
+    .container {
+        width: 60%;
+    }
+}
+@media screen and (max-width: 1200px) {
+    .container {
+        width: 70%;
+    }
+}
+@media screen and (max-width: 900px) {
+    .container {
+        width: 80%;
+    }
+}
+@media screen and (max-width: 600px) {
+    .container {
+        width: 90%;
+    }
+}
+@media screen and (max-width: 400px) {
+    .container {
+        width: 100%;
+    }
 }

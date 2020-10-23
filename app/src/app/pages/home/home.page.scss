@@ -1,0 +1,35 @@
+h1 {
+    margin: 0px auto !important;
+    margin-top: 40px !important;
+    text-align: center;
+    text-transform: capitalize;
+}
+mat-qrcode {
+    margin: auto;
+}
+.status {
+    width: 100px;
+    color: #FFF;
+    margin: auto;
+    display: flex;
+    padding: 5px;
+    font-size: 12px;
+    padding-top: 4px;
+    align-items: center;
+    line-height: 12px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    justify-content: center;
+    background-color: #F44336;
+}
+.status.active {
+    background-color: #4CAF50;
+}
+mat-content button {
+    width: 60px;
+    height: 60px;
+    margin: 0px auto;
+    display: block;
+    margin-bottom: 20px;
+}

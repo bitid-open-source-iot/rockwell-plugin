@@ -1,1 +1,41 @@
-<p>signin works!</p>
+<mat-toolbar>
+    <div class="page-title spacer">
+        Sign In
+    </div>
+</mat-toolbar>
+
+<mat-content>
+    <div class="container">
+        <form [formGroup]="form" (ngSubmit)="!loading && !form.invalid && submit()">
+            <mat-form-field appearance="outline">
+                <mat-label>
+                    Email
+                </mat-label>
+
+                <input matInput type="email" name="email" placeholder="email" formControlName="email" required>
+
+                <mat-error *ngIf="errors.email">
+                    {{ errors.email }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>
+                    Password
+                </mat-label>
+
+                <input matInput type="password" name="password" placeholder="password" formControlName="password" required>
+
+                <mat-error *ngIf="errors.password">
+                    {{ errors.password }}
+                </mat-error>
+            </mat-form-field>
+
+            <button type="submit" mat-flat-button color="dark">
+                {{ loading ? '' : 'submit' }}
+
+                <mat-progress-spinner mode="indeterminate" diameter="30" *ngIf="loading"></mat-progress-spinner>
+            </button>
+        </form>
+    </div>
+</mat-content>

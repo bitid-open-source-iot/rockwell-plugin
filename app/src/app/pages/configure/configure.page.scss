@@ -1,0 +1,28 @@
+.mat-column-pin,
+.mat-column-tag,
+.mat-column-moduleId {
+    width: 150px;
+    min-width: 150px;
+}
+.mat-column-type {
+    min-width: 150px;
+    padding-right: 15px;
+}
+.mat-column-options {
+    width: 40px;
+    padding-right: 16px !important;
+}
+mat-footer button {
+    width: 100%;
+    margin: auto;
+    display: block;
+    max-width: 400px;
+}
+table {
+    width: calc(100% - 20px);
+    margin: 0px 10px !important;
+}
+.table-wrapper {
+    height: calc(100vh - 112px - 235px);
+    overflow-y: auto;
+}

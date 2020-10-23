@@ -11,6 +11,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ApiService } from './services/api/api.service';
 import { AuthService } from './services/auth/auth.service';
 import { ToastService } from './services/toast/toast.service';
+import { ConfigService } from './services/config/config.service';
 import { AccountService } from './services/account/account.service';
 import { DevicesService } from './services/devices/devices.service';
 import { FormErrorService } from './services/form-error/form-error.service';
@@ -37,6 +38,7 @@ import { environment } from '../environments/environment';
         ApiService,
         AuthService,
         ToastService,
+        ConfigService,
         DevicesService,
         AccountService,
         FormErrorService,

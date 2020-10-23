@@ -1,12 +1,10 @@
 {
+    "io": [],
     "plc": {
-        "ip": "",
+        "ip": "127.0.0.1",
         "port": 0
     },
-    "io": [],
     "port": 3000,
-    "thingapp": "ws://127.0.0.1:3000/",
-    "production": false,
     "logger": {
         "appenders": {
             "rockwell": {
@@ -25,5 +23,7 @@
                 "level": "error"
             }
         }
-    }
+    },
+    "thingapp": "ws://127.0.0.1:3000",
+    "production": false
 }

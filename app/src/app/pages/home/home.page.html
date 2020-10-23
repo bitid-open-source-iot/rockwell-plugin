@@ -1,0 +1,33 @@
+<mat-toolbar>
+    <div class="page-title spacer">
+        Rockwell Plugin
+    </div>
+
+    <button mat-icon-button (click)="logout()" *ngIf="authenticated">
+        <mat-icon>
+            logout
+        </mat-icon>
+    </button>
+
+    <button mat-icon-button routerLink="/signin" *ngIf="!authenticated">
+        <mat-icon>
+            login
+        </mat-icon>
+    </button>
+</mat-toolbar>
+
+<mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+
+<mat-content>
+    <mat-qrcode [value]="barcode"></mat-qrcode>
+
+    <div class="status" [class]="status">
+        {{ status }}
+    </div>
+
+    <button mat-icon-button routerLink="/configure" *ngIf="authenticated">
+        <mat-icon>
+            create
+        </mat-icon>
+    </button>
+</mat-content>

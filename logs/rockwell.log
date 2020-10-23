@@ -29,3 +29,131 @@
 [2020-10-23T11:13:34.707] [INFO] rockwell - Loaded: ./api/config
 [2020-10-23T11:13:34.724] [INFO] rockwell - Rockwell PLC Started
 [2020-10-23T11:13:37.764] [INFO] rockwell - Socket Data: Test Message
+[2020-10-23T11:26:28.080] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T11:26:28.093] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T12:41:56.107] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T12:41:56.135] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T12:41:59.154] [INFO] rockwell - Socket Data: Test Message
+[2020-10-23T13:01:10.157] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T13:01:10.169] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T13:01:13.186] [INFO] rockwell - Socket Data: Test Message
+[2020-10-23T13:07:11.421] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T13:07:11.435] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T13:07:14.450] [INFO] rockwell - Socket Data: Test Message
+[2020-10-23T15:25:24.124] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T15:25:24.138] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T15:25:27.161] [INFO] rockwell - Socket Data: Test Message
+[2020-10-23T15:54:54.276] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T15:54:54.285] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T15:54:57.301] [INFO] rockwell - Socket Data: Test Message
+[2020-10-23T15:56:51.014] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T15:56:51.023] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T15:56:54.036] [INFO] rockwell - Socket Data: Test Message
+[2020-10-23T15:56:59.938] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T15:56:59.954] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T15:57:02.975] [INFO] rockwell - Socket Data: Test Message
+[2020-10-23T15:57:45.926] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T15:57:45.939] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T15:57:48.960] [INFO] rockwell - Socket Data: Test Message
+[2020-10-23T15:57:52.323] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T15:57:52.334] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T15:57:55.347] [INFO] rockwell - Socket Data: Test Message
+[2020-10-23T15:57:59.007] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T15:57:59.018] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T15:58:02.033] [INFO] rockwell - Socket Data: Test Message
+[2020-10-23T15:58:29.690] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T15:58:29.698] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T15:58:32.712] [INFO] rockwell - Socket Data: Test Message
+[2020-10-23T15:58:39.725] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T15:58:39.733] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T15:58:42.270] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T15:58:42.278] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T15:58:45.291] [INFO] rockwell - Socket Data: Test Message
+[2020-10-23T15:58:46.353] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T15:58:46.362] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T15:58:49.377] [INFO] rockwell - Socket Data: Test Message
+[2020-10-23T15:58:51.285] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T15:58:51.298] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T15:58:54.321] [INFO] rockwell - Socket Data: Test Message
+[2020-10-23T15:59:42.072] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T15:59:42.081] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T15:59:45.098] [INFO] rockwell - Socket Data: Test Message
+[2020-10-23T15:59:48.796] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T15:59:48.805] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T15:59:51.824] [INFO] rockwell - Socket Data: Test Message
+[2020-10-23T16:02:54.581] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T16:02:54.589] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T16:02:57.605] [INFO] rockwell - Socket Data: Test Message
+[2020-10-23T16:04:03.825] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T16:04:03.833] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T16:04:06.854] [INFO] rockwell - Socket Data: Test Message
+[2020-10-23T16:05:05.405] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T16:05:05.414] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T16:05:08.429] [INFO] rockwell - Socket Data: Test Message
+[2020-10-23T16:06:24.756] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T16:06:24.763] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T16:06:27.776] [INFO] rockwell - Socket Data: Test Message
+[2020-10-23T16:07:12.467] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T16:07:12.475] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T16:07:15.491] [INFO] rockwell - Socket Data: Test Message
+[2020-10-23T16:21:22.479] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T16:21:22.487] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T16:21:25.501] [INFO] rockwell - Socket Data: Test Message
+[2020-10-23T16:21:48.314] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T16:21:48.322] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T16:21:48.635] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T16:21:48.645] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T16:21:51.664] [INFO] rockwell - Socket Data: Test Message
+[2020-10-23T16:24:31.301] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T16:24:31.312] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T16:24:31.664] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T16:24:31.681] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T16:24:34.697] [INFO] rockwell - Socket Data: Test Message
+[2020-10-23T16:25:19.206] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T16:25:19.218] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T16:25:19.683] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T16:25:19.693] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T16:25:22.714] [INFO] rockwell - Socket Data: Test Message
+[2020-10-23T17:28:22.632] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T17:28:22.646] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T17:28:24.178] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T17:28:24.201] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T17:28:25.952] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T17:28:25.978] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T17:28:27.303] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T17:28:27.325] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T17:28:28.115] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T17:28:28.138] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T17:28:31.404] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T17:28:31.418] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T17:28:32.289] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T17:28:32.307] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T17:28:33.940] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T17:28:33.964] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T17:28:35.427] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T17:28:35.441] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T17:28:36.162] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T17:28:36.176] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T17:28:37.218] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T17:28:37.232] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T17:28:37.531] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T17:28:37.540] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T17:28:40.553] [INFO] rockwell - Socket Data: Test Message
+[2020-10-23T17:28:43.223] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T17:28:43.232] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T17:28:45.210] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T17:28:45.218] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T17:28:48.231] [INFO] rockwell - Socket Data: Test Message
+[2020-10-23T17:31:37.116] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T17:31:37.126] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T17:31:40.141] [INFO] rockwell - Socket Data: Test Message
+[2020-10-23T17:31:48.280] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T17:31:48.290] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T17:31:50.051] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T17:31:50.059] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T17:31:50.559] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T17:31:50.567] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T17:31:53.582] [INFO] rockwell - Socket Data: Test Message
+[2020-10-23T17:32:44.284] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T17:32:44.292] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T17:32:47.308] [INFO] rockwell - Socket Data: Test Message
