@@ -1,0 +1,26 @@
+{
+  "name": "rockwell",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "biTid",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "ethernet-ip": "^1.2.5",
+    "express": "^4.17.1",
+    "http": "0.0.1-security",
+    "log4js": "^6.3.0",
+    "q": "^1.5.1",
+    "websocket": "^1.0.32"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-subset": "^1.6.0",
+    "node-fetch": "^2.6.1"
+  }
+}

@@ -1,0 +1,31 @@
+[2020-10-23T10:48:39.874] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T10:48:39.889] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T10:48:42.902] [INFO] rockwell - Socket Data: Test Message
+[2020-10-23T10:49:24.264] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T10:49:24.272] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T10:49:27.290] [INFO] rockwell - Socket Data: Test Message
+[2020-10-23T10:50:42.019] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T10:50:42.030] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T10:51:22.070] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T10:51:22.083] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T10:51:25.100] [INFO] rockwell - Socket Data: Test Message
+[2020-10-23T10:54:29.798] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T10:54:29.812] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T10:55:11.066] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T10:55:11.080] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T10:56:57.048] [INFO] rockwell - Socket Data: Test Message
+[2020-10-23T10:56:58.578] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T10:56:58.594] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T10:57:01.619] [INFO] rockwell - Socket Data: Test Message
+[2020-10-23T11:05:29.206] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T11:05:29.222] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T11:05:32.247] [INFO] rockwell - Socket Data: Test Message
+[2020-10-23T11:06:05.134] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T11:06:05.150] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T11:06:08.166] [INFO] rockwell - Socket Data: Test Message
+[2020-10-23T11:10:24.805] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T11:10:24.819] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T11:10:27.840] [INFO] rockwell - Socket Data: Test Message
+[2020-10-23T11:13:34.707] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T11:13:34.724] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T11:13:37.764] [INFO] rockwell - Socket Data: Test Message

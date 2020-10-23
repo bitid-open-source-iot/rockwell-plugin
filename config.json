@@ -1,0 +1,42 @@
+{
+    "plc": {
+        "ip": "127.0.0.1",
+        "port": 0
+    },
+    "io": [
+        {
+            "pin": 0,
+            "tag": "Rx[#]",
+            "type": "input",
+            "moduleId": 0
+        },
+        {
+            "pin": 1,
+            "tag": "Rx[#]",
+            "type": "input",
+            "moduleId": 0
+        }
+    ],
+    "port": 3000,
+    "thingapp": "ws://127.0.0.1:3000",
+    "production": false,
+    "logger": {
+        "appenders": {
+            "rockwell": {
+                "type": "file",
+                "backups": 10,
+                "filename": "./logs/rockwell.log",
+                "absolute": true,
+                "maxLogSize": 102400
+            }
+        },
+        "categories": {
+            "default": {
+                "appenders": [
+                    "rockwell"
+                ],
+                "level": "error"
+            }
+        }
+    }
+}

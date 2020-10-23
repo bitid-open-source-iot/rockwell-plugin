@@ -1,0 +1,29 @@
+{
+    "plc": {
+        "ip": "",
+        "port": 0
+    },
+    "io": [],
+    "port": 3000,
+    "thingapp": "ws://127.0.0.1:3000/",
+    "production": false,
+    "logger": {
+        "appenders": {
+            "rockwell": {
+                "type": "file",
+                "backups": 10,
+                "filename": "./logs/rockwell.log",
+                "absolute": true,
+                "maxLogSize": 102400
+            }
+        },
+        "categories": {
+            "default": {
+                "appenders": [
+                    "rockwell"
+                ],
+                "level": "error"
+            }
+        }
+    }
+}
