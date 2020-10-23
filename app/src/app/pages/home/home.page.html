@@ -30,4 +30,8 @@
             create
         </mat-icon>
     </button>
+
+    <div class="authenticated" *ngIf="!authenticated">
+        sign in required
+    </div>
 </mat-content>

@@ -26,6 +26,17 @@ mat-qrcode {
 .status.active {
     background-color: #4CAF50;
 }
+.authenticated {
+    width: 100%;
+    color: #424242;
+    margin: auto;
+    display: block;
+    font-size: 12px;
+    max-width: 300px;
+    text-align: center;
+    line-height: 12px;
+    text-transform: uppercase;
+}
 mat-content button {
     width: 60px;
     height: 60px;

@@ -23,3 +23,6 @@
 [2020-10-23T18:40:05.753] [INFO] rockwell - Loaded: ./api/config
 [2020-10-23T18:40:05.769] [INFO] rockwell - Rockwell PLC Started
 [2020-10-23T18:40:08.791] [INFO] rockwell - Socket Data: Test Message
+[2020-10-23T18:43:19.123] [INFO] rockwell - Loaded: ./api/config
+[2020-10-23T18:43:19.136] [INFO] rockwell - Rockwell PLC Started
+[2020-10-23T18:43:22.157] [INFO] rockwell - Socket Data: Test Message

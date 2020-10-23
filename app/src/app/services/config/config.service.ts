@@ -18,4 +18,8 @@ export class ConfigService {
 		return await this.api.post(environment.api, '/api/config/update', params);
 	};
 
+	public async barcode(params) {
+		return await this.api.put(environment.api, '/api/config/barcode', params);
+	};
+
 }

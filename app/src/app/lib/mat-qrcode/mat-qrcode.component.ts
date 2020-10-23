@@ -21,11 +21,13 @@ export class MatQrcodeComponent implements OnChanges {
     public element: HTMLElement;
 
     private async redraw() {
-        const image = await qrcode.toDataURL(this.value, {
-            'width': this.width,
-            'height': this.height
-        });
-        this.renderer.setStyle(this.element, 'background-image', ['url(', image, ')'].join(''));
+        if (typeof(this.value) != 'undefined' && this.value != null && this.value != '') {
+            const image = await qrcode.toDataURL(this.value, {
+                'width': this.width,
+                'height': this.height
+            });
+            this.renderer.setStyle(this.element, 'background-image', ['url(', image, ')'].join(''));
+        };
     };
 
     ngOnChanges(): void {
