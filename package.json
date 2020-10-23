@@ -14,7 +14,11 @@
     "ethernet-ip": "^1.2.5",
     "express": "^4.17.1",
     "http": "0.0.1-security",
+    "ip": "^1.1.5",
     "log4js": "^6.3.0",
+    "macaddress": "^0.5.1",
+    "os": "^0.1.1",
+    "public-ip": "^4.0.2",
     "q": "^1.5.1",
     "websocket": "^1.0.32"
   },

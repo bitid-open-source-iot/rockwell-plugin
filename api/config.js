@@ -15,4 +15,9 @@ router.post('/update', (req, res) => {
     myModule.config.update(req, res);
 });
 
+router.put('/barcode', (req, res) => {
+    var myModule = new bll.module();
+    myModule.config.barcode(req, res);
+});
+
 module.exports = router;

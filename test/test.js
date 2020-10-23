@@ -34,6 +34,26 @@ describe('Config', function () {
             });
     });
 
+    it('/api/config/barcode', function (done) {
+        this.timeout(5000);
+
+        tools.api.config.barcode()
+            .then((result) => {
+                try {
+                    result.should.have.property('barcode');
+                    done();
+                } catch (e) {
+                    done(e);
+                };
+            }, (err) => {
+                try {
+                    done(err);
+                } catch (e) {
+                    done(e);
+                };
+            });
+    });
+
     it('/api/config/update', function (done) {
         this.timeout(5000);
 
@@ -102,6 +122,15 @@ var tools = {
                     'thingapp': 'ws://127.0.0.1:3000',
                     'production': false
                 });
+
+                deferred.resolve(response);
+
+                return deferred.promise;
+            },
+            barcode: async () => {
+                var deferred = Q.defer();
+
+                const response = await tools.put('/api/config/barcode', {});
 
                 deferred.resolve(response);
 

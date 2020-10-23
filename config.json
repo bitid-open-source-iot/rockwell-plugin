@@ -5,6 +5,12 @@
             "tag": "Rx[#]",
             "type": "input",
             "moduleId": 0
+        },
+        {
+            "pin": 1,
+            "tag": "Rx[#]",
+            "type": "input",
+            "moduleId": 0
         }
     ],
     "plc": {

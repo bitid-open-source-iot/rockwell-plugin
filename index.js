@@ -30,26 +30,6 @@ var portal = async () => {
             'limit': '50mb'
         }));
 
-        if (__settings.authentication) {
-            app.use((req, res, next) => {
-                // if (req.method != 'GET' && req.method != 'PUT') {
-                //     auth.authenticate({
-                //         'req': req,
-                //         'res': res
-                //     })
-                //         .then(result => {
-                //             next();
-                //         }, err => {
-                //             err.error.code = 401;
-                //             err.error.errors[0].code = 401;
-                //             __responder.error(req, res, err);
-                //         });
-                // } else {
-                    next();
-                // };
-            });
-        };
-
         app.use('/', express.static(__dirname + '/app/dist/rockwell/'));
         app.get('/*', (req, res) => {
             res.sendFile(__dirname + '/app/dist/rockwell/index.html');
