@@ -2,3 +2,7 @@
 [2020-10-26T10:24:24.381] [INFO] rockwell - Rockwell PLC Started
 [2020-10-26T10:24:27.413] [INFO] rockwell - Socket Data: Test Message
 [2020-10-26T10:24:34.396] [ERROR] rockwell - TIMEOUT occurred while attempting to establish TCP connection with Controller.
+[2020-10-26T10:41:34.955] [INFO] rockwell - Loaded: ./api/config
+[2020-10-26T10:41:34.966] [INFO] rockwell - Rockwell PLC Started
+[2020-10-26T10:41:37.996] [INFO] rockwell - Socket Data: Test Message
+[2020-10-26T10:41:44.979] [ERROR] rockwell - TIMEOUT occurred while attempting to establish TCP connection with Controller.
