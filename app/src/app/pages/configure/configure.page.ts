@@ -29,13 +29,15 @@ export class ConfigurePage implements OnInit, OnDestroy {
             'password': new FormControl(null, [Validators.required]),
             'subscribe': new FormControl(null, [Validators.required])
         }),
+        'txtime': new FormControl(null, [Validators.required, Validators.min(60)]),
         'production': new FormControl(null, [Validators.required]),
         'authentication': new FormControl(null, [Validators.required])
     });
     public input: any = {
+        'as': null,
         'pin': null,
-        'tag': null,
         'type': null,
+        'tagId': null,
         'moduleId': null
     };
     public errors: any = {
@@ -50,17 +52,18 @@ export class ConfigurePage implements OnInit, OnDestroy {
             'password': '',
             'subscribe': ''
         },
+        'txtime': '',
         'production': '',
         'authentication': ''
     };
-    public columns: string[] = ['pin', 'tagId', 'moduleId', 'type', 'as', 'options'];
+    public columns: string[] = ['pin', 'tagId', 'moduleId', 'type', 'as', 'allowance', 'options'];
     public loading: boolean;
     private subscriptions: any = {};
 
     public async add() {
         let valid = true;
         Object.keys(this.input).map(key => {
-            if (typeof(this.input[key]) == 'undefined' || this.input[key] == null || this.input[key] == '') {
+            if (typeof(this.input[key]) == 'undefined' || this.input[key] === null || this.input[key] === '') {
                 valid = false;
             };
         });
@@ -81,6 +84,7 @@ export class ConfigurePage implements OnInit, OnDestroy {
                 'io',
                 'plc',
                 'server',
+                'txtime',
                 'production',
                 'authentication'
             ]
@@ -88,6 +92,7 @@ export class ConfigurePage implements OnInit, OnDestroy {
 
         if (response.ok) {
             this.io.data = response.result.io;
+            this.form.controls['txtime'].setValue(response.result.txtime);
             this.form.controls['production'].setValue(response.result.production);
             this.form.controls['authentication'].setValue(response.result.authentication);
             (<any>this.form.controls['plc']).controls['ip'].setValue(response.result.plc.ip);
@@ -112,6 +117,7 @@ export class ConfigurePage implements OnInit, OnDestroy {
             const response = await this.service.update({
                 'io': this.io.data,
                 'plc': this.form.value.plc,
+                'txtime': this.form.value.txtime,
                 'server': this.form.value.server,
                 'production': this.form.value.production,
                 'authentication': this.form.value.authentication
