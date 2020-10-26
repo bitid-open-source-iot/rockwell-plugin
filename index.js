@@ -10,6 +10,7 @@ global.__base = __dirname + '/';
 global.__logger = require('./lib/logger')
 global.__server = null;
 global.__status = null;
+global.__deviceId = null;
 global.__rockwell = null;
 global.__settings = require('./config.json');
 global.__responder = require('./lib/responder');
@@ -95,8 +96,13 @@ var logger = async () => {
 
 var device = async () => {
     try {
-        telemetry.deviceId();
-        return true;
+        await telemetry.deviceId()
+            .then(res => {
+                return true;
+            }, err => {
+                __logger.error(err);
+                return false;
+            });
     } catch (error) {
         __logger.error(error.message);
         return false;
