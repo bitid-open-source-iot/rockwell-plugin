@@ -115,5 +115,8 @@ var device = async () => {
     await portal();
     await device();
     await __rockwell.connect();
+
+    setTimeout(() => __rockwell.send(), 1000)
+
     __logger.info('Rockwell PLC Started');
 }) ();
