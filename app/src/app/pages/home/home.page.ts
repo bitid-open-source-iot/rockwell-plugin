@@ -13,7 +13,7 @@ export class HomePage implements OnInit, OnDestroy {
 
     constructor(private toast: ToastService, private config: ConfigService, private account: AccountService) { };
 
-    public status: string = 'inactive';
+    public status: string = this.config.status.value;
     public barcode: string;
     public loading: boolean;
     public authenticated: boolean;
@@ -38,6 +38,10 @@ export class HomePage implements OnInit, OnDestroy {
     };
 
     ngOnInit(): void {
+        this.subscriptions.status = this.config.status.subscribe(status => {
+            this.status = status;
+        });
+
         this.subscriptions.authenticated = this.account.authenticated.subscribe(authenticated => {
             this.authenticated = authenticated;
         });

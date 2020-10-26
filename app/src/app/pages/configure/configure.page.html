@@ -101,15 +101,15 @@
                     </td>
                 </ng-container>
             
-                <ng-container matColumnDef="tag">
+                <ng-container matColumnDef="tagId">
                     <th mat-header-cell *matHeaderCellDef>
                         Tag
                     </th>
                     <td mat-cell *matCellDef="let element">
-                        <input matInput type="text" name="tag" placeholder="tag" [(ngModel)]="element.tag" required>
+                        <input matInput type="text" name="tagId" placeholder="tagId" [(ngModel)]="element.tagId" required>
                     </td>
                     <td mat-footer-cell *matFooterCellDef>
-                        <input matInput type="text" name="tag" placeholder="tag" [(ngModel)]="input.tag" required>
+                        <input matInput type="text" name="tagId" placeholder="tagId" [(ngModel)]="input.tagId" required>
                     </td>
                 </ng-container>
 
@@ -154,6 +154,18 @@
                                 Input/Output
                             </mat-option>
                         </mat-select>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="as">
+                    <th mat-header-cell *matHeaderCellDef>
+                        Export As
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        <input matInput type="text" name="as" placeholder="as" [(ngModel)]="element.as" required>
+                    </td>
+                    <td mat-footer-cell *matFooterCellDef>
+                        <input matInput type="text" name="as" placeholder="as" [(ngModel)]="input.as" required>
                     </td>
                 </ng-container>
 

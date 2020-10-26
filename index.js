@@ -1,17 +1,19 @@
-const PLC = require('./lib/plc');
 const cors = require('cors');
 const http = require('http');
 const express = require('express');
+const Rockwell = require('./lib/rockwell');
+const telemetry = require('./lib/telemetry');
 const bodyparser = require('body-parser');
 const ErrorResponse = require('./lib/error-response');
 const WebSocketClient = require('websocket').client;
 const WebSocketServer = require('websocket').server;
 
-global.__plc = null;
 global.__base = __dirname + '/';
 global.__logger = require('./lib/logger')
 global.__server = null;
+global.__status = null;
 global.__socket = null;
+global.__rockwell = null;
 global.__settings = require('./config.json');
 global.__responder = require('./lib/responder');
 
@@ -29,6 +31,27 @@ var portal = async () => {
         app.use(bodyparser.json({
             'limit': '50mb'
         }));
+
+        if (__settings.authentication) {
+            app.use((req, res, next) => {
+                if (req.method != 'GET' && req.method != 'PUT') {
+                    var args = {
+                        'req': req,
+                        'res': res
+                    };
+                    telemetry.authenticate(args)
+                        .then(result => {
+                            next();
+                        }, err => {
+                            err.error.code = 401;
+                            err.error.errors[0].code = 401;
+                            __responder.error(req, res, err);
+                        });
+                } else {
+                    next();
+                };
+            });
+        };
 
         app.use('/', express.static(__dirname + '/app/dist/rockwell/'));
         app.get('/*', (req, res) => {
@@ -114,6 +137,21 @@ var socket = async () => {
     };
 };
 
+var device = async () => {
+    try {
+        telemetry.deviceId()
+            .then(res => {
+
+            }, err => {
+
+            });
+        return true;
+    } catch (error) {
+        __logger.error(error.message);
+        return false;
+    };
+};
+
 var controller = async () => {
     try {
         __plc = new PLC();
@@ -127,6 +165,9 @@ var controller = async () => {
     await logger();
     await portal();
     await socket();
+    await device();
     await controller();
     __logger.info('Rockwell PLC Started');
+    const rockwell = new Rockwell();
+    rockwell.connect();
 }) ();

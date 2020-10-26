@@ -2,15 +2,17 @@
     "io": [
         {
             "pin": 0,
-            "tag": "Rx[#]",
             "type": "input",
-            "moduleId": 0
+            "tagId": "Rx[#]",
+            "moduleId": 0,
+            "as": "AI1"
         },
         {
             "pin": 1,
-            "tag": "Rx[#]",
             "type": "input",
-            "moduleId": 0
+            "tagId": "Rx[#]",
+            "moduleId": 0,
+            "as": "AI2"
         }
     ],
     "plc": {
@@ -37,6 +39,9 @@
             }
         }
     },
+    "typeId": "000000000000000000000021",
     "thingapp": "ws://127.0.0.1:3000",
-    "production": false
+    "telemetry": "https://telemetry.bitid.co.za",
+    "production": false,
+    "authentication": false
 }

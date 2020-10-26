@@ -30,6 +30,26 @@ var module = function() {
 			return deferred.promise;
 		},
 
+		status: (args) => {
+			var deferred = Q.defer();
+
+			try {
+				args.result = {
+					'status': __status
+				};
+
+				deferred.resolve(args);
+			} catch (error) {
+				var err = new ErrorResponse();
+				err.error.errors[0].code = 503;
+				err.error.errors[0].reason = error.message;
+				err.error.errors[0].message = error.message;
+				deferred.reject(err);
+			};
+
+			return deferred.promise;
+		},
+
 		update: (args) => {
 			var deferred = Q.defer();
 
@@ -40,6 +60,9 @@ var module = function() {
 
 				if (Array.isArray(args.req.body.io)) {
 					update.io = args.req.body.io;
+					update.io.map(o => {
+						delete o.tag;
+					})
 				};
 				if (typeof(args.req.body.plc) != 'undefined' && args.req.body.plc != null) {
 					if (typeof(args.req.body.plc.ip) != 'undefined' && args.req.body.plc.ip != null && args.req.body.plc.ip != '') {

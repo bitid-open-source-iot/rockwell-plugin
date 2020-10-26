@@ -20,6 +20,21 @@ var module = function () {
                 });
         },
 
+        status: (req, res) => {
+            var args = {
+                'req': req,
+                'res': res
+            };
+
+            var myModule = new dal.module();
+            myModule.config.status(args)
+                .then(args => {
+                    __responder.success(req, res, args.result);
+                }, err => {
+                    __responder.error(req, res, err);
+                });
+        },
+
         update: (req, res) => {
             var args = {
                 'req': req,

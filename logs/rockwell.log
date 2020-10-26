@@ -1,28 +1,4 @@
-[2020-10-23T18:31:20.052] [INFO] rockwell - Loaded: ./api/config
-[2020-10-23T18:31:20.068] [INFO] rockwell - Rockwell PLC Started
-[2020-10-23T18:31:23.088] [INFO] rockwell - Socket Data: Test Message
-[2020-10-23T18:31:46.238] [INFO] rockwell - Loaded: ./api/config
-[2020-10-23T18:31:46.249] [INFO] rockwell - Rockwell PLC Started
-[2020-10-23T18:31:49.265] [INFO] rockwell - Socket Data: Test Message
-[2020-10-23T18:33:50.464] [INFO] rockwell - Loaded: ./api/config
-[2020-10-23T18:33:50.476] [INFO] rockwell - Rockwell PLC Started
-[2020-10-23T18:33:53.496] [INFO] rockwell - Socket Data: Test Message
-[2020-10-23T18:34:32.856] [INFO] rockwell - Loaded: ./api/config
-[2020-10-23T18:34:32.865] [INFO] rockwell - Rockwell PLC Started
-[2020-10-23T18:34:35.886] [INFO] rockwell - Socket Data: Test Message
-[2020-10-23T18:36:33.764] [INFO] rockwell - Loaded: ./api/config
-[2020-10-23T18:36:33.773] [INFO] rockwell - Rockwell PLC Started
-[2020-10-23T18:36:36.788] [INFO] rockwell - Socket Data: Test Message
-[2020-10-23T18:37:28.415] [INFO] rockwell - Loaded: ./api/config
-[2020-10-23T18:37:28.424] [INFO] rockwell - Rockwell PLC Started
-[2020-10-23T18:38:01.765] [INFO] rockwell - Loaded: ./api/config
-[2020-10-23T18:38:01.776] [INFO] rockwell - Rockwell PLC Started
-[2020-10-23T18:39:40.352] [INFO] rockwell - Loaded: ./api/config
-[2020-10-23T18:39:40.363] [INFO] rockwell - Rockwell PLC Started
-[2020-10-23T18:39:43.381] [INFO] rockwell - Socket Data: Test Message
-[2020-10-23T18:40:05.753] [INFO] rockwell - Loaded: ./api/config
-[2020-10-23T18:40:05.769] [INFO] rockwell - Rockwell PLC Started
-[2020-10-23T18:40:08.791] [INFO] rockwell - Socket Data: Test Message
-[2020-10-23T18:43:19.123] [INFO] rockwell - Loaded: ./api/config
-[2020-10-23T18:43:19.136] [INFO] rockwell - Rockwell PLC Started
-[2020-10-23T18:43:22.157] [INFO] rockwell - Socket Data: Test Message
+[2020-10-26T10:24:24.365] [INFO] rockwell - Loaded: ./api/config
+[2020-10-26T10:24:24.381] [INFO] rockwell - Rockwell PLC Started
+[2020-10-26T10:24:27.413] [INFO] rockwell - Socket Data: Test Message
+[2020-10-26T10:24:34.396] [ERROR] rockwell - TIMEOUT occurred while attempting to establish TCP connection with Controller.

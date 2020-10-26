@@ -24,6 +24,9 @@
             }
         }
     },
+    "typeId": "000000000000000000000021",
     "thingapp": "ws://127.0.0.1:3000",
-    "production": false
+    "telemetry": "https://telemetry.bitid.co.za",
+    "production": false,
+    "authentication": true
 }

@@ -39,7 +39,7 @@ export class ConfigurePage implements OnInit, OnDestroy {
         'thingapp': '',
         'production': ''
     };
-    public columns: string[] = ['pin', 'tag', 'moduleId', 'type', 'options'];
+    public columns: string[] = ['pin', 'tagId', 'moduleId', 'type', 'as', 'options'];
     public loading: boolean;
     private subscriptions: any = {};
 
