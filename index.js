@@ -167,7 +167,7 @@ var controller = async () => {
     await socket();
     await device();
     await controller();
+    __rockwell = new Rockwell()
+    __rockwell.connect();
     __logger.info('Rockwell PLC Started');
-    const rockwell = new Rockwell();
-    rockwell.connect();
 }) ();
