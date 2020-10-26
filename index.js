@@ -5,14 +5,11 @@ const Rockwell = require('./lib/rockwell');
 const telemetry = require('./lib/telemetry');
 const bodyparser = require('body-parser');
 const ErrorResponse = require('./lib/error-response');
-const WebSocketClient = require('websocket').client;
-const WebSocketServer = require('websocket').server;
 
 global.__base = __dirname + '/';
 global.__logger = require('./lib/logger')
 global.__server = null;
 global.__status = null;
-global.__socket = null;
 global.__rockwell = null;
 global.__settings = require('./config.json');
 global.__responder = require('./lib/responder');
@@ -73,20 +70,12 @@ var portal = async () => {
         });
 
         __server = http.createServer(app);
-        __server.listen(__settings.port);
 
-        if (!__settings.production) {
-            const wsserver = new WebSocketServer({
-                'httpServer': __server
-            });
-
-            wsserver.on('request', (request) => {
-                var connection = request.accept(null, request.origin);
-                setTimeout(() => {
-                    connection.send('Test Message');
-                }, 3000);
-            });
-        };
+        __server.on('close', () => {
+            setTimeout(() => __server.listen(__settings.port), 1000);
+        });
+          
+        __server.listen(__settings.port, () => __server.close());
 
         return true;
     } catch (error) {
@@ -100,39 +89,6 @@ var logger = async () => {
         __logger.init(__settings.logger);
         return true;
     } catch (error) {
-        return false;
-    };
-};
-
-var socket = async () => {
-    try {
-        const client = new WebSocketClient();
-
-        client.on('connectFailed', (error) => {
-            __logger.error(error.toString());
-        });
-         
-        client.on('connect', (connection) => {
-            __socket = connection;
-
-            __socket.on('error', async (error) => {
-                __logger.error(error.toString());
-            });
-
-            __socket.on('close', async () => {
-                __logger.warn('Socket closed, reconnection in 5 seconds!');
-                setTimeout(() => client.connect(__settings.thingapp), 5000)
-            });
-
-            __socket.on('message', async (message) => {
-                __logger.info('Socket Data: ' + message.utf8Data);
-            });
-        });
-
-        client.connect(__settings.thingapp);
-        return true;
-    } catch (error) {
-        __logger.error(error.message);
         return false;
     };
 };
@@ -152,22 +108,12 @@ var device = async () => {
     };
 };
 
-var controller = async () => {
-    try {
-        __plc = new PLC();
-        return true;
-    } catch (error) {
-        return false;
-    };
-};
-
 (async () => {
+    __rockwell = new Rockwell()
+
     await logger();
     await portal();
-    await socket();
     await device();
-    await controller();
-    __rockwell = new Rockwell()
-    __rockwell.connect();
+    await __rockwell.connect();
     __logger.info('Rockwell PLC Started');
 }) ();

@@ -19,7 +19,14 @@
         "ip": "127.0.0.1",
         "port": 0
     },
-    "port": 3000,
+    "port": 8000,
+    "server": {
+        "host": "mqtt://mqtt.bitid.co.za",
+        "port": 8000,
+        "username": "admin",
+        "password": "admin",
+        "subscribe": "data"
+    },
     "logger": {
         "appenders": {
             "rockwell": {
@@ -40,7 +47,6 @@
         }
     },
     "typeId": "000000000000000000000021",
-    "thingapp": "ws://127.0.0.1:3000",
     "telemetry": "https://telemetry.bitid.co.za",
     "production": false,
     "authentication": false

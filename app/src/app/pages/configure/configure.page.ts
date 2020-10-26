@@ -22,8 +22,15 @@ export class ConfigurePage implements OnInit, OnDestroy {
             'ip': new FormControl(null, [Validators.required, Validators.pattern(/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/)]),
             'port': new FormControl(null, [Validators.required, Validators.min(0), Validators.max(65535)])
         }),
-        'thingapp': new FormControl(null, [Validators.required]),
-        'production': new FormControl(null, [Validators.required])
+        'server': new FormGroup({
+            'host': new FormControl(null, [Validators.required]),
+            'port': new FormControl(null, [Validators.required, Validators.min(0), Validators.max(65535)]),
+            'username': new FormControl(null, [Validators.required]),
+            'password': new FormControl(null, [Validators.required]),
+            'subscribe': new FormControl(null, [Validators.required])
+        }),
+        'production': new FormControl(null, [Validators.required]),
+        'authentication': new FormControl(null, [Validators.required])
     });
     public input: any = {
         'pin': null,
@@ -36,8 +43,15 @@ export class ConfigurePage implements OnInit, OnDestroy {
             'ip': '',
             'port': ''
         },
-        'thingapp': '',
-        'production': ''
+        'server': {
+            'host': '',
+            'port': '',
+            'username': '',
+            'password': '',
+            'subscribe': ''
+        },
+        'production': '',
+        'authentication': ''
     };
     public columns: string[] = ['pin', 'tagId', 'moduleId', 'type', 'as', 'options'];
     public loading: boolean;
@@ -66,17 +80,23 @@ export class ConfigurePage implements OnInit, OnDestroy {
             'filter': [
                 'io',
                 'plc',
-                'thingapp',
-                'production'
+                'server',
+                'production',
+                'authentication'
             ]
         });
 
         if (response.ok) {
             this.io.data = response.result.io;
-            this.form.controls['thingapp'].setValue(response.result.thingapp);
             this.form.controls['production'].setValue(response.result.production);
+            this.form.controls['authentication'].setValue(response.result.authentication);
             (<any>this.form.controls['plc']).controls['ip'].setValue(response.result.plc.ip);
             (<any>this.form.controls['plc']).controls['port'].setValue(response.result.plc.port);
+            (<any>this.form.controls['server']).controls['port'].setValue(response.result.server.port);
+            (<any>this.form.controls['server']).controls['host'].setValue(response.result.server.host);
+            (<any>this.form.controls['server']).controls['username'].setValue(response.result.server.username);
+            (<any>this.form.controls['server']).controls['password'].setValue(response.result.server.password);
+            (<any>this.form.controls['server']).controls['subscribe'].setValue(response.result.server.subscribe);
         } else {
             this.toast.error(response.error.message);
             this.router.navigate(['/']);
@@ -92,19 +112,22 @@ export class ConfigurePage implements OnInit, OnDestroy {
             const response = await this.service.update({
                 'io': this.io.data,
                 'plc': this.form.value.plc,
-                'thingapp': this.form.value.thingapp,
-                'production': this.form.value.production
+                'server': this.form.value.server,
+                'production': this.form.value.production,
+                'authentication': this.form.value.authentication
             });
 
             if (response.ok) {
-                this.toast.success('Config was updated!');
-                this.router.navigate(['/']);
+                setTimeout(() => {
+                    this.toast.success('Config was updated!');
+                    this.router.navigate(['/']);
+                    this.loading = false;
+                }, 2000);
             } else {
                 this.toast.error(response.error.message);
                 this.router.navigate(['/']);
+                this.loading = false;
             };
-
-            this.loading = false;
         };
     };
 

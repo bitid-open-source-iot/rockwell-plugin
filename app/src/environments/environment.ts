@@ -1,5 +1,5 @@
 export const environment = {
-    'api': 'http://127.0.0.1:3000',
+    'api': 'http://127.0.0.1:8000',
     'auth': 'https://auth.bitid.co.za',
     'appId': '000000000000000000000027',
     'appName': 'Rockwell Plugin',

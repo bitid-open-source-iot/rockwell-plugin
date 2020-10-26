@@ -62,7 +62,7 @@ var module = function() {
 					update.io = args.req.body.io;
 					update.io.map(o => {
 						delete o.tag;
-					})
+					});
 				};
 				if (typeof(args.req.body.plc) != 'undefined' && args.req.body.plc != null) {
 					if (typeof(args.req.body.plc.ip) != 'undefined' && args.req.body.plc.ip != null && args.req.body.plc.ip != '') {
@@ -75,11 +75,28 @@ var module = function() {
 				if (typeof(args.req.body.port) != 'undefined' && args.req.body.port != null && args.req.body.port != '') {
 					update.port = args.req.body.port;
 				};
-				if (typeof(args.req.body.thingapp) != 'undefined' && args.req.body.thingapp != null && args.req.body.thingapp != '') {
-					update.thingapp = args.req.body.thingapp;
+				if (typeof(args.req.body.server) != 'undefined' && args.req.body.server != null) {
+					if (typeof(args.req.body.server.host) != 'undefined' && args.req.body.server.host != null && args.req.body.server.host != '') {
+						update.server.host = args.req.body.server.host;
+					};
+					if (typeof(args.req.body.server.port) != 'undefined' && args.req.body.server.port != null && args.req.body.server.port != '') {
+						update.server.port = args.req.body.server.port;
+					};
+					if (typeof(args.req.body.server.username) != 'undefined' && args.req.body.server.username != null && args.req.body.server.username != '') {
+						update.server.username = args.req.body.server.username;
+					};
+					if (typeof(args.req.body.server.password) != 'undefined' && args.req.body.server.password != null && args.req.body.server.password != '') {
+						update.server.password = args.req.body.server.password;
+					};
+					if (typeof(args.req.body.server.subscribe) != 'undefined' && args.req.body.server.subscribe != null && args.req.body.server.subscribe != '') {
+						update.server.subscribe = args.req.body.server.subscribe;
+					};
 				};
 				if (typeof(args.req.body.production) != 'undefined' && args.req.body.production != null && args.req.body.production != '') {
 					update.production = args.req.body.production;
+				};
+				if (typeof(args.req.body.authentication) != 'undefined' && args.req.body.authentication != null && args.req.body.authentication != '') {
+					update.authentication = args.req.body.authentication;
 				};
 
 				file.save(update);
@@ -87,6 +104,8 @@ var module = function() {
 				args.result = {
 					'n': 1
 				};
+
+				__settings = update;
 
 				deferred.resolve(args);
 			} catch (error) {

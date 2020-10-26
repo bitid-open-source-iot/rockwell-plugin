@@ -10,11 +10,81 @@
     </button>
 </mat-toolbar>
 
-<mat-progress-bar mode="indeterminate" *ngIf="loading && form.invalid"></mat-progress-bar>
-
 <mat-content>
+    <mat-progress-bar mode="indeterminate" *ngIf="loading && form.invalid"></mat-progress-bar>
+
     <div class="container">
         <form [formGroup]="form" (ngSubmit)="!loading && !form.invalid && submit()">
+            <h2>
+                Server
+            </h2>
+
+            <section formGroupName="server">
+                <mat-form-field appearance="outline">
+                    <mat-label>
+                        Host
+                    </mat-label>
+
+                    <input matInput type="url" name="host" placeholder="host" formControlName="host" required>
+
+                    <mat-error *ngIf="errors.server.host">
+                        {{ errors.server.host }}
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>
+                        Port
+                    </mat-label>
+
+                    <input matInput type="number" min="0" max="65535" step="1" name="port" placeholder="port" formControlName="port" required>
+
+                    <mat-error *ngIf="errors.server.port">
+                        {{ errors.server.port }}
+                    </mat-error>
+                </mat-form-field>
+            </section>
+
+            <section formGroupName="server">
+                <mat-form-field appearance="outline">
+                    <mat-label>
+                        Username
+                    </mat-label>
+
+                    <input matInput type="text" name="username" placeholder="username" formControlName="username" required>
+
+                    <mat-error *ngIf="errors.server.username">
+                        {{ errors.server.username }}
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>
+                        Password
+                    </mat-label>
+
+                    <input matInput type="password" name="password" placeholder="password" formControlName="password" required>
+
+                    <mat-error *ngIf="errors.server.password">
+                        {{ errors.server.password }}
+                    </mat-error>
+                </mat-form-field>
+            </section>
+
+            <section formGroupName="server">
+                <mat-form-field appearance="outline">
+                    <mat-label>
+                        Subscribe
+                    </mat-label>
+
+                    <input matInput type="text" name="subscribe" placeholder="subscribe" formControlName="subscribe" required>
+
+                    <mat-error *ngIf="errors.server.subscribe">
+                        {{ errors.server.subscribe }}
+                    </mat-error>
+                </mat-form-field>
+            </section>
+
             <h2>
                 Service
             </h2>
@@ -34,20 +104,27 @@
                         </mat-option>
                     </mat-select>
 
-                    <mat-error *ngIf="errors.port">
-                        {{ errors.port }}
+                    <mat-error *ngIf="errors.production">
+                        {{ errors.production }}
                     </mat-error>
                 </mat-form-field>
 
                 <mat-form-field appearance="outline">
                     <mat-label>
-                        ThingApp
+                        Authentication
                     </mat-label>
-    
-                    <input matInput type="url" name="thingapp" placeholder="thing app" formControlName="thingapp" required>
-    
-                    <mat-error *ngIf="errors.thingapp">
-                        {{ errors.thingapp }}
+
+                    <mat-select name="authentication" placeholder="authentication" formControlName="authentication" required>
+                        <mat-option [value]="true">
+                            Enabled
+                        </mat-option>
+                        <mat-option [value]="false">
+                            Disabled
+                        </mat-option>
+                    </mat-select>
+
+                    <mat-error *ngIf="errors.authentication">
+                        {{ errors.authentication }}
                     </mat-error>
                 </mat-form-field>
             </section>
@@ -193,6 +270,8 @@
 
 <mat-footer>
     <button mat-flat-button color="dark" (click)="submit()">
-        update
+        {{ loading ? '' : 'update' }}
+
+        <mat-progress-spinner mode="indeterminate" diameter="30" *ngIf="loading"></mat-progress-spinner>
     </button>
 </mat-footer>

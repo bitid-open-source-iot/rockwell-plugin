@@ -15,14 +15,16 @@
 mat-footer button {
     width: 100%;
     margin: auto;
-    display: block;
+    display: flex;
     max-width: 400px;
+    align-items: center;
+    justify-content: center;
 }
 table {
     width: calc(100% - 20px);
     margin: 0px 10px !important;
 }
 .table-wrapper {
-    height: calc(100vh - 112px - 235px);
+    height: calc(100vh - 598px);
     overflow-y: auto;
 }

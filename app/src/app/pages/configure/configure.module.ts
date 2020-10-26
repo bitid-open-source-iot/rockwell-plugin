@@ -15,6 +15,7 @@ import { MatContentModule } from 'src/app/lib/mat-content/mat-content.module';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { Route, RouterModule } from '@angular/router';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 const routes: Route[] = [
@@ -39,6 +40,7 @@ const routes: Route[] = [
         MatFormFieldModule,
         ReactiveFormsModule,
         MatProgressBarModule,
+        MatProgressSpinnerModule,
         RouterModule.forChild(routes)
     ],
     declarations: [
