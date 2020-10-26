@@ -18,8 +18,8 @@ describe('Config', function () {
                 try {
                     result.should.have.property('io');
                     result.should.have.property('plc');
-                    result.should.have.property('port');
-                    result.should.have.property('thingapp');
+                    result.should.have.property('txtime');
+                    result.should.have.property('server');
                     result.should.have.property('production');
                     done();
                 } catch (e) {
@@ -86,8 +86,8 @@ var tools = {
                     'filter': [
                         'io',
                         'plc',
-                        'port',
-                        'thingapp',
+                        'txtime',
+                        'server',
                         'production'
                     ]
                 });
@@ -102,25 +102,36 @@ var tools = {
                 const response = await tools.post('/api/config/update', {
                     'io': [
                         {
-                            "pin": 0,
-                            "tag": "Rx[#]",
-                            "type": "input",
-                            "moduleId": 0
+                            'as': 'AI1',
+                            'pin': 0,
+                            'type': 'input',
+                            'tagId': 'Rx[#]',
+                            'moduleId': 0,
+                            'allowance': 0
                         },
                         {
-                            "pin": 1,
-                            "tag": "Rx[#]",
-                            "type": "input",
-                            "moduleId": 0
+                            'as': 'AI2',
+                            'pin': 1,
+                            'type': 'input',
+                            'tagId': 'Rx[#]',
+                            'moduleId': 0,
+                            'allowance': 0
                         }
                     ],
                     'plc': {
                         'ip': '127.0.0.1',
                         'port': 0
                     },
-                    'port': 3000,
-                    'thingapp': 'ws://127.0.0.1:3000',
-                    'production': false
+                    'server': {
+                        'host': 'mqtt://mqtt.bitid.co.za',
+                        'port': 8000,
+                        'username': 'admin',
+                        'password': 'admin',
+                        'subscribe': 'data'
+                    },
+                    'txtime': 360,
+                    'production': false,
+                    'authentication': false
                 });
 
                 deferred.resolve(response);

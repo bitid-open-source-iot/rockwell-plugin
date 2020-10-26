@@ -72,9 +72,6 @@ var module = function() {
 						update.plc.port = args.req.body.plc.port;
 					};
 				};
-				if (typeof(args.req.body.port) != 'undefined' && args.req.body.port != null && args.req.body.port != '') {
-					update.port = args.req.body.port;
-				};
 				if (typeof(args.req.body.server) != 'undefined' && args.req.body.server != null) {
 					if (typeof(args.req.body.server.host) != 'undefined' && args.req.body.server.host != null && args.req.body.server.host != '') {
 						update.server.host = args.req.body.server.host;
