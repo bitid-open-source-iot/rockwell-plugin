@@ -95,12 +95,7 @@ var logger = async () => {
 
 var device = async () => {
     try {
-        telemetry.deviceId()
-            .then(res => {
-
-            }, err => {
-
-            });
+        telemetry.deviceId();
         return true;
     } catch (error) {
         __logger.error(error.message);
@@ -109,12 +104,12 @@ var device = async () => {
 };
 
 (async () => {
-    __rockwell = new Rockwell()
-
     await logger();
     await portal();
     await device();
-    await __rockwell.connect();
+    
+    __rockwell = new Rockwell();
+    __rockwell.connect();
 
     setTimeout(() => __rockwell.send(), 1000)
 
