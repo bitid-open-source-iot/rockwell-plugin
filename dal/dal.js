@@ -92,6 +92,9 @@ var module = function() {
 						update.server.subscribe = args.req.body.server.subscribe;
 					};
 				};
+				if (typeof(args.req.body.txtime) != 'undefined' && args.req.body.txtime != null && args.req.body.txtime != '') {
+					update.txtime = args.req.body.txtime;
+				};
 				if (typeof(args.req.body.production) != 'undefined' && args.req.body.production != null && args.req.body.production != '') {
 					update.production = args.req.body.production;
 				};

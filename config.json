@@ -46,6 +46,7 @@
             }
         }
     },
+    "txtime": 360,
     "typeId": "000000000000000000000021",
     "telemetry": "https://telemetry.bitid.co.za",
     "production": false,
