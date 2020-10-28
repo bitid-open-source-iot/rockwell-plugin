@@ -107,7 +107,8 @@ var tools = {
                             'type': 'input',
                             'tagId': 'Rx[#]',
                             'moduleId': 0,
-                            'allowance': 0
+                            'allowance': 0,
+                            'interface': 'DINT'
                         },
                         {
                             'as': 'AI2',
@@ -115,7 +116,8 @@ var tools = {
                             'type': 'input',
                             'tagId': 'Rx[#]',
                             'moduleId': 0,
-                            'allowance': 0
+                            'allowance': 0,
+                            'interface': 'DINT'
                         }
                     ],
                     'plc': {

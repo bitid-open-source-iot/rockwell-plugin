@@ -38,7 +38,9 @@ export class ConfigurePage implements OnInit, OnDestroy {
         'pin': null,
         'type': null,
         'tagId': null,
-        'moduleId': null
+        'moduleId': null,
+        'allowance': null,
+        'interface': null
     };
     public errors: any = {
         'plc': {
@@ -56,7 +58,7 @@ export class ConfigurePage implements OnInit, OnDestroy {
         'production': '',
         'authentication': ''
     };
-    public columns: string[] = ['pin', 'tagId', 'moduleId', 'type', 'as', 'allowance', 'options'];
+    public columns: string[] = ['pin', 'tagId', 'moduleId', 'type', 'as', 'allowance', 'interface', 'options'];
     public loading: boolean;
     private subscriptions: any = {};
 

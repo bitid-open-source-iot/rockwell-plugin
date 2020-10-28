@@ -117,7 +117,5 @@ var device = async () => {
     __rockwell = new Rockwell();
     __rockwell.connect();
 
-    setTimeout(() => __rockwell.send(), 1000)
-
     __logger.info('Rockwell PLC Started');
 }) ();

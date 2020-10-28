@@ -94,6 +94,50 @@
             </td>
         </ng-container>
 
+        <ng-container matColumnDef="interface">
+            <th mat-header-cell *matHeaderCellDef>
+                Interface
+            </th>
+            <td mat-cell *matCellDef="let element">
+                <mat-select name="interface" placeholder="interface" [(ngModel)]="element.interface" required>
+                    <mat-option value="INT">
+                        INT
+                    </mat-option>
+                    <mat-option value="SINT">
+                        SINT
+                    </mat-option>
+                    <mat-option value="DINT">
+                        DINT
+                    </mat-option>
+                    <mat-option value="REAL">
+                        REAL
+                    </mat-option>
+                    <mat-option value="BOOL">
+                        BOOL
+                    </mat-option>
+                </mat-select>
+            </td>
+            <td mat-footer-cell *matFooterCellDef>
+                <mat-select name="interface" placeholder="interface" [(ngModel)]="input.interface" required>
+                    <mat-option value="INT">
+                        INT
+                    </mat-option>
+                    <mat-option value="SINT">
+                        SINT
+                    </mat-option>
+                    <mat-option value="DINT">
+                        DINT
+                    </mat-option>
+                    <mat-option value="REAL">
+                        REAL
+                    </mat-option>
+                    <mat-option value="BOOL">
+                        BOOL
+                    </mat-option>
+                </mat-select>
+            </td>
+        </ng-container>
+
         <ng-container matColumnDef="allowance">
             <th mat-header-cell *matHeaderCellDef>
                 Allowance
