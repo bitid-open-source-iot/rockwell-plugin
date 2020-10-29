@@ -31,7 +31,17 @@
         </mat-icon>
     </button>
 
+    <button mat-icon-button routerLink="/watch" *ngIf="authenticated">
+        <mat-icon>
+            timeline
+        </mat-icon>
+    </button>
+
     <div class="authenticated" *ngIf="!authenticated">
         sign in required
+    </div>
+
+    <div class="socket">
+        {{ socket.status | async }}
     </div>
 </mat-content>

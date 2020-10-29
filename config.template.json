@@ -25,7 +25,10 @@
         "port": 8000,
         "username": "admin",
         "password": "admin",
-        "subscribe": "data"
+        "subscribe": {
+            "data": "rock/v1.1/data",
+            "control": "rock/v1.1/control"
+        }
     },
     "logger": {
         "appenders": {

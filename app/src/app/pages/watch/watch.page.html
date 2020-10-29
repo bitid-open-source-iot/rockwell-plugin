@@ -1,0 +1,22 @@
+<mat-toolbar>
+    <div class="page-title spacer">
+        Rockwell Plugin
+    </div>
+
+    <button mat-icon-button routerLink="/">
+        <mat-icon>
+            close
+        </mat-icon>
+    </button>
+</mat-toolbar>
+
+<mat-content>
+    <div class="widget" *ngFor="let input of inputs">
+        <h1>
+            {{ input.as }}
+        </h1>
+        <p>
+            {{ input.value }}
+        </p>
+    </div>
+</mat-content>

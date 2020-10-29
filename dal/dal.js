@@ -86,7 +86,12 @@ var module = function() {
 						update.server.password = args.req.body.server.password;
 					};
 					if (typeof(args.req.body.server.subscribe) != 'undefined' && args.req.body.server.subscribe != null && args.req.body.server.subscribe != '') {
-						update.server.subscribe = args.req.body.server.subscribe;
+						if (typeof(args.req.body.server.subscribe.data) != 'undefined' && args.req.body.server.subscribe.data != null && args.req.body.server.subscribe.data != '') {
+							update.server.subscribe.data = args.req.body.server.subscribe.data;
+						};
+						if (typeof(args.req.body.server.subscribe.control) != 'undefined' && args.req.body.server.subscribe.control != null && args.req.body.server.subscribe.control != '') {
+							update.server.subscribe.control = args.req.body.server.subscribe.control;
+						};
 					};
 				};
 				if (typeof(args.req.body.txtime) != 'undefined' && args.req.body.txtime != null && args.req.body.txtime != '') {

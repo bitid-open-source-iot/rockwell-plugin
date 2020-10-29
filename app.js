@@ -1,3 +1,4 @@
+const Q = require('q');
 const cors = require('cors');
 const http = require('http');
 const express = require('express');
@@ -18,7 +19,9 @@ global.__rockwell = null;
 global.__settings = require('./config.json');
 global.__responder = require('./lib/responder');
 
-var portal = async () => {
+var portal = () => {
+    var deferred = Q.defer();
+
     try {
         var app = express();
 
@@ -75,31 +78,27 @@ var portal = async () => {
 
         __server = http.createServer(app);
 
-        __socket = new WebSocket(__server);
+        __socket = new Socket(__server);
 
-        __server.on('close', () => {
-            setTimeout(() => __server.listen(__settings.port), 1000);
-        });
+        __server.on('close', () => __server.listen(__settings.port));
           
         __server.listen(__settings.port, () => __server.close());
 
-        return true;
+        deferred.resolve();
     } catch (error) {
-        __logger.error(error.message);
-        return false;
+        var err = ErrorResponse();
+        err.error.errors[0].code = 503;
+        err.error.errors[0].reason = error.message;
+        err.error.errors[0].message = error.message;
+        deferred.reject(err);
     };
-};
 
-var logger = async () => {
-    try {
-        __logger.init(__settings.logger);
-        return true;
-    } catch (error) {
-        return false;
-    };
+    return deferred.promise;
 };
 
 var device = async () => {
+    var deferred = Q.defer();
+
     try {
         await telemetry.deviceId()
             .then(res => {
@@ -112,19 +111,20 @@ var device = async () => {
         __logger.error(error.message);
         return false;
     };
+
+    return deferred.promise;
 };
 
-(async () => {
-    try {
-        await logger();
-        await portal();
-        await device();
-        
-        __rockwell = new Rockwell();
-        __rockwell.connect();
-
+try {
+    __logger.init()
+    .then(portal, null)
+    .then(device, null)
+    .then(res => {
         __logger.info('Rockwell PLC Started');
-    } catch (error) {
-        console.log(error.message);
-    };
-}) ();
+    })
+    .catch(err => {
+        __logger.error(err);
+    });
+} catch (error) {
+    console.log(error.message);
+};

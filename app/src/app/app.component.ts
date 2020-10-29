@@ -1,6 +1,7 @@
 import { ConfigService } from './services/config/config.service';
 import { AccountService } from './services/account/account.service';
 import { OnInit, Component, OnDestroy } from '@angular/core';
+import { SocketService } from './services/socket/socket.service';
 
 @Component({
     selector: 'app-root',
@@ -10,7 +11,7 @@ import { OnInit, Component, OnDestroy } from '@angular/core';
 
 export class AppComponent implements OnInit, OnDestroy {
 
-    constructor(private config: ConfigService, private account: AccountService) { };
+    constructor(private config: ConfigService, private socket: SocketService, private account: AccountService) { };
 
     public loading: boolean;
     public authenticated: boolean;
@@ -19,6 +20,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private async initialize() {
         this.loading = true;
 
+        await this.socket.connect();
         await this.account.validate();
         
         this.loading = false;

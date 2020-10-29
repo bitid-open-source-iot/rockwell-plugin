@@ -23,11 +23,14 @@ export class ConfigurePage implements OnInit, OnDestroy {
             'port': new FormControl(null, [Validators.required, Validators.min(0), Validators.max(65535)])
         }),
         'server': new FormGroup({
+            'subscribe': new FormGroup({
+                'data': new FormControl(null, [Validators.required]),
+                'control': new FormControl(null, [Validators.required])
+            }),
             'host': new FormControl(null, [Validators.required]),
             'port': new FormControl(null, [Validators.required, Validators.min(0), Validators.max(65535)]),
             'username': new FormControl(null, [Validators.required]),
-            'password': new FormControl(null, [Validators.required]),
-            'subscribe': new FormControl(null, [Validators.required])
+            'password': new FormControl(null, [Validators.required])
         }),
         'txtime': new FormControl(null, [Validators.required, Validators.min(60)]),
         'production': new FormControl(null, [Validators.required]),
@@ -48,24 +51,27 @@ export class ConfigurePage implements OnInit, OnDestroy {
             'port': ''
         },
         'server': {
+            'subscribe': {
+                'data': '',
+                'control': ''
+            },
             'host': '',
             'port': '',
             'username': '',
-            'password': '',
-            'subscribe': ''
+            'password': ''
         },
         'txtime': '',
         'production': '',
         'authentication': ''
     };
-    public columns: string[] = ['pin', 'tagId', 'moduleId', 'type', 'as', 'allowance', 'interface', 'options'];
+    public columns: string[] = ['tagId', 'moduleId', 'type', 'as', 'allowance', 'interface', 'options'];
     public loading: boolean;
     private subscriptions: any = {};
 
     public async add() {
         let valid = true;
         Object.keys(this.input).map(key => {
-            if (typeof(this.input[key]) == 'undefined' || this.input[key] === null || this.input[key] === '') {
+            if (typeof (this.input[key]) == 'undefined' || this.input[key] === null || this.input[key] === '') {
                 valid = false;
             };
         });
@@ -103,7 +109,8 @@ export class ConfigurePage implements OnInit, OnDestroy {
             (<any>this.form.controls['server']).controls['host'].setValue(response.result.server.host);
             (<any>this.form.controls['server']).controls['username'].setValue(response.result.server.username);
             (<any>this.form.controls['server']).controls['password'].setValue(response.result.server.password);
-            (<any>this.form.controls['server']).controls['subscribe'].setValue(response.result.server.subscribe);
+            (<any>(<any>this.form.controls['server']).controls['subscribe']).controls['data'].setValue(response.result.server.subscribe.data);
+            (<any>(<any>this.form.controls['server']).controls['subscribe']).controls['control'].setValue(response.result.server.subscribe.control);
         } else {
             this.toast.error(response.error.message);
             this.router.navigate(['/']);

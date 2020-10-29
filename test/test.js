@@ -103,18 +103,16 @@ var tools = {
                     'io': [
                         {
                             'as': 'AI1',
-                            'pin': 0,
-                            'type': 'input',
-                            'tagId': 'Rx[#]',
+                            'type': 'digital',
+                            'tagId': 'Rx[0]',
                             'moduleId': 0,
                             'allowance': 0,
                             'interface': 'DINT'
                         },
                         {
                             'as': 'AI2',
-                            'pin': 1,
-                            'type': 'input',
-                            'tagId': 'Rx[#]',
+                            'type': 'digital',
+                            'tagId': 'Rx[1]',
                             'moduleId': 0,
                             'allowance': 0,
                             'interface': 'DINT'
