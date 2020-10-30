@@ -1,6 +1,5 @@
 const cors = require('cors');
 const http = require('http');
-const config = require('./config.json');
 const express = require('express');
 const Rockwell = require('./lib/rockwell');
 const WebSocket = require('./lib/socket');
@@ -15,7 +14,7 @@ global.__server = null;
 global.__socket = null;
 global.__status = null;
 global.__deviceId = null;
-global.__settings = config;
+global.__settings = require('./config.json');
 global.__responder = require('./lib/responder');
 
 var portal = async () => {
@@ -131,7 +130,7 @@ var device = async () => {
             debugger
         });
 
-        mqtt.connect(config.server);
+        mqtt.connect(__settings.server);
 
         rockwell.on('read', data => {
             __socket.send({
@@ -193,7 +192,7 @@ var device = async () => {
                     };
                 });
 
-                mqtt.send(config.server.subscribe.data, {
+                mqtt.send(__settings.server.subscribe.data, {
                     'dataIn': status,
                     'rtuDate': new Date().getTime(),
                     'deviceId': __deviceId,
@@ -215,11 +214,11 @@ var device = async () => {
         rockwell.on('disconnect', () => {
             __logger.warn('plc connection failure, reconnecting in a few seconds');
             setTimeout(() => {
-                rockwell.connect(config.plc);
+                rockwell.connect(__settings.plc);
             }, 3000);
         });
 
-        rockwell.connect(config.plc);
+        rockwell.connect(__settings.plc);
 
         __logger.info('Rockwell PLC Started');
     } catch (error) {
