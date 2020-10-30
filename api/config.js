@@ -10,19 +10,9 @@ router.post('/get', (req, res) => {
     myModule.config.get(req, res);
 });
 
-router.post('/status', (req, res) => {
-    var myModule = new bll.module();
-    myModule.config.status(req, res);
-});
-
 router.post('/update', (req, res) => {
     var myModule = new bll.module();
     myModule.config.update(req, res);
-});
-
-router.put('/barcode', (req, res) => {
-    var myModule = new bll.module();
-    myModule.config.barcode(req, res);
 });
 
 module.exports = router;

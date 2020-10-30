@@ -11,12 +11,14 @@
 </mat-toolbar>
 
 <mat-content>
-    <div class="widget" *ngFor="let input of inputs">
-        <h1>
-            {{ input.as }}
-        </h1>
-        <p>
-            {{ input.value }}
-        </p>
+    <div class="widgets">
+        <div class="widget" *ngFor="let input of inputs">
+            <div class="label">
+                {{ input.as }}
+            </div>
+            <div class="value">
+                {{ input.value }}
+            </div>
+        </div>
     </div>
 </mat-content>

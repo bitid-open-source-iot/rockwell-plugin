@@ -21,7 +21,7 @@ export class MatQrcodeComponent implements OnChanges {
     public element: HTMLElement;
 
     private async redraw() {
-        if (typeof(this.value) != 'undefined' && this.value != null && this.value != '') {
+        if (typeof(this.value) != 'undefined' && this.value !== null && this.value != '') {
             const image = await qrcode.toDataURL(this.value, {
                 'width': this.width,
                 'height': this.height
