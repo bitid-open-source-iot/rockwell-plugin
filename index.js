@@ -1,9 +1,10 @@
 const cors = require('cors');
 const http = require('http');
+const auth = require('./lib/auth');
 const express = require('express');
 const Rockwell = require('./lib/rockwell');
 const WebSocket = require('./lib/socket');
-const telemetry = require('./lib/telemetry');
+const Telemetry = require('./lib/telemetry');
 const bodyparser = require('body-parser');
 const MqttSocket = require('./lib/mqtt');
 const ErrorResponse = require('./lib/error-response');
@@ -39,7 +40,7 @@ var portal = async () => {
                         'req': req,
                         'res': res
                     };
-                    telemetry.authenticate(args)
+                    auth.authenticate(args)
                         .then(result => {
                             next();
                         }, err => {
@@ -98,29 +99,14 @@ var logger = async () => {
     };
 };
 
-var device = async () => {
-    try {
-        await telemetry.deviceId()
-            .then(res => {
-                return true;
-            }, err => {
-                __logger.error(err);
-                return false;
-            });
-    } catch (error) {
-        __logger.error(error.message);
-        return false;
-    };
-};
-
 (async () => {
     try {
         await logger();
         await portal();
-        await device();
         
         const mqtt = new MqttSocket();
         const rockwell = new Rockwell();
+        const telemetry = new Telemetry();
 
         mqtt.on('data', event => {
             debugger
@@ -192,16 +178,20 @@ var device = async () => {
                     };
                 });
 
-                mqtt.send(__settings.server.subscribe.data, {
-                    'dataIn': status,
-                    'rtuDate': new Date().getTime(),
-                    'deviceId': __deviceId,
-                    'moduleId': moduleId
-                });
+                if (typeof(telemetry.deviceId) != 'undefined' && telemetry.deviceId !== null && telemetry.deviceId == '') {
+                    mqtt.send(__settings.server.subscribe.data, {
+                        'dataIn': status,
+                        'rtuDate': new Date().getTime(),
+                        'deviceId': telemetry.deviceId,
+                        'moduleId': moduleId
+                    });
+                };
             });
         });
 
         rockwell.on('connect', () => {
+            telemetry.connect(rockwell.barcode());
+
             rockwell.watch();
             
             setInterval(async () => rockwell.watch(), 5000);
