@@ -82,20 +82,58 @@ var tools = {
                 var deferred = Q.defer();
 
                 const response = await tools.post('/api/config/update', {
-                    'io': [],
+                    'io': [
+                        {
+                            "analog": {
+                                "scaling": {
+                                    "raw": {
+                                        "low": 0,
+                                        "high": 0
+                                    },
+                                    "scaled": {
+                                        "low": 0,
+                                        "high": 0
+                                    },
+                                    "type": "none"
+                                },
+                                "key": "AI1",
+                                "units": "",
+                                "offset": 0,
+                                "decimals": 0
+                            },
+                            "digital": {
+                                "bit": 0,
+                                "low": null,
+                                "high": null
+                            },
+                            "type": "analog",
+                            "tagId": "Rx[0]",
+                            "hidden": false,
+                            "inputId": "5fa01e38a44376bcbdbee85b",
+                            "deviceId": "000000000000000438700926",
+                            "priority": false,
+                            "moduleId": 0,
+                            "writekey": "AI1",
+                            "interface": "DINT",
+                            "allowance": 0,
+                            "writeable": true,
+                            "description": "INPUT 1",
+                            "value": 0
+                        }
+                    ],
                     'plc': {
-                        'ip': '192.168.0.83',
-                        'slot': 0
+                        'ip': config.plc.ip,
+                        'slot': config.plc.slot
                     },
                     'server': {
-                        'host': 'mqtt://bitid.co.za',
-                        'port': 1888,
-                        'username': 'telemetry',
-                        'password': 'telemetry1!',
                         'subscribe': {
-                            'data': 'rock/v1.1/data',
-                            'control': 'rock/v1.1/control'
-                        }
+                            'data': config.mqtt.subscribe.data,
+                            'control': config.mqtt.subscribe.control
+                        },
+                        'host': config.mqtt.host,
+                        'port': config.mqtt.port,
+                        'username': config.mqtt.username,
+                        'password': config.mqtt.password
                     },
                     'timeout': [
                         {
@@ -105,8 +143,8 @@ var tools = {
                         }
                     ],
                     'txtime': 360,
-                    'production': false,
-                    'authentication': false
+                    'production': true,
+                    'authentication': true
                 });
 
                 deferred.resolve(response);
@@ -172,3 +210,17 @@ var tools = {
         return deferred.promise;
     }
 };
+
+
+/*
+=====================================
+1 - Connect To Web Socket
+2 - Connect To MQTT Socket
+3 - Subscribe To Data Topic
+4 - Subscribe To Control Topic
+5 - Get Config
+6 - Update Config
+7 - Send MQTT Data
+8 - Recieve MQTT Data
+=====================================
+*/

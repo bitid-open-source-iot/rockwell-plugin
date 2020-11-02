@@ -114,6 +114,19 @@ var logger = async () => {
         });
         
         mqtt.on('control', event => {
+            __settings.timeout.map(device => {
+                if (event.deviceId == device.deviceId) {
+                    // set input register comms healthy
+                    rockwell.write(device.inputId, 1);
+                    device.last = new Date().getTime();
+                    device.status = 'healthy';
+                };
+            });
+            __settings.io.map(item => {
+                if (item.writeable && event.deviceId == item.deviceId) {
+                    rockwell.write(item.inputId, event.dataIn[item.writekey]);
+                };
+            });
             __logger.info(event);
         });
 
@@ -201,6 +214,19 @@ var logger = async () => {
             rockwell.read();
             
             setInterval(() => rockwell.read(), (__settings.txtime * 1000));
+
+            __settings.timeout.map(device => {
+                device.last = new Date().getTime();
+                device.status = 'healthy';
+                setInterval(() => {
+                    var now = new Date().getTime();
+                    if (now - device.last > (device.timeout * 1000) && device.status == 'healthy') {
+                        // set input register comms unhealthy
+                        rockwell.write(device.inputId, 0);
+                        device.status = 'unhealthy';
+                    };
+                }, (device.timeout * 1000));
+            });
         });
 
         rockwell.on('disconnect', () => {
