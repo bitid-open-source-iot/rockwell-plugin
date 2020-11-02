@@ -21,8 +21,8 @@
 <mat-content>
     <mat-qrcode [value]="barcode" *ngIf="!loading"></mat-qrcode>
 
-    <div class="status" [class]="status" *ngIf="!loading">
-        {{ status }}
+    <div class="status" [class.active]="deviceId" [class.inactive]="!deviceId" *ngIf="!loading">
+        {{ deviceId ? 'active' : 'inactive' }}
     </div>
 
     <button mat-icon-button routerLink="/configure" *ngIf="authenticated && !loading">

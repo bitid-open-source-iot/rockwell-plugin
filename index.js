@@ -119,10 +119,9 @@ var logger = async () => {
 
         mqtt.connect(__settings.server);
 
-        rockwell.on('read', data => {
+        rockwell.on('read', inputs => {
             __socket.send({
-                'inputs': data,
-                'status': (typeof(telemetry.deviceId) != 'undefined' && telemetry.deviceId !== null && telemetry.deviceId != '') ? 'active' : 'inactive',
+                'inputs': inputs,
                 'barcode': rockwell.barcode(),
                 'deviceId': telemetry.deviceId
             });

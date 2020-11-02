@@ -12,9 +12,9 @@ export class HomePage implements OnInit, OnDestroy {
 
     constructor(public socket: SocketService, private account: AccountService) { };
 
-    public status: string;
     public barcode: string;
     public loading: boolean;
+    public deviceId: string;
     public authenticated: boolean;
     private subscriptions: any = { };
 
@@ -29,8 +29,8 @@ export class HomePage implements OnInit, OnDestroy {
             if (data) {
                 this.loading = false;
 
-                if (typeof(data.status) != 'undefined' && data.status !== null && data.status != '') {
-                    this.status = data.status;
+                if (typeof(data.deviceId) != 'undefined' && data.deviceId !== null && data.deviceId != '') {
+                    this.deviceId = data.deviceId;
                 };
 
                 if (typeof(data.barcode) != 'undefined' && data.barcode !== null && data.barcode != '') {
