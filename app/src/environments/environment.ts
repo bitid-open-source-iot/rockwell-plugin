@@ -1,8 +1,7 @@
 export const environment = {
-    'api': 'http://127.0.0.1:8000',
+    'port': 8000,
     'auth': 'https://auth.bitid.co.za',
     'appId': '000000000000000000000027',
-    'socket': 'ws://127.0.0.1:8000',
     'appName': 'Rockwell Plugin',
     'telemetry': 'https://telemetry.bitid.co.za',
     'production': false,

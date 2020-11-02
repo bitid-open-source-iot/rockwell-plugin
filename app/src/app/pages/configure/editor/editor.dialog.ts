@@ -55,6 +55,31 @@ export class InputEditorDialog implements OnInit, OnDestroy {
         'low': false,
         'high': false
     };
+    public keys: string[] = [
+        'AI1',
+        'AI2',
+        'AI3',
+        'AI4',
+        'AIExt1',
+        'AIExt2',
+        'AIExt3',
+        'AIExt4',
+        'AIExt5',
+        'AIExt6',
+        'AIExt7',
+        'AIExt8',
+        'CI1',
+        'CI2',
+        'CI3',
+        'CI4',
+        'CI5',
+        'CI6',
+        'CI7',
+        'CI8',
+        'BATT',
+        'SIG',
+        'digitalsIn'
+    ];
     public errors: any = {
         'analog': {
             'scaling': {
@@ -90,38 +115,6 @@ export class InputEditorDialog implements OnInit, OnDestroy {
         'writeable': '',
         'description': ''
     };
-    public analogs: string[] = [
-        'AI1',
-        'AI2',
-        'AI3',
-        'AI4',
-        'AIExt1',
-        'AIExt2',
-        'AIExt3',
-        'AIExt4',
-        'AIExt5',
-        'AIExt6',
-        'AIExt7',
-        'AIExt8',
-        'CI1',
-        'CI2',
-        'CI3',
-        'CI4',
-        'CI5',
-        'CI6',
-        'CI7',
-        'CI8',
-        'CI1Offset',
-        'CI2Offset',
-        'CI3Offset',
-        'CI4Offset',
-        'CI5Offset',
-        'CI6Offset',
-        'CI7Offset',
-        'CI8Offset',
-        'BATT',
-        'SIG'
-    ];
     public loading: boolean;
     public subscriptions: any = {};
 

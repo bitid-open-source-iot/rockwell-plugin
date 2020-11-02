@@ -1,17 +1,41 @@
+h2 {
+    height: 20px !important;
+    font-size: 14px !important;
+    margin-top: 10px !important;
+    line-height: 14px !important;
+    padding-left: 16px !important;
+}
+form h2 {
+    padding-left: 0px !important;
+}
 .mat-column-tagId {
     width: 125px;
+}
+.mat-column-tagId,
+.mat-column-deviceId {
     padding-left: 16px !important;
+}
+.mat-column-inputId,
+.mat-column-deviceId {
+    padding-right: 15px;
 }
 .mat-column-edit,
 .mat-column-copy,
-.mat-column-delete {
+.mat-column-delete,
+.mat-column-options {
     width: 40px;
 }
-.mat-column-delete {
+.mat-column-inputId,
+.mat-column-timeout,
+.mat-column-deviceId {
+    flex: 0 calc(33.33% - 15px);
+}
+.mat-column-delete,
+.mat-column-options {
     padding-right: 16px !important;
 }
-form {
-    margin-top: 20px;
+table {
+    margin-bottom: 10px;
 }
 mat-footer button {
     width: 100%;

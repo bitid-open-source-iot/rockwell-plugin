@@ -48,8 +48,8 @@ var module = function() {
 					if (typeof(args.req.body.plc.ip) != 'undefined' && args.req.body.plc.ip != null && args.req.body.plc.ip != '') {
 						update.plc.ip = args.req.body.plc.ip;
 					};
-					if (typeof(args.req.body.plc.port) != 'undefined' && args.req.body.plc.port != null && args.req.body.plc.port != '') {
-						update.plc.port = args.req.body.plc.port;
+					if (typeof(args.req.body.plc.slot) != 'undefined' && args.req.body.plc.slot !== null && args.req.body.plc.slot != '') {
+						update.plc.slot = args.req.body.plc.slot;
 					};
 				};
 				if (typeof(args.req.body.server) != 'undefined' && args.req.body.server != null) {
@@ -74,16 +74,11 @@ var module = function() {
 						};
 					};
 				};
+				if (Array.isArray(args.req.body.timeout)) {
+					update.timeout = args.req.body.timeout;
+				};
 				if (typeof(args.req.body.txtime) != 'undefined' && args.req.body.txtime != null && args.req.body.txtime != '') {
 					update.txtime = args.req.body.txtime;
-				};
-				if (typeof(args.req.body.timeout) != 'undefined' && args.req.body.timeout != null && args.req.body.timeout != '') {
-					if (typeof(args.req.body.seconds) != 'undefined' && args.req.body.seconds != null && args.req.body.seconds != '') {
-						update.seconds = args.req.body.seconds;
-					};
-					if (Array.isArray(args.req.body.deviceId)) {
-						update.deviceId = args.req.body.deviceId;
-					};
 				};
 				if (typeof(args.req.body.production) != 'undefined' && args.req.body.production != null && args.req.body.production != '') {
 					update.production = args.req.body.production;

@@ -4,12 +4,12 @@ import { ObjectId } from 'src/id';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { ConfigService } from 'src/app/services/config/config.service';
+import { DevicesService } from 'src/app/services/devices/devices.service';
 import { FormErrorService } from 'src/app/services/form-error/form-error.service';
 import { InputEditorDialog } from './editor/editor.dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { OnInit, Component, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { DevicesService } from 'src/app/services/devices/devices.service';
 
 @Component({
     selector: 'configure-page',
@@ -25,7 +25,7 @@ export class ConfigurePage implements OnInit, OnDestroy {
     public form: FormGroup = new FormGroup({
         'plc': new FormGroup({
             'ip': new FormControl(null, [Validators.required, Validators.pattern(/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/)]),
-            'port': new FormControl(null, [Validators.required, Validators.min(0), Validators.max(65535)])
+            'slot': new FormControl(null, [Validators.required, Validators.min(0), Validators.max(65535)])
         }),
         'server': new FormGroup({
             'subscribe': new FormGroup({
@@ -37,10 +37,6 @@ export class ConfigurePage implements OnInit, OnDestroy {
             'username': new FormControl(null, [Validators.required]),
             'password': new FormControl(null, [Validators.required])
         }),
-        'timeout': new FormGroup({
-            'seconds': new FormControl(60, [Validators.required, Validators.min(0)]),
-            'deviceId': new FormControl([], [Validators.required])
-        }),
         'txtime': new FormControl(null, [Validators.required, Validators.min(60)]),
         'production': new FormControl(null, [Validators.required]),
         'authentication': new FormControl(null, [Validators.required])
@@ -48,7 +44,7 @@ export class ConfigurePage implements OnInit, OnDestroy {
     public errors: any = {
         'plc': {
             'ip': '',
-            'port': ''
+            'slot': ''
         },
         'server': {
             'subscribe': {
@@ -60,17 +56,41 @@ export class ConfigurePage implements OnInit, OnDestroy {
             'username': '',
             'password': ''
         },
-        'timeout': {
-            'seconds': '',
-            'deviceId': ''
-        },
         'txtime': '',
         'production': '',
         'authentication': ''
     };
+    public timeout = new MatTableDataSource<any>();
     public columns: string[] = ['tagId', 'description', 'copy', 'edit', 'delete'];
     public loading: boolean;
+    public addtimeout: any = {
+        'inputId': null,
+        'timeout': null,
+        'deviceId': null
+    };
     private subscriptions: any = {};
+    public timeoutcolumns: string[] = ['deviceId', 'inputId', 'timeout', 'options'];
+
+    public async add() {
+        let valid = true;
+        Object.keys(this.addtimeout).map(key => {
+            if (typeof(this.addtimeout[key]) == 'undefined' || this.addtimeout[key] == null || this.addtimeout[key] == '') {
+                valid = false;
+            };
+        });
+        if (valid) {
+            const timeout = JSON.parse(JSON.stringify(this.addtimeout));
+            this.timeout.data.push(timeout);
+            this.timeout.data = JSON.parse(JSON.stringify(this.timeout.data));
+            this.addtimeout = {
+                'inputId': null,
+                'timeout': null,
+                'deviceId': null
+            };
+        } else {
+            this.toast.error('comms device invalid!');
+        };
+    };
 
     private async get() {
         this.loading = true;
@@ -100,17 +120,16 @@ export class ConfigurePage implements OnInit, OnDestroy {
 
         if (response.ok) {
             this.io.data = response.result.io;
+            this.timeout.data = response.result.timeout;
             this.form.controls['txtime'].setValue(response.result.txtime);
             this.form.controls['production'].setValue(response.result.production);
             this.form.controls['authentication'].setValue(response.result.authentication);
             (<any>this.form.controls['plc']).controls['ip'].setValue(response.result.plc.ip);
-            (<any>this.form.controls['plc']).controls['port'].setValue(response.result.plc.port);
+            (<any>this.form.controls['plc']).controls['slot'].setValue(response.result.plc.slot);
             (<any>this.form.controls['server']).controls['port'].setValue(response.result.server.port);
             (<any>this.form.controls['server']).controls['host'].setValue(response.result.server.host);
             (<any>this.form.controls['server']).controls['username'].setValue(response.result.server.username);
             (<any>this.form.controls['server']).controls['password'].setValue(response.result.server.password);
-            (<any>this.form.controls['timeout']).controls['seconds'].setValue(response.result.timeout.seconds);
-            (<any>this.form.controls['timeout']).controls['deviceId'].setValue(response.result.timeout.deviceId);
             (<any>(<any>this.form.controls['server']).controls['subscribe']).controls['data'].setValue(response.result.server.subscribe.data);
             (<any>(<any>this.form.controls['server']).controls['subscribe']).controls['control'].setValue(response.result.server.subscribe.control);
         } else {
@@ -130,6 +149,7 @@ export class ConfigurePage implements OnInit, OnDestroy {
                 'plc': this.form.value.plc,
                 'txtime': this.form.value.txtime,
                 'server': this.form.value.server,
+                'timeout': this.timeout.data,
                 'production': this.form.value.production,
                 'authentication': this.form.value.authentication
             });
@@ -148,8 +168,8 @@ export class ConfigurePage implements OnInit, OnDestroy {
         };
     };
 
-    public async remove(input) {
-        this.io.data = this.io.data.filter(o => o.inputId != input.inputId);
+    public async remove(key: string, input: any, idkey: string) {
+        this[key].data = this[key].data.filter(o => o[idkey] != input[idkey]);
     };
 
     public async edit(mode: string, input?: Input) {

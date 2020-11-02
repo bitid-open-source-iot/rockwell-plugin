@@ -20,6 +20,7 @@ describe('Config', function () {
                     result.should.have.property('plc');
                     result.should.have.property('txtime');
                     result.should.have.property('server');
+                    result.should.have.property('timeout');
                     result.should.have.property('production');
                     done();
                 } catch (e) {
@@ -68,6 +69,7 @@ var tools = {
                         'plc',
                         'txtime',
                         'server',
+                        'timeout',
                         'production'
                     ]
                 });
@@ -80,37 +82,24 @@ var tools = {
                 var deferred = Q.defer();
 
                 const response = await tools.post('/api/config/update', {
-                    'io': [
-                        {
-                            'as': 'AI1',
-                            'type': 'digital',
-                            'tagId': 'Rx[0]',
-                            'moduleId': 0,
-                            'allowance': 0,
-                            'interface': 'DINT'
-                        },
-                        {
-                            'as': 'AI2',
-                            'type': 'digital',
-                            'tagId': 'Rx[1]',
-                            'moduleId': 0,
-                            'allowance': 0,
-                            'interface': 'DINT'
-                        }
-                    ],
+                    'io': [],
                     'plc': {
                         'ip': '192.168.0.83',
-                        'port': 0
+                        'slot': 0
                     },
                     'server': {
-                        'host': 'mqtt://mqtt.bitid.co.za',
-                        'port': 8000,
-                        'username': 'admin',
-                        'password': 'admin',
-                        'subscribe': 'data'
+                        'host': 'mqtt://bitid.co.za',
+                        'port': 1888,
+                        'username': 'telemetry',
+                        'password': 'telemetry1!',
+                        'subscribe': {
+                            'data': 'rock/v1.1/data',
+                            'control': 'rock/v1.1/control'
+                        }
                     },
-                    'devices': [
+                    'timeout': [
                         {
+                            'inputId': '000000000000000000000000',
                             'timeout': 3600,
                             'deviceId': '000000000000000000000000'
                         }

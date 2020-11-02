@@ -14,9 +14,11 @@ export class SocketService {
 	constructor() { };
 
 	public async connect() {
+		const url = ['ws://', window.location.hostname, ':', environment.port].join('');
+
 		this.status.next('connecting');
 
-		const socket = new WebSocket(environment.socket);
+		const socket = new WebSocket(url);
 
 		socket.onopen = (event) => {
 			this.status.next('connected');

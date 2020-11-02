@@ -13,6 +13,10 @@
 <mat-content>
     <mat-progress-bar mode="indeterminate" *ngIf="loading && form.invalid"></mat-progress-bar>
 
+    <h2>
+        Inputs
+    </h2>
+
     <table mat-table [dataSource]="io">
         <ng-container matColumnDef="tagId">
             <th mat-header-cell *matHeaderCellDef>
@@ -57,7 +61,7 @@
                 </button>
             </th>
             <td mat-cell *matCellDef="let element">
-                <button type="button" mat-icon-button color="warn" (click)="remove(element)">
+                <button type="button" mat-icon-button color="warn" (click)="remove('io', element, 'inputId')">
                     <mat-icon svgIcon="delete"></mat-icon>
                 </button>
             </td>
@@ -67,42 +71,84 @@
         <tr mat-row *matRowDef="let row; columns: columns;"></tr>
     </table>
 
+    <h2>
+        Comms Devices
+    </h2>
+    
+    <table mat-table [dataSource]="timeout">
+        <ng-container matColumnDef="deviceId">
+            <th mat-header-cell *matHeaderCellDef>
+                Device
+            </th>
+            <td mat-cell *matCellDef="let element">
+                <mat-select name="deviceId" placeholder="device" [(ngModel)]="element.deviceId" required>
+                    <mat-option *ngFor="let device of devices.data" [value]="device.deviceId">
+                        {{ device.description }}
+                    </mat-option>
+                </mat-select>
+            </td>
+            <td mat-footer-cell *matFooterCellDef>
+                <mat-select name="deviceId" placeholder="device" [(ngModel)]="addtimeout.deviceId" required>
+                    <mat-option *ngFor="let device of devices.data" [value]="device.deviceId">
+                        {{ device.description }}
+                    </mat-option>
+                </mat-select>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="inputId">
+            <th mat-header-cell *matHeaderCellDef>
+                Input
+            </th>
+            <td mat-cell *matCellDef="let element">
+                <mat-select name="inputId" placeholder="input" [(ngModel)]="element.inputId" required>
+                    <mat-option *ngFor="let input of io.data" [value]="input.inputId">
+                        {{ input.description }}
+                    </mat-option>
+                </mat-select>
+            </td>
+            <td mat-footer-cell *matFooterCellDef>
+                <mat-select name="inputId" placeholder="input" [(ngModel)]="addtimeout.inputId" required>
+                    <mat-option *ngFor="let input of io.data" [value]="input.inputId">
+                        {{ input.description }}
+                    </mat-option>
+                </mat-select>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="timeout">
+            <th mat-header-cell *matHeaderCellDef>
+                Timeout
+            </th>
+            <td mat-cell *matCellDef="let element">
+                <input matInput type="number" min="0" step="1" name="timeout" placeholder="timeout" [(ngModel)]="element.timeout" required>
+            </td>
+            <td mat-footer-cell *matFooterCellDef>
+                <input matInput type="number" min="0" step="1" name="timeout" placeholder="timeout" [(ngModel)]="addtimeout.timeout" required>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="options">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let element">
+                <button type="button" mat-icon-button color="warn" (click)="remove('timeout', element, 'deviceId')">
+                    <mat-icon svgIcon="delete"></mat-icon>
+                </button>
+            </td>
+            <td mat-footer-cell *matFooterCellDef>
+                <button type="button" mat-icon-button (click)="add()">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="timeoutcolumns; sticky: true;"></tr>
+        <tr mat-row *matRowDef="let row; columns: timeoutcolumns;"></tr>
+        <tr mat-footer-row *matFooterRowDef="timeoutcolumns"></tr>
+    </table>
+
     <div class="container">
         <form [formGroup]="form" (ngSubmit)="!loading && !form.invalid && submit()">
-            <h2>
-                Comms Timeout
-            </h2>
-
-            <section formGroupName="timeout">
-                <mat-form-field appearance="outline">
-                    <mat-label>
-                        Devices
-                    </mat-label>
-
-                    <mat-select name="deviceId" placeholder="deviceId" formControlName="deviceId" required multiple>
-                        <mat-option *ngFor="let device of devices.data" [value]="device.deviceId">
-                            {{ device.description }}
-                        </mat-option>
-                    </mat-select>
-
-                    <mat-error *ngIf="errors.timeout.deviceId">
-                        {{ errors.timeout.deviceId }}
-                    </mat-error>
-                </mat-form-field>
-
-                <mat-form-field appearance="outline">
-                    <mat-label>
-                        Seconds
-                    </mat-label>
-
-                    <input matInput type="number" min="0" step="1" name="seconds" placeholder="seconds" formControlName="seconds" required>
-
-                    <mat-error *ngIf="errors.timeout.seconds">
-                        {{ errors.timeout.seconds }}
-                    </mat-error>
-                </mat-form-field>
-            </section>
-
             <h2>
                 Server
             </h2>
@@ -266,13 +312,13 @@
 
                 <mat-form-field appearance="outline">
                     <mat-label>
-                        Port
+                        Slot
                     </mat-label>
 
-                    <input matInput type="number" min="0" max="65535" step="1" name="port" placeholder="port" formControlName="port" required>
+                    <input matInput type="number" min="0" max="65535" step="1" name="slot" placeholder="slot" formControlName="slot" required>
 
-                    <mat-error *ngIf="errors.plc.port">
-                        {{ errors.plc.port }}
+                    <mat-error *ngIf="errors.plc.slot">
+                        {{ errors.plc.slot }}
                     </mat-error>
                 </mat-form-field>
             </section>

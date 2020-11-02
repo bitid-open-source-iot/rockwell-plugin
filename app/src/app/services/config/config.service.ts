@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '../api/api.service';
 import { environment } from 'src/environments/environment';
-import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
 	providedIn: 'root'
@@ -9,14 +8,16 @@ import { BehaviorSubject } from 'rxjs';
 
 export class ConfigService {
 
-	constructor(private api: ApiService) { };
+	constructor(private api: ApiService) {};
 
 	public async get(params) {
-		return await this.api.post(environment.api, '/api/config/get', params);
+		const url = ['http://', window.location.hostname, ':', environment.port].join('');
+		return await this.api.post(url, '/api/config/get', params);
 	};
 
 	public async update(params) {
-		return await this.api.post(environment.api, '/api/config/update', params);
+		const url = ['http://', window.location.hostname, ':', environment.port].join('')
+		return await this.api.post(url, '/api/config/update', params);
 	};
 
 }

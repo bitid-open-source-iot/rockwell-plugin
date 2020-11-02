@@ -2,12 +2,12 @@
     "io": [],
     "plc": {
         "ip": "127.0.0.1",
-        "port": 0
+        "slot": 0
     },
     "port": 8000,
     "server": {
-        "host": "mqtt://mqtt.bitid.co.za",
-        "port": 8000,
+        "host": "mqtt://bitid.co.za",
+        "port": 1888,
         "username": "admin",
         "password": "admin",
         "subscribe": {
@@ -36,8 +36,8 @@
     },
     "txtime": 360,
     "typeId": "000000000000000000000021",
-    "devices": [],
+    "timeout": [],
     "telemetry": "https://telemetry.bitid.co.za",
-    "production": false,
-    "authentication": false
+    "production": true,
+    "authentication": true
 }

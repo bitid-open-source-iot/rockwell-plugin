@@ -175,8 +175,8 @@
                 </mat-label>
                 
                 <mat-select name="key" placeholder="key" formControlName="key" [required]="form.value.type == 'analog'">
-                    <mat-option *ngFor="let item of analogs" [value]="item">
-                        {{ item }}
+                    <mat-option *ngFor="let o of keys" [value]="o">
+                        {{ o }}
                     </mat-option>
                 </mat-select>
             
