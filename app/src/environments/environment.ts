@@ -7,10 +7,11 @@ export const environment = {
     'telemetry': 'https://telemetry.bitid.co.za',
     'production': false,
     'scopes': [
-        { 'url': '/telemetry/devices/get', 'role': 4 },
-
         { 'url': '/api/config/get', 'role': 4 },
         { 'url': '/api/config/update', 'role': 4 },
-        { 'url': '/api/config/status', 'role': 4 }
+        { 'url': '/api/config/status', 'role': 4 },
+
+        { 'url': '/telemetry/devices/get', 'role': 4 },
+        { 'url': '/telemetry/devices/list', 'role': 4 }
     ]
 };

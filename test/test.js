@@ -99,7 +99,7 @@ var tools = {
                         }
                     ],
                     'plc': {
-                        'ip': '127.0.0.1',
+                        'ip': '192.168.0.83',
                         'port': 0
                     },
                     'server': {
@@ -109,6 +109,12 @@ var tools = {
                         'password': 'admin',
                         'subscribe': 'data'
                     },
+                    'devices': [
+                        {
+                            'timeout': 3600,
+                            'deviceId': '000000000000000000000000'
+                        }
+                    ],
                     'txtime': 360,
                     'production': false,
                     'authentication': false

@@ -1,10 +1,15 @@
+import { Input } from 'src/app/interfaces/input';
 import { Router } from '@angular/router';
+import { ObjectId } from 'src/id';
+import { MatDialog } from '@angular/material/dialog';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { ConfigService } from 'src/app/services/config/config.service';
 import { FormErrorService } from 'src/app/services/form-error/form-error.service';
+import { InputEditorDialog } from './editor/editor.dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { OnInit, Component, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { DevicesService } from 'src/app/services/devices/devices.service';
 
 @Component({
     selector: 'configure-page',
@@ -14,9 +19,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 export class ConfigurePage implements OnInit, OnDestroy {
 
-    constructor(private toast: ToastService, private router: Router, private service: ConfigService, private formerror: FormErrorService) { };
+    constructor(private toast: ToastService, private dialog: MatDialog, private router: Router, public devices: DevicesService, private service: ConfigService, private formerror: FormErrorService) { };
 
-    public io = new MatTableDataSource();
+    public io = new MatTableDataSource<Input>();
     public form: FormGroup = new FormGroup({
         'plc': new FormGroup({
             'ip': new FormControl(null, [Validators.required, Validators.pattern(/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/)]),
@@ -32,19 +37,14 @@ export class ConfigurePage implements OnInit, OnDestroy {
             'username': new FormControl(null, [Validators.required]),
             'password': new FormControl(null, [Validators.required])
         }),
+        'timeout': new FormGroup({
+            'seconds': new FormControl(60, [Validators.required, Validators.min(0)]),
+            'deviceId': new FormControl([], [Validators.required])
+        }),
         'txtime': new FormControl(null, [Validators.required, Validators.min(60)]),
         'production': new FormControl(null, [Validators.required]),
         'authentication': new FormControl(null, [Validators.required])
     });
-    public input: any = {
-        'as': null,
-        'pin': null,
-        'type': null,
-        'tagId': null,
-        'moduleId': null,
-        'allowance': null,
-        'interface': null
-    };
     public errors: any = {
         'plc': {
             'ip': '',
@@ -60,32 +60,31 @@ export class ConfigurePage implements OnInit, OnDestroy {
             'username': '',
             'password': ''
         },
+        'timeout': {
+            'seconds': '',
+            'deviceId': ''
+        },
         'txtime': '',
         'production': '',
         'authentication': ''
     };
-    public columns: string[] = ['tagId', 'moduleId', 'type', 'as', 'allowance', 'interface', 'options'];
+    public columns: string[] = ['tagId', 'description', 'copy', 'edit', 'delete'];
     public loading: boolean;
     private subscriptions: any = {};
 
-    public async add() {
-        let valid = true;
-        Object.keys(this.input).map(key => {
-            if (typeof (this.input[key]) == 'undefined' || this.input[key] === null || this.input[key] === '') {
-                valid = false;
-            };
-        });
-        if (valid) {
-            this.io.data.push(this.input);
-            this.io.data = JSON.parse(JSON.stringify(this.io.data));
-            this.input = {};
-        } else {
-            this.toast.error('Input invalid, Check all fields!');
-        };
-    };
-
     private async get() {
         this.loading = true;
+
+        const devices = await this.devices.list({
+            'filter': [
+                'deviceId',
+                'description'
+            ]
+        });
+
+        if (devices.ok) {
+            this.devices.data = devices.result;
+        };
 
         const response = await this.service.get({
             'filter': [
@@ -93,6 +92,7 @@ export class ConfigurePage implements OnInit, OnDestroy {
                 'plc',
                 'server',
                 'txtime',
+                'timeout',
                 'production',
                 'authentication'
             ]
@@ -109,6 +109,8 @@ export class ConfigurePage implements OnInit, OnDestroy {
             (<any>this.form.controls['server']).controls['host'].setValue(response.result.server.host);
             (<any>this.form.controls['server']).controls['username'].setValue(response.result.server.username);
             (<any>this.form.controls['server']).controls['password'].setValue(response.result.server.password);
+            (<any>this.form.controls['timeout']).controls['seconds'].setValue(response.result.timeout.seconds);
+            (<any>this.form.controls['timeout']).controls['deviceId'].setValue(response.result.timeout.deviceId);
             (<any>(<any>this.form.controls['server']).controls['subscribe']).controls['data'].setValue(response.result.server.subscribe.data);
             (<any>(<any>this.form.controls['server']).controls['subscribe']).controls['control'].setValue(response.result.server.subscribe.control);
         } else {
@@ -147,7 +149,78 @@ export class ConfigurePage implements OnInit, OnDestroy {
     };
 
     public async remove(input) {
-        this.io.data = this.io.data.filter(io => (JSON.stringify(io) != JSON.stringify(input)))
+        this.io.data = this.io.data.filter(o => o.inputId != input.inputId);
+    };
+
+    public async edit(mode: string, input?: Input) {
+        if (mode == 'add') {
+            input = {
+                'analog': {
+                    'scaling': {
+                        'raw': {
+                            'low': 0,
+                            'high': 0
+                        },
+                        'scaled': {
+                            'low': 0,
+                            'high': 0
+                        },
+                        'type': 'none'
+                    },
+                    'key': '',
+                    'units': '',
+                    'offset': 0,
+                    'decimals': 0
+                },
+                'digital': {
+                    'bit': 0,
+                    'low': null,
+                    'high': null
+                },
+                'type': 'analog',
+                'tagId': null,
+                'hidden': false,
+                'inputId': ObjectId(),
+                'deviceId': null,
+                'priority': false,
+                'moduleId': 0,
+                'interface': 'INT',
+                'allowance': 0,
+                'writeable': true,
+                'description': null
+            };
+        } else if (mode == 'copy') {
+            input.inputId = ObjectId();
+        };
+
+        const dialog = await this.dialog.open(InputEditorDialog, {
+            'data': input,
+            'panelClass': 'input-editor'
+        });
+
+        dialog.afterClosed().subscribe(async result => {
+            if (result) {
+                switch (mode) {
+                    case ('add'):
+                        this.io.data.push(result);
+                        break;
+                    case ('copy'):
+                        this.io.data.push(result);
+                        break;
+                    case ('update'):
+                        for (let i = 0; i < this.io.data.length; i++) {
+                            if (this.io.data[i].inputId == result.inputId) {
+                                Object.keys(result).map(key => {
+                                    this.io.data[i][key] = result[key];
+                                });
+                                break;
+                            };
+                        };
+                        break;
+                };
+                this.io.data = JSON.parse(JSON.stringify(this.io.data));
+            };
+        });
     };
 
     ngOnInit(): void {

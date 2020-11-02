@@ -7,6 +7,11 @@
     -webkit-touch-callout: none;
     -webkit-tap-highlight-color: transparent;
 }
+[flex-column] {
+    flex: 1 auto;
+    display: flex;
+    flex-direction: column;
+}
 html, body {
     height: 100%;
     margin: 0px;
@@ -84,6 +89,7 @@ simple-snack-bar {
 home-page,
 watch-page,
 signin-page,
+input-editor,
 configure-page {
     flex: 1 auto;
     height: 100vh;

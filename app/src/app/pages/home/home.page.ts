@@ -30,7 +30,7 @@ export class HomePage implements OnInit, OnDestroy {
                 this.loading = false;
 
                 if (typeof(data.status) != 'undefined' && data.status !== null && data.status != '') {
-                    this.status = JSON.stringify(data.status);
+                    this.status = data.status;
                 };
 
                 if (typeof(data.barcode) != 'undefined' && data.barcode !== null && data.barcode != '') {

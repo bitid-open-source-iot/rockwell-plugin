@@ -1,0 +1,21 @@
+.input-editor .mat-dialog-container {
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    z-index: 5000;
+    padding: 0px;
+    position: fixed;
+    border-radius: 0px;
+}
+mat-footer {
+    justify-content: center;
+    button {
+        width: 100%;
+        margin: auto;
+        display: flex;
+        max-width: 400px;
+        align-items: center;
+        justify-content: center;
+    }
+}

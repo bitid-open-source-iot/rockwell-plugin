@@ -13,7 +13,6 @@ global.__base = __dirname + '/';
 global.__logger = require('./lib/logger')
 global.__server = null;
 global.__socket = null;
-global.__status = null;
 global.__deviceId = null;
 global.__settings = require('./config.json');
 global.__responder = require('./lib/responder');
@@ -40,6 +39,8 @@ var portal = async () => {
                         'req': req,
                         'res': res
                     };
+
+                    args.req.body.deviceId = __deviceId;
                     auth.authenticate(args)
                         .then(result => {
                             next();
@@ -109,11 +110,11 @@ var logger = async () => {
         const telemetry = new Telemetry();
 
         mqtt.on('data', event => {
-            debugger
+            __logger.info(event);
         });
         
         mqtt.on('control', event => {
-            debugger
+            __logger.info(event);
         });
 
         mqtt.connect(__settings.server);
@@ -121,9 +122,9 @@ var logger = async () => {
         rockwell.on('read', data => {
             __socket.send({
                 'inputs': data,
-                'status': '',
+                'status': (typeof(telemetry.deviceId) != 'undefined' && telemetry.deviceId !== null && telemetry.deviceId != '') ? 'active' : 'inactive',
                 'barcode': rockwell.barcode(),
-                'deviceId': '',
+                'deviceId': telemetry.deviceId
             });
         });
 
@@ -190,6 +191,8 @@ var logger = async () => {
         });
 
         rockwell.on('connect', () => {
+            __logger.info('Rockwell PLC Connected');
+
             telemetry.connect(rockwell.barcode());
 
             rockwell.watch();
@@ -206,6 +209,14 @@ var logger = async () => {
             setTimeout(() => {
                 rockwell.connect(__settings.plc);
             }, 3000);
+        });
+
+        telemetry.on('active', event => {
+            __deviceId = telemetry.deviceId;
+        });
+
+        telemetry.on('inactive', event => {
+            __deviceId = null;
         });
 
         rockwell.connect(__settings.plc);

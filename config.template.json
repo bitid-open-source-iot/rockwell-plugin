@@ -1,20 +1,5 @@
 {
-    "io": [
-        {
-            "pin": 0,
-            "type": "input",
-            "tagId": "Rx[#]",
-            "moduleId": 0,
-            "as": "AI1"
-        },
-        {
-            "pin": 1,
-            "type": "input",
-            "tagId": "Rx[#]",
-            "moduleId": 0,
-            "as": "AI2"
-        }
-    ],
+    "io": [],
     "plc": {
         "ip": "127.0.0.1",
         "port": 0
@@ -51,6 +36,7 @@
     },
     "txtime": 360,
     "typeId": "000000000000000000000021",
+    "devices": [],
     "telemetry": "https://telemetry.bitid.co.za",
     "production": false,
     "authentication": false

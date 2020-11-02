@@ -77,6 +77,14 @@ var module = function() {
 				if (typeof(args.req.body.txtime) != 'undefined' && args.req.body.txtime != null && args.req.body.txtime != '') {
 					update.txtime = args.req.body.txtime;
 				};
+				if (typeof(args.req.body.timeout) != 'undefined' && args.req.body.timeout != null && args.req.body.timeout != '') {
+					if (typeof(args.req.body.seconds) != 'undefined' && args.req.body.seconds != null && args.req.body.seconds != '') {
+						update.seconds = args.req.body.seconds;
+					};
+					if (Array.isArray(args.req.body.deviceId)) {
+						update.deviceId = args.req.body.deviceId;
+					};
+				};
 				if (typeof(args.req.body.production) != 'undefined' && args.req.body.production != null && args.req.body.production != '') {
 					update.production = args.req.body.production;
 				};

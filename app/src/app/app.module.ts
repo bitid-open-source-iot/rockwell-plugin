@@ -1,5 +1,6 @@
 /* --- MODULES --- */
 import { NgModule } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
@@ -26,6 +27,7 @@ import { environment } from '../environments/environment';
 
 @NgModule({
     imports: [
+        MatIconModule,
         BrowserModule,
         HttpClientModule,
         AppRoutingModule,

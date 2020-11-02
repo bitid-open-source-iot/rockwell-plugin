@@ -19,140 +19,90 @@
                 Tag ID
             </th>
             <td mat-cell *matCellDef="let element">
-                <input matInput type="text" name="tagId" placeholder="tag id" [(ngModel)]="element.tagId" required>
-            </td>
-            <td mat-footer-cell *matFooterCellDef>
-                <input matInput type="text" name="tagId" placeholder="tag id" [(ngModel)]="input.tagId" required>
+                {{ element.tagId }}
             </td>
         </ng-container>
 
-        <ng-container matColumnDef="moduleId">
+        <ng-container matColumnDef="description">
             <th mat-header-cell *matHeaderCellDef>
-                Module ID
+                Description
             </th>
             <td mat-cell *matCellDef="let element">
-                <input matInput type="number" name="moduleId" placeholder="module id" [(ngModel)]="element.moduleId" required>
-            </td>
-            <td mat-footer-cell *matFooterCellDef>
-                <input matInput type="number" name="moduleId" placeholder="module id" [(ngModel)]="input.moduleId" required>
-            </td>
-        </ng-container>
-    
-        <ng-container matColumnDef="type">
-            <th mat-header-cell *matHeaderCellDef>
-                Type
-            </th>
-            <td mat-cell *matCellDef="let element">
-                <mat-select name="type" placeholder="type" [(ngModel)]="element.type" required>
-                    <mat-option value="analog">
-                        Analog
-                    </mat-option>
-                    <mat-option value="digital">
-                        Digital
-                    </mat-option>
-                </mat-select>
-            </td>
-            <td mat-footer-cell *matFooterCellDef>
-                <mat-select name="type" placeholder="type" [(ngModel)]="input.type" required>
-                    <mat-option value="analog">
-                        Analog
-                    </mat-option>
-                    <mat-option value="digital">
-                        Digital
-                    </mat-option>
-                </mat-select>
+                {{ element.description }}
             </td>
         </ng-container>
 
-        <ng-container matColumnDef="as">
-            <th mat-header-cell *matHeaderCellDef>
-                Export As
-            </th>
-            <td mat-cell *matCellDef="let element">
-                <input matInput type="text" name="as" placeholder="as" [(ngModel)]="element.as" required>
-            </td>
-            <td mat-footer-cell *matFooterCellDef>
-                <input matInput type="text" name="as" placeholder="as" [(ngModel)]="input.as" required>
-            </td>
-        </ng-container>
-
-        <ng-container matColumnDef="interface">
-            <th mat-header-cell *matHeaderCellDef>
-                Interface
-            </th>
-            <td mat-cell *matCellDef="let element">
-                <mat-select name="interface" placeholder="interface" [(ngModel)]="element.interface" required>
-                    <mat-option value="INT">
-                        INT
-                    </mat-option>
-                    <mat-option value="SINT">
-                        SINT
-                    </mat-option>
-                    <mat-option value="DINT">
-                        DINT
-                    </mat-option>
-                    <mat-option value="REAL">
-                        REAL
-                    </mat-option>
-                    <mat-option value="BOOL">
-                        BOOL
-                    </mat-option>
-                </mat-select>
-            </td>
-            <td mat-footer-cell *matFooterCellDef>
-                <mat-select name="interface" placeholder="interface" [(ngModel)]="input.interface" required>
-                    <mat-option value="INT">
-                        INT
-                    </mat-option>
-                    <mat-option value="SINT">
-                        SINT
-                    </mat-option>
-                    <mat-option value="DINT">
-                        DINT
-                    </mat-option>
-                    <mat-option value="REAL">
-                        REAL
-                    </mat-option>
-                    <mat-option value="BOOL">
-                        BOOL
-                    </mat-option>
-                </mat-select>
-            </td>
-        </ng-container>
-
-        <ng-container matColumnDef="allowance">
-            <th mat-header-cell *matHeaderCellDef>
-                Allowance
-            </th>
-            <td mat-cell *matCellDef="let element">
-                <input matInput type="number" name="allowance" placeholder="allowance" [(ngModel)]="element.allowance" required>
-            </td>
-            <td mat-footer-cell *matFooterCellDef>
-                <input matInput type="number" name="allowance" placeholder="allowance" [(ngModel)]="input.allowance" required>
-            </td>
-        </ng-container>
-
-        <ng-container matColumnDef="options">
+        <ng-container matColumnDef="copy">
             <th mat-header-cell *matHeaderCellDef></th>
             <td mat-cell *matCellDef="let element">
-                <button type="button" mat-icon-button color="warn" (click)="remove(element)">
-                    <mat-icon>delete</mat-icon>
+                <button type="button" mat-icon-button (click)="edit('copy', element)">
+                    <mat-icon svgIcon="copy"></mat-icon>
                 </button>
             </td>
-            <td mat-footer-cell *matFooterCellDef>
-                <button type="button" mat-icon-button color="primary" (click)="add()">
+        </ng-container>
+
+        <ng-container matColumnDef="edit">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let element">
+                <button type="button" mat-icon-button (click)="edit('edit', element)">
+                    <mat-icon svgIcon="edit"></mat-icon>
+                </button>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="delete">
+            <th mat-header-cell *matHeaderCellDef>
+                <button type="button" mat-icon-button (click)="edit('add')">
                     <mat-icon>add</mat-icon>
+                </button>
+            </th>
+            <td mat-cell *matCellDef="let element">
+                <button type="button" mat-icon-button color="warn" (click)="remove(element)">
+                    <mat-icon svgIcon="delete"></mat-icon>
                 </button>
             </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="columns; sticky: true;"></tr>
         <tr mat-row *matRowDef="let row; columns: columns;"></tr>
-        <tr mat-footer-row *matFooterRowDef="columns"></tr>
     </table>
 
     <div class="container">
         <form [formGroup]="form" (ngSubmit)="!loading && !form.invalid && submit()">
+            <h2>
+                Comms Timeout
+            </h2>
+
+            <section formGroupName="timeout">
+                <mat-form-field appearance="outline">
+                    <mat-label>
+                        Devices
+                    </mat-label>
+
+                    <mat-select name="deviceId" placeholder="deviceId" formControlName="deviceId" required multiple>
+                        <mat-option *ngFor="let device of devices.data" [value]="device.deviceId">
+                            {{ device.description }}
+                        </mat-option>
+                    </mat-select>
+
+                    <mat-error *ngIf="errors.timeout.deviceId">
+                        {{ errors.timeout.deviceId }}
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>
+                        Seconds
+                    </mat-label>
+
+                    <input matInput type="number" min="0" step="1" name="seconds" placeholder="seconds" formControlName="seconds" required>
+
+                    <mat-error *ngIf="errors.timeout.seconds">
+                        {{ errors.timeout.seconds }}
+                    </mat-error>
+                </mat-form-field>
+            </section>
+
             <h2>
                 Server
             </h2>
