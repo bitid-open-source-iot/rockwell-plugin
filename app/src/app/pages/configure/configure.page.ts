@@ -210,6 +210,7 @@ export class ConfigurePage implements OnInit, OnDestroy {
                 'description': null
             };
         } else if (mode == 'copy') {
+            input = JSON.parse(JSON.stringify(input));
             input.inputId = ObjectId();
         };
 
@@ -227,12 +228,21 @@ export class ConfigurePage implements OnInit, OnDestroy {
                     case ('copy'):
                         this.io.data.push(result);
                         break;
-                    case ('update'):
+                    case ('edit'):
                         for (let i = 0; i < this.io.data.length; i++) {
                             if (this.io.data[i].inputId == result.inputId) {
-                                Object.keys(result).map(key => {
-                                    this.io.data[i][key] = result[key];
-                                });
+                                this.io.data[i].type = result.type;
+                                this.io.data[i].tagId = result.tagId;
+                                this.io.data[i].hidden = result.hidden;
+                                this.io.data[i].analog = result.analog;
+                                this.io.data[i].digital = result.digital;
+                                this.io.data[i].deviceId = result.deviceId;
+                                this.io.data[i].priority = result.priority;
+                                this.io.data[i].moduleId = result.moduleId;
+                                this.io.data[i].interface = result.interface;
+                                this.io.data[i].allowance = result.allowance;
+                                this.io.data[i].writeable = result.writeable;
+                                this.io.data[i].description = result.description;
                                 break;
                             };
                         };
