@@ -17,45 +17,24 @@ export class InputEditorDialog implements OnInit, OnDestroy {
     constructor(private dialog: MatDialogRef<InputEditorDialog>, @Inject(MAT_DIALOG_DATA) private input: Input, public devices: DevicesService, private formerror: FormErrorService) { };
 
     public form: FormGroup = new FormGroup({
-        'analog': new FormGroup({
-            'scaling': new FormGroup({
-                'raw': new FormGroup({
-                    'low': new FormControl(this.input.analog.scaling.raw.low),
-                    'high': new FormControl(this.input.analog.scaling.raw.high)
-                }),
-                'scaled': new FormGroup({
-                    'low': new FormControl(this.input.analog.scaling.scaled.low),
-                    'high': new FormControl(this.input.analog.scaling.scaled.high)
-                }),
-                'type': new FormControl(this.input.analog.scaling.type),
-            }),
-            'key': new FormControl(this.input.analog.key),
-            'units': new FormControl(this.input.analog.units),
-            'offset': new FormControl(this.input.analog.offset),
-            'decimals': new FormControl(this.input.analog.decimals)
+        'in': new FormGroup({
+            'key': new FormControl(this.input.in.key, [Validators.required]),
+            'moduleId': new FormControl(this.input.in.moduleId, [Validators.required, Validators.min(0)]),
+            'deviceId': new FormControl(this.input.in.deviceId, [Validators.required]),
         }),
-        'digital': new FormGroup({
-            'bit': new FormControl(this.input.digital.bit),
-            'low': new FormControl(this.input.digital.low),
-            'high': new FormControl(this.input.digital.high)
+        'out': new FormGroup({
+            'key': new FormControl(this.input.out.key, [Validators.required]),
+            'moduleId': new FormControl(this.input.out.moduleId, [Validators.required, Validators.min(0)])
         }),
-        'type': new FormControl(this.input.type, [Validators.required]),
         'tagId': new FormControl(this.input.tagId, [Validators.required]),
-        'hidden': new FormControl(this.input.hidden, [Validators.required]),
         'inputId': new FormControl(this.input.inputId, [Validators.required]),
-        'deviceId': new FormControl(this.input.deviceId, [Validators.required]),
-        'priority': new FormControl(this.input.priority, [Validators.required]),
-        'moduleId': new FormControl(this.input.moduleId, [Validators.required]),
         'interface': new FormControl(this.input.interface, [Validators.required]),
         'allowance': new FormControl(this.input.allowance, [Validators.required]),
         'writeable': new FormControl(this.input.writeable, [Validators.required]),
         'description': new FormControl(this.input.description, [Validators.required])
     });
-    public show: any = {
-        'low': false,
-        'high': false
-    };
     public keys: string[] = [
+        'IP',
         'AI1',
         'AI2',
         'AI3',
@@ -81,35 +60,17 @@ export class InputEditorDialog implements OnInit, OnDestroy {
         'digitalsIn'
     ];
     public errors: any = {
-        'analog': {
-            'scaling': {
-                'raw': {
-                    'low': '',
-                    'high': ''
-                },
-                'scaled': {
-                    'low': '',
-                    'high': ''
-                },
-                'type': '',
-            },
+        'in': {
             'key': '',
-            'units': '',
-            'offset': '',
-            'decimals': ''
+            'moduleId': '',
+            'deviceId': ''
         },
-        'digital': {
-            'bit': '',
-            'low': '',
-            'high': ''
+        'out': {
+            'key': '',
+            'moduleId': ''
         },
-        'type': '',
         'tagId': '',
-        'hidden': '',
         'inputId': '',
-        'priority': '',
-        'moduleId': '',
-        'deviceId': '',
         'interface': '',
         'allowance': '',
         'writeable': '',
@@ -150,91 +111,15 @@ export class InputEditorDialog implements OnInit, OnDestroy {
         };
     };
 
-    private async ToggleType(type) {
-        if (type == 'analog') {
-            /* SET ANALOG */
-            const analog: any = this.form.controls['analog'];
-            analog.controls['key'].setValidators([Validators.required]);
-            analog.controls['key'].updateValueAndValidity();
-            analog.controls['decimals'].setValidators([Validators.required]);
-            analog.controls['decimals'].updateValueAndValidity();
-
-            const scaling: any = analog.controls['scaling'];
-            scaling.controls['type'].setValidators([Validators.required]);
-            scaling.controls['type'].updateValueAndValidity();
-
-            const raw: any = scaling.controls['raw'];
-            raw.controls['low'].setValidators([Validators.required]);
-            raw.controls['low'].updateValueAndValidity();
-            raw.controls['high'].setValidators([Validators.required]);
-            raw.controls['high'].updateValueAndValidity();
-
-            const scaled: any = scaling.controls['scaled'];
-            scaled.controls['low'].setValidators([Validators.required]);
-            scaled.controls['low'].updateValueAndValidity();
-            scaled.controls['high'].setValidators([Validators.required]);
-            scaled.controls['high'].updateValueAndValidity();
-
-            /* UNSET DIGITAL */
-            const digital: any = this.form.controls['digital'];
-            digital.controls['bit'].setValidators(null);
-            digital.controls['bit'].updateValueAndValidity();
-            digital.controls['low'].setValidators(null);
-            digital.controls['low'].updateValueAndValidity();
-            digital.controls['high'].setValidators(null);
-            digital.controls['high'].updateValueAndValidity();
-        } else if (type == 'digital') {
-            /* UNSET ANALOG */
-            const analog: any = this.form.controls['analog'];
-            analog.controls['key'].setValidators(null);
-            analog.controls['key'].updateValueAndValidity();
-            analog.controls['decimals'].setValidators(null);
-            analog.controls['decimals'].updateValueAndValidity();
-
-            const scaling: any = analog.controls['scaling'];
-            scaling.controls['type'].setValidators(null);
-            scaling.controls['type'].updateValueAndValidity();
-
-            const raw: any = scaling.controls['raw'];
-            raw.controls['low'].setValidators(null);
-            raw.controls['low'].updateValueAndValidity();
-            raw.controls['high'].setValidators(null);
-            raw.controls['high'].updateValueAndValidity();
-
-            const scaled: any = scaling.controls['scaled'];
-            scaled.controls['low'].setValidators(null);
-            scaled.controls['low'].updateValueAndValidity();
-            scaled.controls['high'].setValidators(null);
-            scaled.controls['high'].updateValueAndValidity();
-
-            /* SET DIGITAL */
-            const digital: any = this.form.controls['digital'];
-            digital.controls['bit'].setValidators([Validators.required, Validators.min(0), Validators.max(65535)]);
-            digital.controls['bit'].updateValueAndValidity();
-            digital.controls['low'].setValidators([Validators.required]);
-            digital.controls['low'].updateValueAndValidity();
-            digital.controls['high'].setValidators([Validators.required]);
-            digital.controls['high'].updateValueAndValidity();
-        };
-    };
-
     ngOnInit(): void {
         this.load();
         
-        this.ToggleType(this.input.type);
-
-        this.subscriptions.form = this.form.valueChanges.subscribe(data => {
-            this.errors = this.formerror.validateForm(this.form, this.errors, true);
-        });
-
-        this.subscriptions.type = this.form.controls['type'].valueChanges.subscribe(async type => {
-            await this.ToggleType(type);
+        this.subscriptions.form = this.form.valueChanges.subscribe(() => {
             this.errors = this.formerror.validateForm(this.form, this.errors, true);
         });
     };
 
     ngOnDestroy(): void {
         this.subscriptions.form.unsubscribe();
-        this.subscriptions.type.unsubscribe();
     };
 }

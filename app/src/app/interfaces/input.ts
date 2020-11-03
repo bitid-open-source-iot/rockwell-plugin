@@ -1,35 +1,18 @@
-import { Register } from './register';
-
-export interface Input extends Register {
-    'analog'?: {
-        'scaling'?: {
-            'raw'?: {
-                'low'?: number;
-                'high'?: number;
-            };
-            'scaled'?: {
-                'low'?: number;
-                'high'?: number;
-            };
-            'type'?: string;
-        };
-        'key'?: string;
-        'units'?: string;
-        'offset'?: number;
-        'decimals'?: number;
+export interface Input {
+    "in"?: {
+        "key"?: string;
+        "moduleId"?: number;
+        "deviceId"?: string;
     };
-    'digital'?: {
-        'bit'?: number;
-        'low'?: number;
-        'high'?: number;
+    "out"?: {
+        "key"?: string;
+        "moduleId"?: number;
     };
-    'type'?: string;
-    'tagId'?: string;
-    'value'?: any;
-    'hidden'?: boolean;
-    'inputId'?: string;
-    'deviceId'?: string;
-    'priority'?: boolean;
-    'moduleId'?: number;
-    'description'?: string;
+    "value"?: number;
+    "tagId"?: string;
+    "inputId"?: string;
+    "writeable"?: boolean;
+    "allowance"?: number;
+    "interface"?: string;
+    "description"?: string;
 }

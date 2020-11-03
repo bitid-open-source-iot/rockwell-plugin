@@ -84,40 +84,39 @@ var tools = {
                 const response = await tools.post('/api/config/update', {
                     'io': [
                         {
-                            "analog": {
-                                "scaling": {
-                                    "raw": {
-                                        "low": 0,
-                                        "high": 0
-                                    },
-                                    "scaled": {
-                                        "low": 0,
-                                        "high": 0
-                                    },
-                                    "type": "none"
-                                },
+                            "in": {
                                 "key": "AI1",
-                                "units": "",
-                                "offset": 0,
-                                "decimals": 0
+                                "moduleId": 0,
+                                "deviceId": "000000000000000438700926"
                             },
-                            "digital": {
-                                "bit": 0,
-                                "low": null,
-                                "high": null
+                            "out": {
+                                "key": "AI1",
+                                "moduleId": 0
                             },
-                            "type": "analog",
                             "tagId": "Rx[0]",
-                            "hidden": false,
-                            "inputId": "5fa01e38a44376bcbdbee85b",
-                            "deviceId": "000000000000000438700926",
-                            "priority": false,
-                            "moduleId": 0,
-                            "writekey": "AI1",
+                            "inputId": "000000000000000000000001",
                             "interface": "DINT",
                             "allowance": 0,
                             "writeable": true,
                             "description": "INPUT 1",
+                            "value": 0
+                        },
+                        {
+                            "in": {
+                                "key": "AI2",
+                                "moduleId": 0,
+                                "deviceId": config.deviceId
+                            },
+                            "out": {
+                                "key": "AI2",
+                                "moduleId": 0
+                            },
+                            "tagId": "Rx[1]",
+                            "inputId": "000000000000000000000002",
+                            "interface": "DINT",
+                            "allowance": 0,
+                            "writeable": true,
+                            "description": "INPUT 2",
                             "value": 0
                         }
                     ],
@@ -139,7 +138,7 @@ var tools = {
                         {
                             'inputId': '000000000000000000000000',
                             'timeout': 3600,
-                            'deviceId': '000000000000000000000000'
+                            'deviceId': config.deviceId
                         }
                     ],
                     'txtime': 360,

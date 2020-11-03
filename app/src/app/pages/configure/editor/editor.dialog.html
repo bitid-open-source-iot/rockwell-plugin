@@ -12,6 +12,86 @@
     <div class="container">
         <form [formGroup]="form" (ngSubmit)="!form.invalid && submit()">
             <h2>
+                Read
+            </h2>
+
+            <mat-form-field appearance="outline" formGroupName="out">
+                <mat-label>
+                    Key
+                </mat-label>
+                
+                <mat-select name="key" placeholder="key" formControlName="key" required>
+                    <mat-option *ngFor="let o of keys" [value]="o">
+                        {{ o }}
+                    </mat-option>
+                </mat-select>
+            
+                <mat-error *ngIf="errors.out.key">
+                    {{ errors.out.key }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" formGroupName="out">
+                <mat-label>
+                    Module ID
+                </mat-label>
+                
+                <input matInput type="number" min="0" name="moduleId" placeholder="module id" formControlName="moduleId" required>
+            
+                <mat-error *ngIf="errors.out.moduleId">
+                    {{ errors.out.moduleId }}
+                </mat-error>
+            </mat-form-field>
+
+            <h2>
+                Write
+            </h2>
+
+            <mat-form-field appearance="outline" formGroupName="in">
+                <mat-label>
+                    Key
+                </mat-label>
+                
+                <mat-select name="key" placeholder="key" formControlName="key" required>
+                    <mat-option *ngFor="let o of keys" [value]="o">
+                        {{ o }}
+                    </mat-option>
+                </mat-select>
+            
+                <mat-error *ngIf="errors.in.key">
+                    {{ errors.in.key }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" formGroupName="in">
+                <mat-label>
+                    Module ID
+                </mat-label>
+                
+                <input matInput type="number" min="0" name="moduleId" placeholder="module id" formControlName="moduleId" required>
+            
+                <mat-error *ngIf="errors.in.moduleId">
+                    {{ errors.in.moduleId }}
+                </mat-error>
+            </mat-form-field>
+            
+            <mat-form-field appearance="outline" formGroupName="in">
+                <mat-label>
+                    Device
+                </mat-label>
+                
+                <mat-select name="deviceId" placeholder="device" formControlName="deviceId" required>
+                    <mat-option *ngFor="let device of devices.data" [value]="device.deviceId">
+                        {{ device.description }}
+                    </mat-option>
+                </mat-select>
+            
+                <mat-error *ngIf="errors.in.deviceId">
+                    {{ errors.in.deviceId }}
+                </mat-error>
+            </mat-form-field>
+
+            <h2>
                 Register
             </h2>
             
@@ -57,22 +137,6 @@
             
             <mat-form-field appearance="outline">
                 <mat-label>
-                    Device
-                </mat-label>
-                
-                <mat-select name="deviceId" placeholder="device" formControlName="deviceId" required>
-                    <mat-option *ngFor="let device of devices.data" [value]="device.deviceId">
-                        {{ device.description }}
-                    </mat-option>
-                </mat-select>
-            
-                <mat-error *ngIf="errors.deviceId">
-                    {{ errors.deviceId }}
-                </mat-error>
-            </mat-form-field>
-            
-            <mat-form-field appearance="outline">
-                <mat-label>
                     Allowance
                 </mat-label>
                 
@@ -103,48 +167,6 @@
                 </mat-error>
             </mat-form-field>
 
-            <h2>
-                Input Configuration
-            </h2>
-            
-            <mat-form-field appearance="outline">
-                <mat-label>
-                    Type
-                </mat-label>
-                
-                <mat-select name="type" placeholder="type" formControlName="type" required>
-                    <mat-option value="analog">
-                        Analog
-                    </mat-option>
-                    <mat-option value="digital">
-                        Digital
-                    </mat-option>
-                </mat-select>
-            
-                <mat-error *ngIf="errors.type">
-                    {{ errors.type }}
-                </mat-error>
-            </mat-form-field>
-
-            <mat-form-field appearance="outline">
-                <mat-label>
-                    Visibility
-                </mat-label>
-                
-                <mat-select name="hidden" placeholder="visibility" formControlName="hidden" required>
-                    <mat-option [value]="true">
-                        Hidden
-                    </mat-option>
-                    <mat-option [value]="false">
-                        Visable
-                    </mat-option>
-                </mat-select>
-            
-                <mat-error *ngIf="errors.hidden">
-                    {{ errors.hidden }}
-                </mat-error>
-            </mat-form-field>
-
             <mat-form-field appearance="outline">
                 <mat-label>
                     Description
@@ -156,202 +178,6 @@
                     {{ errors.description }}
                 </mat-error>
             </mat-form-field>
-
-            <mat-form-field appearance="outline">
-                <mat-label>
-                    Module ID
-                </mat-label>
-                
-                <input matInput type="number" name="moduleId" placeholder="module id" formControlName="moduleId" required>
-            
-                <mat-error *ngIf="errors.moduleId">
-                    {{ errors.moduleId }}
-                </mat-error>
-            </mat-form-field>
-
-            <mat-form-field appearance="outline" formGroupName="analog" *ngIf="form.value.type == 'analog'">
-                <mat-label>
-                    Key
-                </mat-label>
-                
-                <mat-select name="key" placeholder="key" formControlName="key" [required]="form.value.type == 'analog'">
-                    <mat-option *ngFor="let o of keys" [value]="o">
-                        {{ o }}
-                    </mat-option>
-                </mat-select>
-            
-                <mat-error *ngIf="errors.analog.key">
-                    {{ errors.analog.key }}
-                </mat-error>
-            </mat-form-field>
-
-            <section formGroupName="analog" *ngIf="form.value.type == 'analog'">
-                <mat-form-field appearance="outline">
-                    <mat-label>
-                        Decimals
-                    </mat-label>
-                    
-                    <input matInput type="number" name="decimals" placeholder="decimals" formControlName="decimals" [required]="form.value.type == 'analog'">
-                
-                    <mat-error *ngIf="errors.analog.decimals">
-                        {{ errors.analog.decimals }}
-                    </mat-error>
-                </mat-form-field>
-
-                <mat-form-field appearance="outline">
-                    <mat-label>
-                        Units
-                    </mat-label>
-                    
-                    <input matInput type="text" name="units" placeholder="units" formControlName="units">
-                
-                    <mat-error *ngIf="errors.analog.units">
-                        {{ errors.analog.units }}
-                    </mat-error>
-                </mat-form-field>
-            </section>
-
-            <mat-form-field appearance="outline" formGroupName="analog" *ngIf="form.value.type == 'analog'">
-                <mat-label>
-                    Offset
-                </mat-label>
-                
-                <input matInput type="number" name="offset" placeholder="offset" formControlName="offset">
-            
-                <mat-error *ngIf="errors.analog.offset">
-                    {{ errors.analog.offset }}
-                </mat-error>
-            </mat-form-field>
-
-            <div flex-column formGroupName="analog" *ngIf="form.value.type == 'analog'">
-                <div flex-column formGroupName="scaling">
-                    <h2>
-                        Scaling
-                    </h2>
-
-                    <mat-form-field appearance="outline">
-                        <mat-label>
-                            Type
-                        </mat-label>
-
-                        <mat-select name="type" placeholder="scaling type" formControlName="type" [required]="form.value.type == 'analog'">
-                            <mat-option value="ntc">
-                                NTC
-                            </mat-option>
-                
-                            <mat-option value="none">
-                                None
-                            </mat-option>
-                
-                            <mat-option value="linear">
-                                Linear
-                            </mat-option>
-                        </mat-select>
-                        
-                        <mat-error *ngIf="errors.analog.scaling.type">
-                            {{ errors.analog.scaling.type }}
-                        </mat-error>
-                    </mat-form-field>
-                    
-                    <h2 *ngIf="form.value.analog.scaling.type != 'none'">
-                        Raw
-                    </h2>
-
-                    <section formGroupName="raw" *ngIf="form.value.analog.scaling.type != 'none'">
-                        <mat-form-field appearance="outline">
-                            <mat-label>
-                                Low
-                            </mat-label>
-                            
-                            <input matInput type="number" name="low" placeholder="low" formControlName="low" [required]="form.value.type == 'analog' && form.value.scaling_type != 'none'">
-                        
-                            <mat-error *ngIf="errors.analog.scaling.raw.low">
-                                {{ errors.analog.scaling.raw.low }}
-                            </mat-error>
-                        </mat-form-field>
-
-                        <mat-form-field appearance="outline">
-                            <mat-label>
-                                High
-                            </mat-label>
-                            
-                            <input matInput type="number" name="high" placeholder="high" formControlName="high" [required]="form.value.type == 'analog' && form.value.scaling_type != 'none'">
-                        
-                            <mat-error *ngIf="errors.analog.scaling.raw.high">
-                                {{ errors.analog.scaling.raw.high }}
-                            </mat-error>
-                        </mat-form-field>
-                    </section>
-                    
-                    <h2 *ngIf="form.value.analog.scaling.type != 'none'">
-                        Scaled
-                    </h2>
-
-                    <section formGroupName="scaled" *ngIf="form.value.analog.scaling.type != 'none'">
-                        <mat-form-field appearance="outline">
-                            <mat-label>
-                                Low
-                            </mat-label>
-                            
-                            <input matInput type="number" name="low" placeholder="low" formControlName="low" [required]="form.value.type == 'analog' && form.value.scaling_type != 'none'">
-                        
-                            <mat-error *ngIf="errors.analog.scaling.scaled.low">
-                                {{ errors.analog.scaling.scaled.low }}
-                            </mat-error>
-                        </mat-form-field>
-
-                        <mat-form-field appearance="outline">
-                            <mat-label>
-                                High
-                            </mat-label>
-                            
-                            <input matInput type="number" name="high" placeholder="high" formControlName="high" [required]="form.value.type == 'analog' && form.value.scaling_type != 'none'">
-                        
-                            <mat-error *ngIf="errors.analog.scaling.scaled.high">
-                                {{ errors.analog.scaling.scaled.high }}
-                            </mat-error>
-                        </mat-form-field>
-                    </section>
-                </div>
-            </div>
-
-            <mat-form-field appearance="outline" formGroupName="digital" *ngIf="form.value.type == 'digital'">
-                <mat-label>
-                    Bit
-                </mat-label>
-                
-                <input matInput type="number" min="0" max="65535" name="bit" placeholder="bit" formControlName="bit" [required]="form.value.type == 'digital'">
-            
-                <mat-error *ngIf="errors.digital.bit">
-                    {{ errors.digital.bit }}
-                </mat-error>
-            </mat-form-field>
-
-            <section formGroupName="digital" *ngIf="form.value.type == 'digital'">
-                <mat-form-field appearance="outline">
-                    <mat-label>
-                        Low
-                    </mat-label>
-                    
-                    <input matInput type="text" name="low" placeholder="low" formControlName="low" [required]="form.value.type == 'digital'">
-                
-                    <mat-error *ngIf="errors.digital.low">
-                        {{ errors.digital.low }}
-                    </mat-error>
-                </mat-form-field>
-            
-                <mat-form-field appearance="outline">
-                    <mat-label>
-                        High
-                    </mat-label>
-                    
-                    <input matInput type="text" name="high" placeholder="high" formControlName="high" [required]="form.value.type == 'digital'">
-                
-                    <mat-error *ngIf="errors.digital.high">
-                        {{ errors.digital.high }}
-                    </mat-error>
-                </mat-form-field>
-            </section>
         </form>
     </div>
 </mat-content>

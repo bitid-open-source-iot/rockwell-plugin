@@ -175,35 +175,17 @@ export class ConfigurePage implements OnInit, OnDestroy {
     public async edit(mode: string, input?: Input) {
         if (mode == 'add') {
             input = {
-                'analog': {
-                    'scaling': {
-                        'raw': {
-                            'low': 0,
-                            'high': 0
-                        },
-                        'scaled': {
-                            'low': 0,
-                            'high': 0
-                        },
-                        'type': 'none'
-                    },
-                    'key': '',
-                    'units': '',
-                    'offset': 0,
-                    'decimals': 0
+                'in': {
+                    'key': 'AI1',
+                    'moduleId': 0,
+                    'deviceId': null
                 },
-                'digital': {
-                    'bit': 0,
-                    'low': null,
-                    'high': null
+                'out': {
+                    'key': 'AI1',
+                    'moduleId': 0
                 },
-                'type': 'analog',
                 'tagId': null,
-                'hidden': false,
                 'inputId': ObjectId(),
-                'deviceId': null,
-                'priority': false,
-                'moduleId': 0,
                 'interface': 'INT',
                 'allowance': 0,
                 'writeable': true,
@@ -231,18 +213,9 @@ export class ConfigurePage implements OnInit, OnDestroy {
                     case ('edit'):
                         for (let i = 0; i < this.io.data.length; i++) {
                             if (this.io.data[i].inputId == result.inputId) {
-                                this.io.data[i].type = result.type;
-                                this.io.data[i].tagId = result.tagId;
-                                this.io.data[i].hidden = result.hidden;
-                                this.io.data[i].analog = result.analog;
-                                this.io.data[i].digital = result.digital;
-                                this.io.data[i].deviceId = result.deviceId;
-                                this.io.data[i].priority = result.priority;
-                                this.io.data[i].moduleId = result.moduleId;
-                                this.io.data[i].interface = result.interface;
-                                this.io.data[i].allowance = result.allowance;
-                                this.io.data[i].writeable = result.writeable;
-                                this.io.data[i].description = result.description;
+                                Object.keys(result).map(key => {
+                                    this.io.data[i][key] = result[key];
+                                });
                                 break;
                             };
                         };
