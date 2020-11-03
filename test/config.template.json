@@ -16,5 +16,6 @@
 	"api": "http://127.0.0.1:8000",
 	"email": "admin@bitid.co.za",
 	"appId": "000000000000000000000015",
-	"deviceId": "xxx"
+	"deviceId": "xxx",
+	"websocket": "ws://127.0.0.1:8000"
 }

@@ -3,11 +3,71 @@ var chaiSubset = require('chai-subset');
 chai.use(chaiSubset);
 
 var Q = require('q');
+var MQTT = require('mqtt');
 var fetch = require('node-fetch');
 var assert = require('chai').assert;
 var expect = require('chai').expect;
 var should = require('chai').should();
 var config = require('./config.json');
+var WebSocketClient = require('websocket').client;
+
+var mqtt = null;
+var socket = new WebSocketClient();
+var connection = null;
+
+describe('Connect', function () {
+    it('Web Socket', function (done) {
+        this.timeout(5000);
+
+        socket.on('connect', event => {
+            connection = event;
+            done();
+        });
+
+        socket.connect(config.websocket);
+    });
+
+    it('MQTT Socket', function (done) {
+        this.timeout(5000);
+
+        mqtt = MQTT.connect(config.mqtt.socket, {
+            'host': config.mqtt.socket,
+            'port': config.mqtt.port,
+            'username': config.mqtt.username,
+            'password': config.mqtt.password
+        });
+
+        mqtt.on('connect', () => {
+            done();
+        });
+    });
+});
+
+describe('Subscribe', function () {
+    it('Data Topic', function (done) {
+        this.timeout(5000);
+
+        mqtt.subscribe(config.mqtt.subscribe.data, (error) => {
+            if (error) {
+                done(error.message);
+            } else {
+                done();
+            };
+        });
+    });
+
+    it('Control Topic', function (done) {
+        this.timeout(5000);
+
+        mqtt.subscribe(config.mqtt.subscribe.control, (error) => {
+            if (error) {
+                done(error.message);
+            } else {
+                done();
+            };
+        });
+    });
+});
 
 describe('Config', function () {
     it('/api/config/get', function (done) {
@@ -54,6 +114,20 @@ describe('Config', function () {
                     done(e);
                 };
             });
+    });
+});
+
+describe('Clean Up Sockets', function () {
+    it('Close Web Socket', function (done) {
+        this.timeout(5000);
+        connection.close();
+        done();
+    });
+
+    it('Close MQTT Socket', function (done) {
+        this.timeout(5000);
+        mqtt.end();
+        done();
     });
 });
 
@@ -210,16 +284,17 @@ var tools = {
     }
 };
 
-
 /*
-=====================================
-1 - Connect To Web Socket
-2 - Connect To MQTT Socket
-3 - Subscribe To Data Topic
-4 - Subscribe To Control Topic
-5 - Get Config
-6 - Update Config
-7 - Send MQTT Data
-8 - Recieve MQTT Data
-=====================================
+====================================
+1 - Connect To Web Socket       | ✓ |
+2 - Connect To MQTT Socket      | ✓ |
+3 - Subscribe To Data Topic     | ✓ |
+4 - Subscribe To Control Topic  | ✓ |
+5 - Get Config                  | ✓ |
+6 - Update Config               | ✓ |
+7 - Send MQTT Data              | ✗ |
+8 - Recieve MQTT Data           | ✗ |
+9 - Close Web Socket            | ✓ |
+9 - Close MQTT Socket           | ✓ |
+====================================
 */
