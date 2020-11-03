@@ -117,6 +117,102 @@ describe('Config', function () {
     });
 });
 
+describe('Send & Recieve Data', function () {
+    it(config.mqtt.subscribe.data, function (done) {
+        this.timeout(5000);
+
+        mqtt.on('message', (topic, message) => {
+            if (topic == config.mqtt.subscribe.data) {
+                var result = JSON.parse(message.toString())
+                result.should.have.property('dataIn');
+                result.should.have.property('rtuDate');
+                result.should.have.property('deviceId');
+                result.should.have.property('moduleId');
+                done();
+            };
+        });
+
+        mqtt.publish(config.mqtt.subscribe.data, JSON.stringify({
+            'dataIn': {
+                'IP': '0.0.0.0',
+                'AI1': 0,
+                'AI2': 0,
+                'AI3': 0,
+                'AI4': 0,
+                'CI1': 0,
+                'CI2': 0,
+                'CI3': 0,
+                'CI4': 0,
+                'CI5': 0,
+                'CI6': 0,
+                'CI7': 0,
+                'CI8': 0,
+                'SIG': 0,
+                'BATT': 0,
+                'AIExt1': 0,
+                'AIExt2': 0,
+                'AIExt3': 0,
+                'AIExt4': 0,
+                'AIExt5': 0,
+                'AIExt6': 0,
+                'AIExt7': 0,
+                'AIExt8': 0,
+                'digitalsIn': 0
+            },
+            'rtuDate': new Date().getTime(),
+            'deviceId': config.deviceId,
+            'moduleId': 0
+        }));
+    });
+
+    it(config.mqtt.subscribe.control, function (done) {
+        this.timeout(5000);
+
+        mqtt.on('message', (topic, message) => {
+            if (topic == config.mqtt.subscribe.control) {
+                var result = JSON.parse(message.toString())
+                result.should.have.property('dataIn');
+                result.should.have.property('rtuDate');
+                result.should.have.property('deviceId');
+                result.should.have.property('moduleId');
+                done();
+            };
+        });
+
+        mqtt.publish(config.mqtt.subscribe.control, JSON.stringify({
+            'dataIn': {
+                'IP': '0.0.0.0',
+                'AI1': 0,
+                'AI2': 0,
+                'AI3': 0,
+                'AI4': 0,
+                'CI1': 0,
+                'CI2': 0,
+                'CI3': 0,
+                'CI4': 0,
+                'CI5': 0,
+                'CI6': 0,
+                'CI7': 0,
+                'CI8': 0,
+                'SIG': 0,
+                'BATT': 0,
+                'AIExt1': 0,
+                'AIExt2': 0,
+                'AIExt3': 0,
+                'AIExt4': 0,
+                'AIExt5': 0,
+                'AIExt6': 0,
+                'AIExt7': 0,
+                'AIExt8': 0,
+                'digitalsIn': 0
+            },
+            'rtuDate': new Date().getTime(),
+            'deviceId': config.deviceId,
+            'moduleId': 0
+        }));
+    });
+});
+
 describe('Clean Up Sockets', function () {
     it('Close Web Socket', function (done) {
         this.timeout(5000);
@@ -292,8 +388,8 @@ var tools = {
 4 - Subscribe To Control Topic  | ✓ |
 5 - Get Config                  | ✓ |
 6 - Update Config               | ✓ |
-7 - Send MQTT Data              | ✗ |
-8 - Recieve MQTT Data           | ✗ |
+7 - Send MQTT Data              | ✓ |
+8 - Recieve MQTT Data           | ✓ |
 9 - Close Web Socket            | ✓ |
 9 - Close MQTT Socket           | ✓ |
 ====================================
