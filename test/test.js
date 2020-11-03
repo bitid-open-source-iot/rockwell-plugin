@@ -182,10 +182,10 @@ describe('Send & Recieve Data', function () {
         mqtt.publish(config.mqtt.subscribe.control, JSON.stringify({
             'dataIn': {
                 'IP': '0.0.0.0',
-                'AI1': 0,
-                'AI2': 0,
-                'AI3': 0,
-                'AI4': 0,
+                'AI1': Math.floor(Math.random() * 100) + 1,
+                'AI2': Math.floor(Math.random() * 100) + 1,
+                'AI3': Math.floor(Math.random() * 100) + 1,
+                'AI4': Math.floor(Math.random() * 100) + 1,
                 'CI1': 0,
                 'CI2': 0,
                 'CI3': 0,
@@ -257,7 +257,7 @@ var tools = {
                             "in": {
                                 "key": "AI1",
                                 "moduleId": 0,
-                                "deviceId": "000000000000000438700926"
+                                "deviceId": config.deviceId
                             },
                             "out": {
                                 "key": "AI1",
@@ -267,9 +267,8 @@ var tools = {
                             "inputId": "000000000000000000000001",
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": true,
-                            "description": "INPUT 1",
-                            "value": 0
+                            "writeable": false,
+                            "description": "AI1"
                         },
                         {
                             "in": {
@@ -285,9 +284,25 @@ var tools = {
                             "inputId": "000000000000000000000002",
                             "interface": "DINT",
                             "allowance": 0,
+                            "writeable": false,
+                            "description": "AI2"
+                        },
+                        {
+                            "in": {
+                                "key": "AI2",
+                                "moduleId": 0,
+                                "deviceId": config.deviceId
+                            },
+                            "out": {
+                                "key": "AI3",
+                                "moduleId": 0
+                            },
+                            "tagId": "Rx[2]",
+                            "inputId": "000000000000000000000003",
+                            "interface": "DINT",
+                            "allowance": 0,
                             "writeable": true,
-                            "description": "INPUT 2",
-                            "value": 0
+                            "description": "AI3"
                         }
                     ],
                     'plc': {
@@ -307,7 +322,7 @@ var tools = {
                     'timeout': [
                         {
                             'inputId': '000000000000000000000000',
-                            'timeout': 3600,
+                            'timeout': 360,
                             'deviceId': config.deviceId
                         }
                     ],
