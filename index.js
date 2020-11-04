@@ -80,10 +80,10 @@ var portal = async () => {
         __socket = new WebSocket(__server);
 
         __server.on('close', () => {
-            setTimeout(() => __server.listen(__settings.port), 1000);
+            setTimeout(() => __server.listen(__settings.port, '0.0.0.0'), 1000);
         });
           
-        __server.listen(__settings.port, () => __server.close());
+        __server.listen(__settings.port, '0.0.0.0', () => __server.close());
 
         return true;
     } catch (error) {
