@@ -124,9 +124,9 @@ describe('Send & Recieve Data', function () {
         mqtt.on('message', (topic, message) => {
             if (topic == config.mqtt.subscribe.data) {
                 var result = JSON.parse(message.toString())
+                result.should.have.property('rtuId');
                 result.should.have.property('dataIn');
                 result.should.have.property('rtuDate');
-                result.should.have.property('deviceId');
                 result.should.have.property('moduleId');
                 done();
             };
@@ -159,8 +159,8 @@ describe('Send & Recieve Data', function () {
                 'AIExt8': 0,
                 'digitalsIn': 0
             },
+            'rtuId': config.deviceId,
             'rtuDate': new Date().getTime(),
-            'deviceId': config.deviceId,
             'moduleId': 0
         }));
     });
@@ -171,9 +171,9 @@ describe('Send & Recieve Data', function () {
         mqtt.on('message', (topic, message) => {
             if (topic == config.mqtt.subscribe.control) {
                 var result = JSON.parse(message.toString())
+                result.should.have.property('rtuId');
                 result.should.have.property('dataIn');
                 result.should.have.property('rtuDate');
-                result.should.have.property('deviceId');
                 result.should.have.property('moduleId');
                 done();
             };
@@ -206,8 +206,8 @@ describe('Send & Recieve Data', function () {
                 'AIExt8': 0,
                 'digitalsIn': 0
             },
+            'rtuId': config.deviceId,
             'rtuDate': new Date().getTime(),
-            'deviceId': config.deviceId,
             'moduleId': 0
         }));
     });

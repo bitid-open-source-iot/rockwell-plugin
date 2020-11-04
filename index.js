@@ -80,10 +80,10 @@ var portal = async () => {
         __socket = new WebSocket(__server);
 
         __server.on('close', () => {
-            setTimeout(() => __server.listen(__settings.port, '0.0.0.0'), 1000);
+            setTimeout(() => __server.listen(__settings.port), 1000);
         });
           
-        __server.listen(__settings.port, '0.0.0.0', () => __server.close());
+        __server.listen(__settings.port, () => __server.close());
 
         return true;
     } catch (error) {
@@ -118,14 +118,14 @@ var logger = async () => {
         mqtt.on('control', event => {
             var now = new Date().getTime();
             __settings.timeout.map(device => {
-                if (event.deviceId == device.deviceId && (now - event.rtuDate) < (device.timeout * 1000)) {
+                if (event.rtuId == device.deviceId && (now - event.rtuDate) < (device.timeout * 1000)) {
                     // set input register comms healthy
                     rockwell.write(device.inputId, 1);
                     device.last = new Date().getTime();
                     device.status = 'healthy';
                     // write to registers
                     __settings.io.map(item => {
-                        if (item.writeable && event.deviceId == item.in.deviceId && event.moduleId == item.in.moduleId) {
+                        if (item.writeable && event.rtuId == item.in.deviceId && event.moduleId == item.in.moduleId) {
                             rockwell.write(item.inputId, event.dataIn[item.in.key]);
                         };
                     });
@@ -184,9 +184,9 @@ var logger = async () => {
 
                 if (typeof(telemetry.deviceId) != 'undefined' && telemetry.deviceId !== null) {
                     mqtt.send(__settings.server.subscribe.data, {
+                        'rtuId': telemetry.deviceId,
                         'dataIn': status,
                         'rtuDate': new Date().getTime(),
-                        'deviceId': telemetry.deviceId,
                         'moduleId': moduleId
                     });
                 };
