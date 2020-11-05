@@ -150,7 +150,7 @@ var logger = async () => {
     
             Object.keys(modules).map(async moduleId => {
                 var status = {
-                    'IP': ip,
+                    // 'IP': ip,
                     'AI1': 0,
                     'AI2': 0,
                     'AI3': 0,
@@ -202,7 +202,7 @@ var logger = async () => {
         });
 
         rockwell.on('connect', () => {
-            __logger.info('Rockwell PLC Connected');
+            __logger.info('Rockwell PLC Connected: ' + rockwell.barcode());
 
             telemetry.connect(rockwell.barcode());
         });
@@ -216,14 +216,15 @@ var logger = async () => {
 
         telemetry.on('active', event => {
             __deviceId = telemetry.deviceId;
+            __logger.info('Telemetry Connected: ' + telemetry.deviceId);
 
-            rockwell.watch();
+            // setTimeout(async () => rockwell.watch(), 5000);
+
+            // setInterval(async () => rockwell.watch(), 30000);
             
-            setInterval(async () => rockwell.watch(), 5000);
+            // setTimeout(async () => rockwell.read(), 7500);
             
-            rockwell.read();
-            
-            setInterval(() => rockwell.read(), (__settings.txtime * 1000));
+            // setInterval(() => rockwell.read(), (__settings.txtime * 1000));
 
             __settings.timeout.map(device => {
                 device.last = new Date().getTime();
