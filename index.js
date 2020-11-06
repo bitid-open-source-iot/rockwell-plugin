@@ -1,6 +1,5 @@
 const cors = require('cors');
 const http = require('http');
-const Sim = require('./lib/sim');
 const auth = require('./lib/auth');
 const express = require('express');
 const Rockwell = require('./lib/rockwell');
@@ -108,23 +107,9 @@ var logger = async () => {
         await portal();
         
         const ip = await publicIp();
-        const sim = new Sim();
         const mqtt = new MqttSocket();
         const rockwell = new Rockwell();
         const telemetry = new Telemetry();
-
-        sim.on('connect', () => {
-            __logger.info('Sim Card Connected');
-            
-            mqtt.connect(__settings.server);
-            
-            rockwell.connect(__settings.plc);
-        });
-
-        sim.on('disconnect', () => {
-            __logger.info('Sim Card Disconnected');
-            setTimeout(() => sim.connect(), 5000);
-        });
 
         mqtt.on('data', event => {
             __logger.info(event);
@@ -258,7 +243,9 @@ var logger = async () => {
             setTimeout(() => telemetry.connect(rockwell.barcode()), 3000);
         });
 
-        sim.connect();
+        mqtt.connect(__settings.server);
+            
+        rockwell.connect(__settings.plc);
     } catch (error) {
         console.log(error.message);
     };
