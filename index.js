@@ -125,8 +125,6 @@ var logger = async () => {
             __logger.info('Sim Card Disconnected');
             setTimeout(() => sim.connect(), 5000);
         });
-        
-        sim.connect();
 
         mqtt.on('data', event => {
             __logger.info(event);
@@ -260,7 +258,7 @@ var logger = async () => {
             setTimeout(() => telemetry.connect(rockwell.barcode()), 3000);
         });
 
-        __logger.info('Rockwell PLC Started');
+        sim.connect();
     } catch (error) {
         console.log(error.message);
     };
