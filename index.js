@@ -113,7 +113,18 @@ var logger = async () => {
         const rockwell = new Rockwell();
         const telemetry = new Telemetry();
 
-        sim.start();
+        sim.on('connect', () => {
+            __logger.info('Sim Card Connected');
+            
+            mqtt.connect(__settings.server);
+            
+            rockwell.connect(__settings.plc);
+        });
+
+        sim.on('disconnect', () => {
+            __logger.info('Sim Card Disconnected');
+            setTimeout(() => sim.connect(), 5000);
+        });
 
         mqtt.on('data', event => {
             __logger.info(event);
@@ -137,8 +148,6 @@ var logger = async () => {
             });
             __logger.info(event);
         });
-
-        mqtt.connect(__settings.server);
 
         rockwell.on('data', data => {
             data = data.filter(o => typeof(o.value) != 'undefined' && o.value !== null && o.value !== '');
@@ -249,7 +258,7 @@ var logger = async () => {
             setTimeout(() => telemetry.connect(rockwell.barcode()), 3000);
         });
 
-        rockwell.connect(__settings.plc);
+        sim.connect();
 
         __logger.info('Rockwell PLC Started');
     } catch (error) {
