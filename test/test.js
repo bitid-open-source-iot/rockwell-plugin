@@ -267,7 +267,7 @@ var tools = {
                             "inputId": "000000000000000000000001",
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": false,
+                            "writeable": true,
                             "description": "AI1"
                         },
                         {
@@ -284,7 +284,7 @@ var tools = {
                             "inputId": "000000000000000000000002",
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": false,
+                            "writeable": true,
                             "description": "AI2"
                         },
                         {
@@ -301,7 +301,7 @@ var tools = {
                             "inputId": "000000000000000000000003",
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": false,
+                            "writeable": true,
                             "description": "AI3"
                         },
                         {
@@ -318,7 +318,7 @@ var tools = {
                             "inputId": "000000000000000000000004",
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": false,
+                            "writeable": true,
                             "description": "AI4"
                         },
                         {
@@ -335,7 +335,7 @@ var tools = {
                             "inputId": "000000000000000000000005",
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": false,
+                            "writeable": true,
                             "description": "CI1"
                         },
                         {
@@ -352,7 +352,7 @@ var tools = {
                             "inputId": "000000000000000000000006",
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": false,
+                            "writeable": true,
                             "description": "CI2"
                         },
                         {
@@ -369,7 +369,7 @@ var tools = {
                             "inputId": "000000000000000000000007",
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": false,
+                            "writeable": true,
                             "description": "CI3"
                         },
                         {
@@ -386,7 +386,7 @@ var tools = {
                             "inputId": "000000000000000000000008",
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": false,
+                            "writeable": true,
                             "description": "CI4"
                         },
                         {
@@ -403,7 +403,7 @@ var tools = {
                             "inputId": "000000000000000000000009",
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": false,
+                            "writeable": true,
                             "description": "CI5"
                         },
                         {
@@ -420,7 +420,7 @@ var tools = {
                             "inputId": "000000000000000000000010",
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": false,
+                            "writeable": true,
                             "description": "CI6"
                         },
                         {
@@ -437,7 +437,7 @@ var tools = {
                             "inputId": "000000000000000000000011",
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": false,
+                            "writeable": true,
                             "description": "CI7"
                         },
                         {
@@ -454,7 +454,7 @@ var tools = {
                             "inputId": "000000000000000000000012",
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": false,
+                            "writeable": true,
                             "description": "CI8"
                         },
                         {
@@ -471,7 +471,7 @@ var tools = {
                             "inputId": "000000000000000000000013",
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": false,
+                            "writeable": true,
                             "description": "SIG"
                         },
                         {
@@ -488,7 +488,7 @@ var tools = {
                             "inputId": "000000000000000000000014",
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": false,
+                            "writeable": true,
                             "description": "BATT"
                         },
                         {
@@ -505,7 +505,7 @@ var tools = {
                             "inputId": "000000000000000000000015",
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": false,
+                            "writeable": true,
                             "description": "AIExt1"
                         },
                         {
@@ -522,7 +522,7 @@ var tools = {
                             "inputId": "000000000000000000000016",
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": false,
+                            "writeable": true,
                             "description": "AIExt2"
                         },
                         {
@@ -539,7 +539,7 @@ var tools = {
                             "inputId": "000000000000000000000017",
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": false,
+                            "writeable": true,
                             "description": "AIExt3"
                         },
                         {
@@ -556,7 +556,7 @@ var tools = {
                             "inputId": "000000000000000000000018",
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": false,
+                            "writeable": true,
                             "description": "AIExt4"
                         },
                         {
@@ -573,7 +573,7 @@ var tools = {
                             "inputId": "000000000000000000000019",
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": false,
+                            "writeable": true,
                             "description": "AIExt5"
                         },
                         {
@@ -590,7 +590,7 @@ var tools = {
                             "inputId": "000000000000000000000020",
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": false,
+                            "writeable": true,
                             "description": "AIExt6"
                         },
                         {
@@ -607,7 +607,7 @@ var tools = {
                             "inputId": "000000000000000000000021",
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": false,
+                            "writeable": true,
                             "description": "digitalsIn"
                         },
                         {
@@ -624,7 +624,7 @@ var tools = {
                             "inputId": "000000000000000000000022",
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": false,
+                            "writeable": true,
                             "description": "AI1"
                         },
                         {
@@ -641,7 +641,7 @@ var tools = {
                             "inputId": "000000000000000000000023",
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": false,
+                            "writeable": true,
                             "description": "AI2"
                         },
                         {
@@ -658,7 +658,7 @@ var tools = {
                             "inputId": "000000000000000000000024",
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": false,
+                            "writeable": true,
                             "description": "AI3"
                         },
                         {
@@ -675,7 +675,7 @@ var tools = {
                             "inputId": "000000000000000000000025",
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": false,
+                            "writeable": true,
                             "description": "AI4"
                         },
                         {
@@ -692,7 +692,7 @@ var tools = {
                             "inputId": "000000000000000000000026",
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": false,
+                            "writeable": true,
                             "description": "CI1"
                         },
                         {
@@ -709,7 +709,7 @@ var tools = {
                             "inputId": "000000000000000000000027",
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": false,
+                            "writeable": true,
                             "description": "CI2"
                         },
                         {
@@ -726,7 +726,7 @@ var tools = {
                             "inputId": "000000000000000000000028",
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": false,
+                            "writeable": true,
                             "description": "CI3"
                         },
                         {
@@ -743,7 +743,7 @@ var tools = {
                             "inputId": "000000000000000000000029",
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": false,
+                            "writeable": true,
                             "description": "CI4"
                         },
                         {
@@ -760,7 +760,7 @@ var tools = {
                             "inputId": "000000000000000000000030",
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": false,
+                            "writeable": true,
                             "description": "CI5"
                         },
                         {
@@ -777,7 +777,7 @@ var tools = {
                             "inputId": "000000000000000000000031",
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": false,
+                            "writeable": true,
                             "description": "CI6"
                         },
                         {
@@ -794,7 +794,7 @@ var tools = {
                             "inputId": "000000000000000000000032",
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": false,
+                            "writeable": true,
                             "description": "CI7"
                         },
                         {
@@ -811,7 +811,7 @@ var tools = {
                             "inputId": "000000000000000000000033",
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": false,
+                            "writeable": true,
                             "description": "CI8"
                         },
                         {
@@ -828,7 +828,7 @@ var tools = {
                             "inputId": "000000000000000000000034",
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": false,
+                            "writeable": true,
                             "description": "SIG"
                         },
                         {
@@ -845,7 +845,7 @@ var tools = {
                             "inputId": "000000000000000000000035",
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": false,
+                            "writeable": true,
                             "description": "BATT"
                         },
                         {
@@ -862,7 +862,7 @@ var tools = {
                             "inputId": "000000000000000000000036",
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": false,
+                            "writeable": true,
                             "description": "AIExt1"
                         },
                         {
@@ -879,7 +879,7 @@ var tools = {
                             "inputId": "000000000000000000000037",
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": false,
+                            "writeable": true,
                             "description": "AIExt2"
                         },
                         {
@@ -896,7 +896,7 @@ var tools = {
                             "inputId": "000000000000000000000038",
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": false,
+                            "writeable": true,
                             "description": "AIExt3"
                         },
                         {
@@ -913,7 +913,7 @@ var tools = {
                             "inputId": "000000000000000000000039",
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": false,
+                            "writeable": true,
                             "description": "AIExt4"
                         },
                         {
@@ -930,7 +930,7 @@ var tools = {
                             "inputId": "000000000000000000000040",
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": false,
+                            "writeable": true,
                             "description": "AIExt5"
                         },
                         {
@@ -947,7 +947,7 @@ var tools = {
                             "inputId": "000000000000000000000041",
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": false,
+                            "writeable": true,
                             "description": "AIExt6"
                         },
                         {
@@ -964,7 +964,7 @@ var tools = {
                             "inputId": "000000000000000000000042",
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": false,
+                            "writeable": true,
                             "description": "digitalsIn"
                         }
                     ],
