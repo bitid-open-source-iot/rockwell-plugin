@@ -1,5 +1,6 @@
 const cors = require('cors');
 const http = require('http');
+const Sim = require('./lib/sim');
 const auth = require('./lib/auth');
 const express = require('express');
 const Rockwell = require('./lib/rockwell');
@@ -107,9 +108,12 @@ var logger = async () => {
         await portal();
         
         const ip = await publicIp();
+        const sim = new Sim();
         const mqtt = new MqttSocket();
         const rockwell = new Rockwell();
         const telemetry = new Telemetry();
+
+        sim.start();
 
         mqtt.on('data', event => {
             __logger.info(event);
