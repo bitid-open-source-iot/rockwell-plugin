@@ -107,6 +107,7 @@ var logger = async () => {
         await portal();
         
         const ip = await publicIp();
+        __logger.info('Connecting to mqtt');
         const client = mqtt.connect(__settings.server.host, {
             'host': __settings.server.host,
             'port': __settings.server.port,
