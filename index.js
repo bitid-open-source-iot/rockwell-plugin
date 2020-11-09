@@ -117,6 +117,14 @@ var logger = async () => {
         const rockwell = new Rockwell();
         const telemetry = new Telemetry();
 
+        client.on('close', () => {
+            __logger.info('closing mqtt');
+        });
+
+        client.on('offline', () => {
+            __logger.info('offline mqtt');
+        });
+
         client.on('connect', () => {
             __logger.info('Connecting to mqtt: Success');
 
