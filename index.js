@@ -108,11 +108,11 @@ var logger = async () => {
         
         const ip = await publicIp();
         __logger.info('Connecting to mqtt');
-        const client = mqtt.connect(__settings.server.host, {
-            'host': __settings.server.host,
-            'port': __settings.server.port,
-            'username': __settings.server.username,
-            'password': __settings.server.password
+        const client = mqtt.connect('mqtt://bitid.co.za', {
+            'host': 'mqtt://bitid.co.za',
+            'port': 1888,
+            'username': 'telemetry',
+            'password': 'telemetry1!'
         });
         const rockwell = new Rockwell();
         const telemetry = new Telemetry();
