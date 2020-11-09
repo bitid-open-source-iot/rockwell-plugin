@@ -134,6 +134,8 @@ var logger = async () => {
             __logger.info(event);
         });
 
+        mqtt.connect(__settings.server);
+
         rockwell.on('data', data => {
             data = data.filter(o => typeof(o.value) != 'undefined' && o.value !== null && o.value !== '');
     
@@ -236,8 +238,6 @@ var logger = async () => {
                     };
                 }, (device.timeout * 1000));
             });
-
-            mqtt.connect(__settings.server);
         });
 
         telemetry.on('inactive', event => {
