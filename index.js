@@ -1,5 +1,6 @@
 const cors = require('cors');
 const http = require('http');
+const mqtt = require('mqtt');
 const auth = require('./lib/auth');
 const express = require('express');
 const Rockwell = require('./lib/rockwell');
@@ -7,7 +8,6 @@ const publicIp = require('public-ip').v4;
 const WebSocket = require('./lib/socket');
 const Telemetry = require('./lib/telemetry');
 const bodyparser = require('body-parser');
-const MqttSocket = require('./lib/mqtt');
 const ErrorResponse = require('./lib/error-response');
 
 global.__base = __dirname + '/';
@@ -107,35 +107,63 @@ var logger = async () => {
         await portal();
         
         const ip = await publicIp();
-        const mqtt = new MqttSocket();
+        const client = mqtt.connect(__settings.server.host, {
+            'host': __settings.server.host,
+            'port': __settings.server.port,
+            'username': __settings.server.username,
+            'password': __settings.server.password
+        });
         const rockwell = new Rockwell();
         const telemetry = new Telemetry();
 
-        mqtt.on('data', event => {
-            __logger.info(event);
-        });
-        
-        mqtt.on('control', event => {
-            var now = new Date().getTime();
-            __settings.timeout.map(device => {
-                if (event.rtuId == device.deviceId && (now - event.rtuDate) < (device.timeout * 1000)) {
-                    // set input register comms healthy
-                    rockwell.write(device.inputId, 1);
-                    device.last = new Date().getTime();
-                    device.status = 'healthy';
-                    // write to registers
-                    __settings.io.map(item => {
-                        if (item.writeable && event.rtuId == item.in.deviceId && event.moduleId == item.in.moduleId) {
-                            rockwell.write(item.inputId, event.dataIn[item.in.key]);
-                        };
-                    });
+        client.on('connect', () => {
+            __logger.info('Connecting to mqtt: Success');
+
+            client.subscribe(__settings.server.subscribe.data, (error) => {
+                if (error) {
+                    __logger.error(error.message);
+                } else {
+                    __logger.info('Subscribed to mqtt data');
                 };
             });
-            __logger.info(event);
+
+            client.subscribe(__settings.server.subscribe.control, (error) => {
+                if (error) {
+                    __logger.error(error.message);
+                } else {
+                    __logger.info('Subscribed to mqtt control');
+                };
+            });
         });
 
-        mqtt.connect(__settings.server);
-
+        client.on('message', (topic, message) => {
+            switch (topic) {
+                case ('rock/v1.1/data'):
+                    var event = JSON.parse(message.toString());
+                    __logger.info(event);
+                    break;
+                case ('rock/v1.1/control'):
+                    var now = new Date().getTime();
+                    var event = JSON.parse(message.toString());
+                    __settings.timeout.map(device => {
+                        if (event.rtuId == device.deviceId && (now - event.rtuDate) < (device.timeout * 1000)) {
+                            // set input register comms healthy
+                            rockwell.write(device.inputId, 1);
+                            device.last = new Date().getTime();
+                            device.status = 'healthy';
+                            // write to registers
+                            __settings.io.map(item => {
+                                if (item.writeable && event.rtuId == item.in.deviceId && event.moduleId == item.in.moduleId) {
+                                    rockwell.write(item.inputId, event.dataIn[item.in.key]);
+                                };
+                            });
+                        };
+                    });
+                    __logger.info(event);
+                    break;
+            };
+        });
+        
         rockwell.on('data', data => {
             data = data.filter(o => typeof(o.value) != 'undefined' && o.value !== null && o.value !== '');
     
@@ -183,12 +211,12 @@ var logger = async () => {
                 });
 
                 if (typeof(telemetry.deviceId) != 'undefined' && telemetry.deviceId !== null) {
-                    mqtt.send(__settings.server.subscribe.data, {
+                    client.publish(__settings.server.subscribe.data, JSON.stringify({
                         'rtuId': telemetry.deviceId,
                         'dataIn': status,
                         'rtuDate': new Date().getTime(),
                         'moduleId': moduleId
-                    });
+                    }));
                 };
             });
         });
