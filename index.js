@@ -111,6 +111,7 @@ var logger = async () => {
         const client = mqtt.connect('mqtt://bitid.co.za', {
             'host': 'mqtt://bitid.co.za',
             'port': 1888,
+            'clean': true,
             'username': 'telemetry',
             'password': 'telemetry1!'
         });
