@@ -236,16 +236,16 @@ var logger = async () => {
                     };
                 }, (device.timeout * 1000));
             });
+            
+            mqtt.connect(__settings.server);
+                
+            rockwell.connect(__settings.plc);
         });
 
         telemetry.on('inactive', event => {
             __deviceId = null;
             setTimeout(() => telemetry.connect(rockwell.barcode()), 3000);
         });
-
-        mqtt.connect(__settings.server);
-            
-        rockwell.connect(__settings.plc);
     } catch (error) {
         console.log(error.message);
     };
