@@ -181,6 +181,7 @@ var logger = async () => {
                 });
 
                 if (typeof(telemetry.deviceId) != 'undefined' && telemetry.deviceId !== null) {
+                    __logger.info('Publishing Data To Server');
                     mqtt.send(__settings.server.subscribe.data, {
                         'rtuId': telemetry.deviceId,
                         'dataIn': status,
