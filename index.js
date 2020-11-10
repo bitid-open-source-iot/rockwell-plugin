@@ -216,13 +216,13 @@ var logger = async () => {
             __deviceId = telemetry.deviceId;
             __logger.info('Telemetry Connected: ' + telemetry.deviceId);
 
-            // setTimeout(async () => rockwell.watch(), 5000);
+            setTimeout(async () => rockwell.watch(), 5000);
 
-            // setInterval(async () => rockwell.watch(), 30000);
+            setInterval(async () => rockwell.watch(), 30000);
             
-            // setTimeout(async () => rockwell.read(), 7500);
+            setTimeout(async () => rockwell.read(), 7500);
             
-            // setInterval(() => rockwell.read(), (__settings.txtime * 1000));
+            setInterval(() => rockwell.read(), (__settings.txtime * 1000));
 
             __settings.timeout.map(device => {
                 device.last = new Date().getTime();
