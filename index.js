@@ -1,12 +1,12 @@
 const cors = require('cors');
 const http = require('http');
-const mqtt = require('mqtt');
 const auth = require('./lib/auth');
 const express = require('express');
 const Rockwell = require('./lib/rockwell');
 const publicIp = require('public-ip').v4;
 const WebSocket = require('./lib/socket');
 const Telemetry = require('./lib/telemetry');
+const MqttSocket = require('./lib/mqtt');
 const bodyparser = require('body-parser');
 const ErrorResponse = require('./lib/error-response');
 
@@ -107,78 +107,33 @@ var logger = async () => {
         await portal();
         
         const ip = await publicIp();
+        const mqtt = new MqttSocket();
         const rockwell = new Rockwell();
         const telemetry = new Telemetry();
 
-        __logger.info('Connecting to mqtt');
+        mqtt.on('data', event => {
+            __logger.info(event);
+        });
         
-        const client = mqtt.connect([__settings.server.host, ':', __settings.server.port].join(''), {
-            'host': __settings.server.host,
-            'port': __settings.server.port,
-            'username': __settings.server.username,
-            'password': __settings.server.password
-        });
-
-        client.on('close', () => {
-            __logger.info('closing mqtt');
-        });
-
-        client.on('offline', () => {
-            __logger.info('offline mqtt');
-        });
-
-        client.on('connect', () => {
-            __logger.info('Connecting to mqtt: Success');
-
-            client.subscribe(__settings.server.subscribe.data, (error) => {
-                if (error) {
-                    __logger.error(error.message);
-                } else {
-                    __logger.info('Subscribed to mqtt data');
-                };
-            });
-
-            client.subscribe(__settings.server.subscribe.control, (error) => {
-                if (error) {
-                    __logger.error(error.message);
-                } else {
-                    __logger.info('Subscribed to mqtt control');
-                };
-            });
-        });
-
-        client.on('error', (error) => {
-            console.log('Error: ', error.message);
-        });
-
-        client.on('message', (topic, message) => {
-            switch (topic) {
-                case ('rock/v1.1/data'):
-                    var event = JSON.parse(message.toString());
-                    __logger.info(event);
-                    break;
-                case ('rock/v1.1/control'):
-                    var now = new Date().getTime();
-                    var event = JSON.parse(message.toString());
-                    __settings.timeout.map(device => {
-                        if (event.rtuId == device.deviceId && (now - event.rtuDate) < (device.timeout * 1000)) {
-                            // set input register comms healthy
-                            rockwell.write(device.inputId, 1);
-                            device.last = new Date().getTime();
-                            device.status = 'healthy';
-                            // write to registers
-                            __settings.io.map(item => {
-                                if (item.writeable && event.rtuId == item.in.deviceId && event.moduleId == item.in.moduleId) {
-                                    rockwell.write(item.inputId, event.dataIn[item.in.key]);
-                                };
-                            });
+        mqtt.on('control', event => {
+            var now = new Date().getTime();
+            __settings.timeout.map(device => {
+                if (event.rtuId == device.deviceId && (now - event.rtuDate) < (device.timeout * 1000)) {
+                    // set input register comms healthy
+                    rockwell.write(device.inputId, 1);
+                    device.last = new Date().getTime();
+                    device.status = 'healthy';
+                    // write to registers
+                    __settings.io.map(item => {
+                        if (item.writeable && event.rtuId == item.in.deviceId && event.moduleId == item.in.moduleId) {
+                            rockwell.write(item.inputId, event.dataIn[item.in.key]);
                         };
                     });
-                    __logger.info(event);
-                    break;
-            };
+                };
+            });
+            __logger.info(event);
         });
-        
+
         rockwell.on('data', data => {
             data = data.filter(o => typeof(o.value) != 'undefined' && o.value !== null && o.value !== '');
     
@@ -193,7 +148,7 @@ var logger = async () => {
     
             Object.keys(modules).map(async moduleId => {
                 var status = {
-                    // 'IP': ip,
+                    'IP': ip,
                     'AI1': 0,
                     'AI2': 0,
                     'AI3': 0,
@@ -226,12 +181,12 @@ var logger = async () => {
                 });
 
                 if (typeof(telemetry.deviceId) != 'undefined' && telemetry.deviceId !== null) {
-                    client.publish(__settings.server.subscribe.data, JSON.stringify({
+                    mqtt.send(__settings.server.subscribe.data, {
                         'rtuId': telemetry.deviceId,
                         'dataIn': status,
                         'rtuDate': new Date().getTime(),
                         'moduleId': moduleId
-                    }));
+                    });
                 };
             });
         });
@@ -288,6 +243,7 @@ var logger = async () => {
             setTimeout(() => telemetry.connect(rockwell.barcode()), 3000);
         });
                 
+        mqtt.connect(__settings.server);
         rockwell.connect(__settings.plc);
     } catch (error) {
         console.log(error.message);
