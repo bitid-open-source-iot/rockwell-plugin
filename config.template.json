@@ -11,8 +11,8 @@
         "username": "admin",
         "password": "admin",
         "subscribe": {
-            "data": "rock/v1.1/data",
-            "control": "rock/v1.1/control"
+            "data": "/rock/v1.1/data",
+            "control": "/rock/v1.1/control"
         }
     },
     "logger": {
