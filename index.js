@@ -112,7 +112,7 @@ var logger = async () => {
 
         __logger.info('Connecting to mqtt');
         
-        const client = mqtt.connect(__settings.server.host, {
+        const client = mqtt.connect([__settings.server.host, ':', __settings.server.port].join(''), {
             'host': __settings.server.host,
             'port': __settings.server.port,
             'username': __settings.server.username,
@@ -145,6 +145,10 @@ var logger = async () => {
                     __logger.info('Subscribed to mqtt control');
                 };
             });
+        });
+
+        client.on('error', (error) => {
+            console.log('Error: ', error.message);
         });
 
         client.on('message', (topic, message) => {
