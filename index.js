@@ -244,7 +244,16 @@ var logger = async () => {
             setTimeout(() => telemetry.connect(rockwell.barcode()), 3000);
         });
                 
+        __socket.on('connection', connection => {
+            __socket.send({
+                'inputs': [],
+                'barcode': rockwell.barcode(),
+                'deviceId': telemetry.deviceId
+            });
+        });
+        
         mqtt.connect(__settings.server);
+        
         rockwell.connect(__settings.plc);
     } catch (error) {
         console.log(error.message);
