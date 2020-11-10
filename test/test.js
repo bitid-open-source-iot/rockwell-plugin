@@ -1,15 +1,16 @@
-var chai = require('chai');
-var chaiSubset = require('chai-subset');
-chai.use(chaiSubset);
+const chai = require('chai');
+const subset = require('chai-subset');
 
-var Q = require('q');
-var MQTT = require('mqtt');
-var fetch = require('node-fetch');
-var assert = require('chai').assert;
-var expect = require('chai').expect;
-var should = require('chai').should();
-var config = require('./config.json');
-var WebSocketClient = require('websocket').client;
+chai.use(subset);
+
+const Q = require('q');
+const MQTT = require('mqtt');
+const fetch = require('node-fetch');
+const assert = require('chai').assert;
+const expect = require('chai').expect;
+const should = require('chai').should();
+const config = require('./config.json');
+const WebSocketClient = require('websocket').client;
 
 var mqtt = null;
 var socket = new WebSocketClient();
@@ -30,7 +31,7 @@ describe('Connect', function () {
     it('MQTT Socket', function (done) {
         this.timeout(5000);
 
-        mqtt = MQTT.connect(config.mqtt.socket, {
+        mqtt = MQTT.connect([config.mqtt.socket, ':', config.mqtt.port].join(''), {
             'host': config.mqtt.socket,
             'port': config.mqtt.port,
             'username': config.mqtt.username,
@@ -265,9 +266,10 @@ var tools = {
                             },
                             "tagId": "ROSE_091_Rx01[0]",
                             "inputId": "000000000000000000000001",
+                            "readable": false,
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": true,
+                            "writeable": false,
                             "description": "AI1"
                         },
                         {
@@ -282,9 +284,10 @@ var tools = {
                             },
                             "tagId": "ROSE_091_Rx01[1]",
                             "inputId": "000000000000000000000002",
+                            "readable": false,
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": true,
+                            "writeable": false,
                             "description": "AI2"
                         },
                         {
@@ -299,9 +302,10 @@ var tools = {
                             },
                             "tagId": "ROSE_091_Rx01[2]",
                             "inputId": "000000000000000000000003",
+                            "readable": false,
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": true,
+                            "writeable": false,
                             "description": "AI3"
                         },
                         {
@@ -316,9 +320,10 @@ var tools = {
                             },
                             "tagId": "ROSE_091_Rx01[3]",
                             "inputId": "000000000000000000000004",
+                            "readable": false,
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": true,
+                            "writeable": false,
                             "description": "AI4"
                         },
                         {
@@ -333,9 +338,10 @@ var tools = {
                             },
                             "tagId": "ROSE_091_Rx01[4]",
                             "inputId": "000000000000000000000005",
+                            "readable": false,
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": true,
+                            "writeable": false,
                             "description": "CI1"
                         },
                         {
@@ -350,9 +356,10 @@ var tools = {
                             },
                             "tagId": "ROSE_091_Rx01[5]",
                             "inputId": "000000000000000000000006",
+                            "readable": false,
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": true,
+                            "writeable": false,
                             "description": "CI2"
                         },
                         {
@@ -367,9 +374,10 @@ var tools = {
                             },
                             "tagId": "ROSE_091_Rx01[6]",
                             "inputId": "000000000000000000000007",
+                            "readable": false,
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": true,
+                            "writeable": false,
                             "description": "CI3"
                         },
                         {
@@ -384,9 +392,10 @@ var tools = {
                             },
                             "tagId": "ROSE_091_Rx01[7]",
                             "inputId": "000000000000000000000008",
+                            "readable": false,
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": true,
+                            "writeable": false,
                             "description": "CI4"
                         },
                         {
@@ -401,9 +410,10 @@ var tools = {
                             },
                             "tagId": "ROSE_091_Rx01[8]",
                             "inputId": "000000000000000000000009",
+                            "readable": false,
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": true,
+                            "writeable": false,
                             "description": "CI5"
                         },
                         {
@@ -418,9 +428,10 @@ var tools = {
                             },
                             "tagId": "ROSE_091_Rx01[9]",
                             "inputId": "000000000000000000000010",
+                            "readable": false,
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": true,
+                            "writeable": false,
                             "description": "CI6"
                         },
                         {
@@ -435,9 +446,10 @@ var tools = {
                             },
                             "tagId": "ROSE_091_Rx01[10]",
                             "inputId": "000000000000000000000011",
+                            "readable": false,
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": true,
+                            "writeable": false,
                             "description": "CI7"
                         },
                         {
@@ -452,9 +464,10 @@ var tools = {
                             },
                             "tagId": "ROSE_091_Rx01[11]",
                             "inputId": "000000000000000000000012",
+                            "readable": false,
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": true,
+                            "writeable": false,
                             "description": "CI8"
                         },
                         {
@@ -469,9 +482,10 @@ var tools = {
                             },
                             "tagId": "ROSE_091_Rx01[12]",
                             "inputId": "000000000000000000000013",
+                            "readable": false,
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": true,
+                            "writeable": false,
                             "description": "SIG"
                         },
                         {
@@ -486,9 +500,10 @@ var tools = {
                             },
                             "tagId": "ROSE_091_Rx01[13]",
                             "inputId": "000000000000000000000014",
+                            "readable": false,
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": true,
+                            "writeable": false,
                             "description": "BATT"
                         },
                         {
@@ -503,9 +518,10 @@ var tools = {
                             },
                             "tagId": "ROSE_091_Rx01[14]",
                             "inputId": "000000000000000000000015",
+                            "readable": false,
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": true,
+                            "writeable": false,
                             "description": "AIExt1"
                         },
                         {
@@ -520,9 +536,10 @@ var tools = {
                             },
                             "tagId": "ROSE_091_Rx01[15]",
                             "inputId": "000000000000000000000016",
+                            "readable": false,
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": true,
+                            "writeable": false,
                             "description": "AIExt2"
                         },
                         {
@@ -537,9 +554,10 @@ var tools = {
                             },
                             "tagId": "ROSE_091_Rx01[16]",
                             "inputId": "000000000000000000000017",
+                            "readable": false,
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": true,
+                            "writeable": false,
                             "description": "AIExt3"
                         },
                         {
@@ -554,9 +572,10 @@ var tools = {
                             },
                             "tagId": "ROSE_091_Rx01[17]",
                             "inputId": "000000000000000000000018",
+                            "readable": false,
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": true,
+                            "writeable": false,
                             "description": "AIExt4"
                         },
                         {
@@ -571,9 +590,10 @@ var tools = {
                             },
                             "tagId": "ROSE_091_Rx01[18]",
                             "inputId": "000000000000000000000019",
+                            "readable": false,
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": true,
+                            "writeable": false,
                             "description": "AIExt5"
                         },
                         {
@@ -588,9 +608,10 @@ var tools = {
                             },
                             "tagId": "ROSE_091_Rx01[19]",
                             "inputId": "000000000000000000000020",
+                            "readable": false,
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": true,
+                            "writeable": false,
                             "description": "AIExt6"
                         },
                         {
@@ -605,9 +626,10 @@ var tools = {
                             },
                             "tagId": "ROSE_091_Rx01[20]",
                             "inputId": "000000000000000000000021",
+                            "readable": false,
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": true,
+                            "writeable": false,
                             "description": "digitalsIn"
                         },
                         {
@@ -622,9 +644,10 @@ var tools = {
                             },
                             "tagId": "ROSE_092_Rx01[0]",
                             "inputId": "000000000000000000000022",
+                            "readable": false,
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": true,
+                            "writeable": false,
                             "description": "AI1"
                         },
                         {
@@ -639,9 +662,10 @@ var tools = {
                             },
                             "tagId": "ROSE_092_Rx01[1]",
                             "inputId": "000000000000000000000023",
+                            "readable": false,
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": true,
+                            "writeable": false,
                             "description": "AI2"
                         },
                         {
@@ -656,9 +680,10 @@ var tools = {
                             },
                             "tagId": "ROSE_092_Rx01[2]",
                             "inputId": "000000000000000000000024",
+                            "readable": false,
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": true,
+                            "writeable": false,
                             "description": "AI3"
                         },
                         {
@@ -673,9 +698,10 @@ var tools = {
                             },
                             "tagId": "ROSE_092_Rx01[3]",
                             "inputId": "000000000000000000000025",
+                            "readable": false,
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": true,
+                            "writeable": false,
                             "description": "AI4"
                         },
                         {
@@ -690,9 +716,10 @@ var tools = {
                             },
                             "tagId": "ROSE_092_Rx01[4]",
                             "inputId": "000000000000000000000026",
+                            "readable": false,
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": true,
+                            "writeable": false,
                             "description": "CI1"
                         },
                         {
@@ -707,9 +734,10 @@ var tools = {
                             },
                             "tagId": "ROSE_092_Rx01[5]",
                             "inputId": "000000000000000000000027",
+                            "readable": false,
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": true,
+                            "writeable": false,
                             "description": "CI2"
                         },
                         {
@@ -724,9 +752,10 @@ var tools = {
                             },
                             "tagId": "ROSE_092_Rx01[6]",
                             "inputId": "000000000000000000000028",
+                            "readable": false,
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": true,
+                            "writeable": false,
                             "description": "CI3"
                         },
                         {
@@ -741,9 +770,10 @@ var tools = {
                             },
                             "tagId": "ROSE_092_Rx01[7]",
                             "inputId": "000000000000000000000029",
+                            "readable": false,
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": true,
+                            "writeable": false,
                             "description": "CI4"
                         },
                         {
@@ -758,9 +788,10 @@ var tools = {
                             },
                             "tagId": "ROSE_092_Rx01[8]",
                             "inputId": "000000000000000000000030",
+                            "readable": false,
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": true,
+                            "writeable": false,
                             "description": "CI5"
                         },
                         {
@@ -775,9 +806,10 @@ var tools = {
                             },
                             "tagId": "ROSE_092_Rx01[9]",
                             "inputId": "000000000000000000000031",
+                            "readable": false,
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": true,
+                            "writeable": false,
                             "description": "CI6"
                         },
                         {
@@ -792,9 +824,10 @@ var tools = {
                             },
                             "tagId": "ROSE_092_Rx01[10]",
                             "inputId": "000000000000000000000032",
+                            "readable": false,
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": true,
+                            "writeable": false,
                             "description": "CI7"
                         },
                         {
@@ -809,9 +842,10 @@ var tools = {
                             },
                             "tagId": "ROSE_092_Rx01[11]",
                             "inputId": "000000000000000000000033",
+                            "readable": false,
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": true,
+                            "writeable": false,
                             "description": "CI8"
                         },
                         {
@@ -826,9 +860,10 @@ var tools = {
                             },
                             "tagId": "ROSE_092_Rx01[12]",
                             "inputId": "000000000000000000000034",
+                            "readable": false,
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": true,
+                            "writeable": false,
                             "description": "SIG"
                         },
                         {
@@ -843,9 +878,10 @@ var tools = {
                             },
                             "tagId": "ROSE_092_Rx01[13]",
                             "inputId": "000000000000000000000035",
+                            "readable": false,
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": true,
+                            "writeable": false,
                             "description": "BATT"
                         },
                         {
@@ -860,9 +896,10 @@ var tools = {
                             },
                             "tagId": "ROSE_092_Rx01[14]",
                             "inputId": "000000000000000000000036",
+                            "readable": false,
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": true,
+                            "writeable": false,
                             "description": "AIExt1"
                         },
                         {
@@ -877,9 +914,10 @@ var tools = {
                             },
                             "tagId": "ROSE_092_Rx01[15]",
                             "inputId": "000000000000000000000037",
+                            "readable": false,
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": true,
+                            "writeable": false,
                             "description": "AIExt2"
                         },
                         {
@@ -894,9 +932,10 @@ var tools = {
                             },
                             "tagId": "ROSE_092_Rx01[16]",
                             "inputId": "000000000000000000000038",
+                            "readable": false,
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": true,
+                            "writeable": false,
                             "description": "AIExt3"
                         },
                         {
@@ -911,9 +950,10 @@ var tools = {
                             },
                             "tagId": "ROSE_092_Rx01[17]",
                             "inputId": "000000000000000000000039",
+                            "readable": false,
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": true,
+                            "writeable": false,
                             "description": "AIExt4"
                         },
                         {
@@ -928,9 +968,10 @@ var tools = {
                             },
                             "tagId": "ROSE_092_Rx01[18]",
                             "inputId": "000000000000000000000040",
+                            "readable": false,
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": true,
+                            "writeable": false,
                             "description": "AIExt5"
                         },
                         {
@@ -945,9 +986,10 @@ var tools = {
                             },
                             "tagId": "ROSE_092_Rx01[19]",
                             "inputId": "000000000000000000000041",
+                            "readable": false,
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": true,
+                            "writeable": false,
                             "description": "AIExt6"
                         },
                         {
@@ -962,9 +1004,10 @@ var tools = {
                             },
                             "tagId": "ROSE_092_Rx01[20]",
                             "inputId": "000000000000000000000042",
+                            "readable": false,
                             "interface": "DINT",
                             "allowance": 0,
-                            "writeable": true,
+                            "writeable": false,
                             "description": "digitalsIn"
                         }
                     ],
@@ -985,16 +1028,16 @@ var tools = {
                     'timeout': [
                         {
                             "inputId": "000000000000000000000015",
-                            "timeout": 360,
+                            "timeout": 300, // 5 Minutes
                             "deviceId": "000000000000000000000182"
                         },
                         {
                             "inputId": "000000000000000000000036",
-                            "timeout": 360,
+                            "timeout": 300, // 5 Minutes
                             "deviceId": "000000000000000000000183"
                         }
                     ],
-                    'txtime': 360,
+                    'txtime': 300, // 5 Minutes
                     'production': true,
                     'authentication': true
                 });
