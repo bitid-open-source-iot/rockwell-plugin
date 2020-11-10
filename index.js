@@ -87,7 +87,7 @@ var portal = async () => {
 
         return true;
     } catch (error) {
-        __logger.error(error.message);
+        __logger.error(error);
         return false;
     };
 };
