@@ -117,6 +117,10 @@ var logger = async () => {
         
         mqtt.on('control', event => {
             var now = new Date().getTime();
+            /* HARD CODE TO FIX DATE ON SITE */
+            event.rtuDate = new Date(event.rtuDate);
+            event.rtuDate.setHours(event.rtuDate.getHours() + 2);
+            /* HARD CODE TO FIX DATE ON SITE */
             __settings.timeout.map(device => {
                 if (event.rtuId == device.deviceId && (now - event.rtuDate) < (device.timeout * 1000)) {
                     // set input register comms healthy
