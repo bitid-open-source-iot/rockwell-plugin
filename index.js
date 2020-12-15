@@ -111,9 +111,9 @@ var logger = async () => {
         const rockwell = new Rockwell();
         const telemetry = new Telemetry();
 
-        mqtt.on('data', event => {
-            __logger.info(event);
-        });
+        // mqtt.on('data', event => {
+        //     __logger.info(event);
+        // });
         
         mqtt.on('control', event => {
             var now = new Date().getTime();
@@ -123,8 +123,6 @@ var logger = async () => {
             /* HARD CODE TO FIX DATE ON SITE */
             __settings.timeout.map(device => {
                 if (event.rtuId == device.deviceId && (now - event.rtuDate) < (device.timeout * 1000)) {
-                    // set input register comms healthy
-                    rockwell.write(device.inputId, 1);
                     device.last = new Date().getTime();
                     device.status = 'healthy';
                     // write to registers
@@ -133,6 +131,8 @@ var logger = async () => {
                             rockwell.write(item.inputId, event.dataIn[item.in.key]);
                         };
                     });
+                    // set input register comms healthy
+                    rockwell.write(device.inputId, 1);
                 };
             });
             __logger.info(event);
