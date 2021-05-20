@@ -9,6 +9,8 @@ const Telemetry = require('./lib/telemetry');
 const MqttSocket = require('./lib/mqtt');
 const bodyparser = require('body-parser');
 const ErrorResponse = require('./lib/error-response');
+const KGateway = require('./lib/kGateway');
+const { init } = require('./lib/logger');
 
 global.__base = __dirname + '/';
 global.__logger = require('./lib/logger')
@@ -101,165 +103,177 @@ var logger = async () => {
     };
 };
 
-(async () => {
-    try {
-        await logger();
-        await portal();
+async function start(){
+    try{
+        await logger()
+        await portal()
+        let kGateway = new KGateway()
+    }catch(e){
+        console.error(e)
+    }
+}
+
+start()
+
+// (async () => {
+//     try {
+//         await logger();
+//         await portal();
         
-        const ip = await publicIp();
-        const mqtt = new MqttSocket();
-        const rockwell = new Rockwell();
-        const telemetry = new Telemetry();
+//         const ip = await publicIp();
+//         const mqtt = new MqttSocket();
+//         const rockwell = new Rockwell();
+//         const telemetry = new Telemetry();
 
-        // mqtt.on('data', event => {
-        //     __logger.info(event);
-        // });
+//         // mqtt.on('data', event => {
+//         //     __logger.info(event);
+//         // });
         
-        mqtt.on('control', event => {
-            var now = new Date().getTime();
-            /* HARD CODE TO FIX DATE ON SITE */
-            event.rtuDate = new Date(event.rtuDate);
-            event.rtuDate.setHours(event.rtuDate.getHours() + 2);
-            /* HARD CODE TO FIX DATE ON SITE */
-            __settings.timeout.map(device => {
-                if (event.rtuId == device.deviceId && (now - event.rtuDate) < (device.timeout * 1000)) {
-                    device.last = new Date().getTime();
-                    device.status = 'healthy';
-                    // write to registers
-                    __settings.io.map(item => {
-                        if (item.writeable && event.rtuId == item.in.deviceId && event.moduleId == item.in.moduleId) {
-                            rockwell.write(item.inputId, event.dataIn[item.in.key]);
-                        };
-                    });
-                    // set input register comms healthy
-                    rockwell.write(device.inputId, 1);
-                };
-            });
-            __logger.info(event);
-        });
+//         mqtt.on('control', event => {
+//             var now = new Date().getTime();
+//             /* HARD CODE TO FIX DATE ON SITE */
+//             event.rtuDate = new Date(event.rtuDate);
+//             event.rtuDate.setHours(event.rtuDate.getHours() + 2);
+//             /* HARD CODE TO FIX DATE ON SITE */
+//             __settings.timeout.map(device => {
+//                 if (event.rtuId == device.deviceId && (now - event.rtuDate) < (device.timeout * 1000)) {
+//                     device.last = new Date().getTime();
+//                     device.status = 'healthy';
+//                     // write to registers
+//                     __settings.io.map(item => {
+//                         if (item.writeable && event.rtuId == item.in.deviceId && event.moduleId == item.in.moduleId) {
+//                             rockwell.write(item.inputId, event.dataIn[item.in.key]);
+//                         };
+//                     });
+//                     // set input register comms healthy
+//                     rockwell.write(device.inputId, 1);
+//                 };
+//             });
+//             __logger.info(event);
+//         });
 
-        rockwell.on('data', data => {
-            data = data.filter(o => typeof(o.value) != 'undefined' && o.value !== null && o.value !== '');
+//         rockwell.on('data', data => {
+//             data = data.filter(o => typeof(o.value) != 'undefined' && o.value !== null && o.value !== '');
     
-            const modules = data.reduce((group, input) => {
-                if (group.hasOwnProperty(input.out.moduleId)) {
-                    group[input.out.moduleId].push(input);
-                } else {
-                    group[input.out.moduleId] = [input];
-                };
-                return group;
-            }, {});
+//             const modules = data.reduce((group, input) => {
+//                 if (group.hasOwnProperty(input.out.moduleId)) {
+//                     group[input.out.moduleId].push(input);
+//                 } else {
+//                     group[input.out.moduleId] = [input];
+//                 };
+//                 return group;
+//             }, {});
     
-            Object.keys(modules).map(async moduleId => {
-                var status = {
-                    'IP': ip,
-                    'AI1': 0,
-                    'AI2': 0,
-                    'AI3': 0,
-                    'AI4': 0,
-                    'CI1': 0,
-                    'CI2': 0,
-                    'CI3': 0,
-                    'CI4': 0,
-                    'CI5': 0,
-                    'CI6': 0,
-                    'CI7': 0,
-                    'CI8': 0,
-                    'SIG': 0,
-                    'BATT': 0,
-                    'AIExt1': 0,
-                    'AIExt2': 0,
-                    'AIExt3': 0,
-                    'AIExt4': 0,
-                    'AIExt5': 0,
-                    'AIExt6': 0,
-                    'AIExt7': 0,
-                    'AIExt8': 0,
-                    'digitalsIn': 0
-                };
+//             Object.keys(modules).map(async moduleId => {
+//                 var status = {
+//                     'IP': ip,
+//                     'AI1': 0,
+//                     'AI2': 0,
+//                     'AI3': 0,
+//                     'AI4': 0,
+//                     'CI1': 0,
+//                     'CI2': 0,
+//                     'CI3': 0,
+//                     'CI4': 0,
+//                     'CI5': 0,
+//                     'CI6': 0,
+//                     'CI7': 0,
+//                     'CI8': 0,
+//                     'SIG': 0,
+//                     'BATT': 0,
+//                     'AIExt1': 0,
+//                     'AIExt2': 0,
+//                     'AIExt3': 0,
+//                     'AIExt4': 0,
+//                     'AIExt5': 0,
+//                     'AIExt6': 0,
+//                     'AIExt7': 0,
+//                     'AIExt8': 0,
+//                     'digitalsIn': 0
+//                 };
     
-                modules[moduleId].map(input => {
-                    if (status.hasOwnProperty(input.out.key)) {
-                        status[input.out.key] = input.value;
-                    };
-                });
+//                 modules[moduleId].map(input => {
+//                     if (status.hasOwnProperty(input.out.key)) {
+//                         status[input.out.key] = input.value;
+//                     };
+//                 });
 
-                if (typeof(telemetry.deviceId) != 'undefined' && telemetry.deviceId !== null) {
-                    __logger.info('Publishing Data To Server');
-                    mqtt.send(__settings.server.subscribe.data, {
-                        'rtuId': telemetry.deviceId,
-                        'dataIn': status,
-                        'rtuDate': new Date().getTime(),
-                        'moduleId': moduleId
-                    });
-                };
-            });
-        });
+//                 if (typeof(telemetry.deviceId) != 'undefined' && telemetry.deviceId !== null) {
+//                     __logger.info('Publishing Data To Server');
+//                     mqtt.send(__settings.server.subscribe.data, {
+//                         'rtuId': telemetry.deviceId,
+//                         'dataIn': status,
+//                         'rtuDate': new Date().getTime(),
+//                         'moduleId': moduleId
+//                     });
+//                 };
+//             });
+//         });
 
-        rockwell.on('read', inputs => {
-            __socket.send({
-                'inputs': inputs,
-                'barcode': rockwell.barcode(),
-                'deviceId': telemetry.deviceId
-            });
-        });
+//         rockwell.on('read', inputs => {
+//             __socket.send({
+//                 'inputs': inputs,
+//                 'barcode': rockwell.barcode(),
+//                 'deviceId': telemetry.deviceId
+//             });
+//         });
 
-        rockwell.on('connect', () => {
-            __logger.info('Rockwell PLC Connected: ' + rockwell.barcode());
+//         rockwell.on('connect', () => {
+//             __logger.info('Rockwell PLC Connected: ' + rockwell.barcode());
 
-            telemetry.connect(rockwell.barcode());
-        });
+//             telemetry.connect(rockwell.barcode());
+//         });
 
-        rockwell.on('disconnect', () => {
-            __logger.warn('plc connection failure, reconnecting in a few seconds');
-            setTimeout(() => {
-                rockwell.connect(__settings.plc);
-            }, 3000);
-        });
+//         rockwell.on('disconnect', () => {
+//             __logger.warn('plc connection failure, reconnecting in a few seconds');
+//             setTimeout(() => {
+//                 rockwell.connect(__settings.plc);
+//             }, 3000);
+//         });
 
-        telemetry.on('active', event => {
-            __deviceId = telemetry.deviceId;
-            __logger.info('Telemetry Connected: ' + telemetry.deviceId);
+//         telemetry.on('active', event => {
+//             __deviceId = telemetry.deviceId;
+//             __logger.info('Telemetry Connected: ' + telemetry.deviceId);
 
-            setTimeout(async () => rockwell.watch(), 5000);
+//             setTimeout(async () => rockwell.watch(), 5000);
 
-            setInterval(async () => rockwell.watch(), 30000);
+//             setInterval(async () => rockwell.watch(), 30000);
             
-            setTimeout(async () => rockwell.read(), 7500);
+//             setTimeout(async () => rockwell.read(), 7500);
             
-            setInterval(() => rockwell.read(), (__settings.txtime * 1000));
+//             setInterval(() => rockwell.read(), (__settings.txtime * 1000));
 
-            __settings.timeout.map(device => {
-                device.last = new Date().getTime();
-                device.status = 'healthy';
-                setInterval(() => {
-                    var now = new Date().getTime();
-                    if (now - device.last > (device.timeout * 1000) && device.status == 'healthy') {
-                        // set input register comms unhealthy
-                        rockwell.write(device.inputId, 0);
-                        device.status = 'unhealthy';
-                    };
-                }, (device.timeout * 1000));
-            });
-        });
+//             __settings.timeout.map(device => {
+//                 device.last = new Date().getTime();
+//                 device.status = 'healthy';
+//                 setInterval(() => {
+//                     var now = new Date().getTime();
+//                     if (now - device.last > (device.timeout * 1000) && device.status == 'healthy') {
+//                         // set input register comms unhealthy
+//                         rockwell.write(device.inputId, 0);
+//                         device.status = 'unhealthy';
+//                     };
+//                 }, (device.timeout * 1000));
+//             });
+//         });
 
-        telemetry.on('inactive', event => {
-            __deviceId = null;
-            setTimeout(() => telemetry.connect(rockwell.barcode()), 3000);
-        });
+//         telemetry.on('inactive', event => {
+//             __deviceId = null;
+//             setTimeout(() => telemetry.connect(rockwell.barcode()), 3000);
+//         });
                 
-        __socket.on('connection', connection => {
-            __socket.send({
-                'inputs': [],
-                'barcode': rockwell.barcode(),
-                'deviceId': telemetry.deviceId
-            });
-        });
+//         __socket.on('connection', connection => {
+//             __socket.send({
+//                 'inputs': [],
+//                 'barcode': rockwell.barcode(),
+//                 'deviceId': telemetry.deviceId
+//             });
+//         });
         
-        mqtt.connect(__settings.server);
+//         mqtt.connect(__settings.server);
         
-        rockwell.connect(__settings.plc);
-    } catch (error) {
-        console.log(error.message);
-    };
-}) ();
+//         rockwell.connect(__settings.plc);
+//     } catch (error) {
+//         console.log(error.message);
+//     };
+// }) ();

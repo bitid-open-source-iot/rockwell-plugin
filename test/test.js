@@ -16,217 +16,241 @@ var mqtt = null;
 var socket = new WebSocketClient();
 var connection = null;
 
-describe('Connect', function () {
-    it('Web Socket', function (done) {
-        this.timeout(5000);
-
-        socket.on('connect', event => {
-            connection = event;
-            done();
-        });
-
-        socket.connect(config.websocket);
-    });
-
-    it('MQTT Socket', function (done) {
-        this.timeout(5000);
-
-        mqtt = MQTT.connect([config.mqtt.socket, ':', config.mqtt.port].join(''), {
-            'host': config.mqtt.socket,
-            'port': config.mqtt.port,
-            'username': config.mqtt.username,
-            'password': config.mqtt.password
-        });
-
-        mqtt.on('connect', () => {
-            done();
-        });
-    });
-});
-
-describe('Subscribe', function () {
-    it('Data Topic', function (done) {
-        this.timeout(5000);
-
-        mqtt.subscribe(config.mqtt.subscribe.data, (error) => {
-            if (error) {
-                done(error.message);
-            } else {
+describe('rockwell', function () {
+    describe('Connect', function () {
+        it('Web Socket', function (done) {
+            this.timeout(5000);
+    
+            socket.on('connect', event => {
+                connection = event;
                 done();
-            };
+            });
+    
+            socket.connect(config.websocket);
         });
-    });
-
-    it('Control Topic', function (done) {
-        this.timeout(5000);
-
-        mqtt.subscribe(config.mqtt.subscribe.control, (error) => {
-            if (error) {
-                done(error.message);
-            } else {
+    
+        it('MQTT Socket', function (done) {
+            this.timeout(5000);
+    
+            mqtt = MQTT.connect([config.mqtt.socket, ':', config.mqtt.port].join(''), {
+                'host': config.mqtt.socket,
+                'port': config.mqtt.port,
+                'username': config.mqtt.username,
+                'password': config.mqtt.password
+            });
+    
+            mqtt.on('connect', () => {
                 done();
-            };
+            });
         });
     });
-});
-
-describe('Config', function () {
-    it('/api/config/get', function (done) {
-        this.timeout(5000);
-
-        tools.api.config.get()
-            .then((result) => {
-                try {
-                    result.should.have.property('io');
-                    result.should.have.property('plc');
-                    result.should.have.property('txtime');
-                    result.should.have.property('server');
-                    result.should.have.property('timeout');
-                    result.should.have.property('production');
+    
+    describe('Subscribe', function () {
+        it('Data Topic', function (done) {
+            this.timeout(5000);
+    
+            mqtt.subscribe(config.mqtt.subscribe.data, (error) => {
+                if (error) {
+                    done(error.message);
+                } else {
                     done();
-                } catch (e) {
-                    done(e);
-                };
-            }, (err) => {
-                try {
-                    done(err);
-                } catch (e) {
-                    done(e);
                 };
             });
-    });
-
-    it('/api/config/update', function (done) {
-        this.timeout(5000);
-
-        tools.api.config.update()
-            .then((result) => {
-                try {
-                    result.should.have.property('updated');
-                    expect(result.updated).to.equal(1);
+        });
+    
+        it('Control Topic', function (done) {
+            this.timeout(5000);
+    
+            mqtt.subscribe(config.mqtt.subscribe.control, (error) => {
+                if (error) {
+                    done(error.message);
+                } else {
                     done();
-                } catch (e) {
-                    done(e);
-                };
-            }, (err) => {
-                try {
-                    done(err);
-                } catch (e) {
-                    done(e);
                 };
             });
-    });
-});
-
-describe('Send & Recieve Data', function () {
-    it(config.mqtt.subscribe.data, function (done) {
-        this.timeout(5000);
-
-        mqtt.on('message', (topic, message) => {
-            if (topic == config.mqtt.subscribe.data) {
-                var result = JSON.parse(message.toString())
-                result.should.have.property('rtuId');
-                result.should.have.property('dataIn');
-                result.should.have.property('rtuDate');
-                result.should.have.property('moduleId');
-                done();
-            };
         });
-
-        mqtt.publish(config.mqtt.subscribe.data, JSON.stringify({
-            'dataIn': {
-                'IP': '0.0.0.0',
-                'AI1': 0,
-                'AI2': 0,
-                'AI3': 0,
-                'AI4': 0,
-                'CI1': 0,
-                'CI2': 0,
-                'CI3': 0,
-                'CI4': 0,
-                'CI5': 0,
-                'CI6': 0,
-                'CI7': 0,
-                'CI8': 0,
-                'SIG': 0,
-                'BATT': 0,
-                'AIExt1': 0,
-                'AIExt2': 0,
-                'AIExt3': 0,
-                'AIExt4': 0,
-                'AIExt5': 0,
-                'AIExt6': 0,
-                'AIExt7': 0,
-                'AIExt8': 0,
-                'digitalsIn': 0
-            },
-            'rtuId': '000000000000000000000182', // config.deviceId,
-            'rtuDate': new Date().getTime(),
-            'moduleId': 0
-        }));
     });
-
-    it(config.mqtt.subscribe.control, function (done) {
-        this.timeout(5000);
-
-        mqtt.on('message', (topic, message) => {
-            if (topic == config.mqtt.subscribe.control) {
-                var result = JSON.parse(message.toString())
-                result.should.have.property('rtuId');
-                result.should.have.property('dataIn');
-                result.should.have.property('rtuDate');
-                result.should.have.property('moduleId');
-                done();
-            };
+    
+    describe('Config', function () {
+        it('/api/config/get', function (done) {
+            this.timeout(5000);
+    
+            tools.api.config.get()
+                .then((result) => {
+                    try {
+                        result.should.have.property('io');
+                        result.should.have.property('plc');
+                        result.should.have.property('txtime');
+                        result.should.have.property('server');
+                        result.should.have.property('timeout');
+                        result.should.have.property('production');
+                        done();
+                    } catch (e) {
+                        done(e);
+                    };
+                }, (err) => {
+                    try {
+                        done(err);
+                    } catch (e) {
+                        done(e);
+                    };
+                });
         });
-
-        mqtt.publish(config.mqtt.subscribe.control, JSON.stringify({
-            'dataIn': {
-                'IP': '0.0.0.0',
-                'AI1': Math.floor(Math.random() * 100) + 1,
-                'AI2': Math.floor(Math.random() * 100) + 1,
-                'AI3': Math.floor(Math.random() * 100) + 1,
-                'AI4': Math.floor(Math.random() * 100) + 1,
-                'CI1': 0,
-                'CI2': 0,
-                'CI3': 0,
-                'CI4': 0,
-                'CI5': 0,
-                'CI6': 0,
-                'CI7': 0,
-                'CI8': 0,
-                'SIG': 0,
-                'BATT': 0,
-                'AIExt1': 0,
-                'AIExt2': 0,
-                'AIExt3': 0,
-                'AIExt4': 0,
-                'AIExt5': 0,
-                'AIExt6': 0,
-                'AIExt7': 0,
-                'AIExt8': 0,
-                'digitalsIn': 0
-            },
-            'rtuId': '000000000000000000000182', // config.deviceId,
-            'rtuDate': new Date().getTime(),
-            'moduleId': 0
-        }));
+    
+        it('/api/config/update', function (done) {
+            this.timeout(5000);
+    
+            tools.api.config.update()
+                .then((result) => {
+                    try {
+                        result.should.have.property('updated');
+                        expect(result.updated).to.equal(1);
+                        done();
+                    } catch (e) {
+                        done(e);
+                    };
+                }, (err) => {
+                    try {
+                        done(err);
+                    } catch (e) {
+                        done(e);
+                    };
+                });
+        });
     });
-});
-
-describe('Clean Up Sockets', function () {
-    it('Close Web Socket', function (done) {
-        this.timeout(5000);
-        connection.close();
-        done();
+    
+    describe('Send & Recieve Data', function () {
+        it(config.mqtt.subscribe.data, function (done) {
+            this.timeout(5000);
+    
+            mqtt.on('message', (topic, message) => {
+                if (topic == config.mqtt.subscribe.data) {
+                    var result = JSON.parse(message.toString())
+                    result.should.have.property('rtuId');
+                    result.should.have.property('dataIn');
+                    result.should.have.property('rtuDate');
+                    result.should.have.property('moduleId');
+                    done();
+                };
+            });
+    
+            mqtt.publish(config.mqtt.subscribe.data, JSON.stringify({
+                'dataIn': {
+                    'IP': '0.0.0.0',
+                    'AI1': 0,
+                    'AI2': 0,
+                    'AI3': 0,
+                    'AI4': 0,
+                    'CI1': 0,
+                    'CI2': 0,
+                    'CI3': 0,
+                    'CI4': 0,
+                    'CI5': 0,
+                    'CI6': 0,
+                    'CI7': 0,
+                    'CI8': 0,
+                    'SIG': 0,
+                    'BATT': 0,
+                    'AIExt1': 0,
+                    'AIExt2': 0,
+                    'AIExt3': 0,
+                    'AIExt4': 0,
+                    'AIExt5': 0,
+                    'AIExt6': 0,
+                    'AIExt7': 0,
+                    'AIExt8': 0,
+                    'digitalsIn': 0
+                },
+                'rtuId': '000000000000000000000182', // config.deviceId,
+                'rtuDate': new Date().getTime(),
+                'moduleId': 0
+            }));
+        });
+    
+        it(config.mqtt.subscribe.control, function (done) {
+            this.timeout(5000);
+    
+            mqtt.on('message', (topic, message) => {
+                if (topic == config.mqtt.subscribe.control) {
+                    var result = JSON.parse(message.toString())
+                    result.should.have.property('rtuId');
+                    result.should.have.property('dataIn');
+                    result.should.have.property('rtuDate');
+                    result.should.have.property('moduleId');
+                    done();
+                };
+            });
+    
+            mqtt.publish(config.mqtt.subscribe.control, JSON.stringify({
+                'dataIn': {
+                    'IP': '0.0.0.0',
+                    'AI1': Math.floor(Math.random() * 100) + 1,
+                    'AI2': Math.floor(Math.random() * 100) + 1,
+                    'AI3': Math.floor(Math.random() * 100) + 1,
+                    'AI4': Math.floor(Math.random() * 100) + 1,
+                    'CI1': 0,
+                    'CI2': 0,
+                    'CI3': 0,
+                    'CI4': 0,
+                    'CI5': 0,
+                    'CI6': 0,
+                    'CI7': 0,
+                    'CI8': 0,
+                    'SIG': 0,
+                    'BATT': 0,
+                    'AIExt1': 0,
+                    'AIExt2': 0,
+                    'AIExt3': 0,
+                    'AIExt4': 0,
+                    'AIExt5': 0,
+                    'AIExt6': 0,
+                    'AIExt7': 0,
+                    'AIExt8': 0,
+                    'digitalsIn': 0
+                },
+                'rtuId': '000000000000000000000182', // config.deviceId,
+                'rtuDate': new Date().getTime(),
+                'moduleId': 0
+            }));
+        });
     });
-
-    it('Close MQTT Socket', function (done) {
-        this.timeout(5000);
-        mqtt.end();
-        done();
+    
+    describe('Clean Up Sockets', function () {
+        it('Close Web Socket', function (done) {
+            this.timeout(5000);
+            connection.close();
+            done();
+        });
+    
+        it('Close MQTT Socket', function (done) {
+            this.timeout(5000);
+            mqtt.end();
+            done();
+        });
     });
-});
+        
+/*
+====================================
+1 - Connect To Web Socket       | ✓ |
+2 - Connect To MQTT Socket      | ✓ |
+3 - Subscribe To Data Topic     | ✓ |
+4 - Subscribe To Control Topic  | ✓ |
+5 - Get Config                  | ✓ |
+6 - Update Config               | ✓ |
+7 - Send MQTT Data              | ✓ |
+8 - Recieve MQTT Data           | ✓ |
+9 - Close Web Socket            | ✓ |
+9 - Close MQTT Socket           | ✓ |
+====================================
+*/    
+})
+
+
+describe('kGateway', function () {
+    describe('Connect', function () {
+
+    })
+})
 
 var tools = {
     api: {
@@ -1106,17 +1130,3 @@ var tools = {
     }
 };
 
-/*
-====================================
-1 - Connect To Web Socket       | ✓ |
-2 - Connect To MQTT Socket      | ✓ |
-3 - Subscribe To Data Topic     | ✓ |
-4 - Subscribe To Control Topic  | ✓ |
-5 - Get Config                  | ✓ |
-6 - Update Config               | ✓ |
-7 - Send MQTT Data              | ✓ |
-8 - Recieve MQTT Data           | ✓ |
-9 - Close Web Socket            | ✓ |
-9 - Close MQTT Socket           | ✓ |
-====================================
-*/
