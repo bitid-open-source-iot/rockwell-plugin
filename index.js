@@ -81,6 +81,8 @@ var portal = async () => {
 
         __socket = new WebSocket(__server);
 
+        console.log('Server running')
+
         __server.on('close', () => {
             setTimeout(() => __server.listen(__settings.port), 1000);
         });

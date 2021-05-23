@@ -9,9 +9,29 @@
 			"control": "/rock/v1.1/control"
 		},
 		"port": 1888,
-		"socket": "mqtt://bitid.co.za",
+		"socket": "mqtt://localhost",
 		"username": "telemetry",
 		"password": "telemetry1!"
+	},
+    "mqttServerBitid": {
+        "host": "mqtt://localhost",
+        "port": 1888,
+        "username": "unittest",
+        "password": "unittest1!",
+        "subscribe": {
+            "data": "kGatewayServer/data",
+            "control": "kGatewayServer/control"
+        }
+    },
+	"mqttKGateway": {
+		"subscribe": {
+			"data": "/kGateway/data",
+			"control": "/kGateway/control"
+		},
+		"port": 1888,
+		"socket": "mqtt://localhost",
+		"username": "unittest",
+		"password": "unittest1!"
 	},
 	"api": "http://127.0.0.1:8000",
 	"email": "admin@bitid.co.za",

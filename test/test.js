@@ -11,6 +11,7 @@ const expect = require('chai').expect;
 const should = require('chai').should();
 const config = require('./config.json');
 const WebSocketClient = require('websocket').client;
+const { response } = require('express');
 
 var mqtt = null;
 var socket = new WebSocketClient();
@@ -20,35 +21,35 @@ describe('rockwell', function () {
     describe('Connect', function () {
         it('Web Socket', function (done) {
             this.timeout(5000);
-    
+
             socket.on('connect', event => {
                 connection = event;
                 done();
             });
-    
+
             socket.connect(config.websocket);
         });
-    
+
         it('MQTT Socket', function (done) {
             this.timeout(5000);
-    
+
             mqtt = MQTT.connect([config.mqtt.socket, ':', config.mqtt.port].join(''), {
                 'host': config.mqtt.socket,
                 'port': config.mqtt.port,
                 'username': config.mqtt.username,
                 'password': config.mqtt.password
             });
-    
+
             mqtt.on('connect', () => {
                 done();
             });
         });
     });
-    
+
     describe('Subscribe', function () {
         it('Data Topic', function (done) {
             this.timeout(5000);
-    
+
             mqtt.subscribe(config.mqtt.subscribe.data, (error) => {
                 if (error) {
                     done(error.message);
@@ -57,10 +58,10 @@ describe('rockwell', function () {
                 };
             });
         });
-    
+
         it('Control Topic', function (done) {
             this.timeout(5000);
-    
+
             mqtt.subscribe(config.mqtt.subscribe.control, (error) => {
                 if (error) {
                     done(error.message);
@@ -70,11 +71,11 @@ describe('rockwell', function () {
             });
         });
     });
-    
+
     describe('Config', function () {
         it('/api/config/get', function (done) {
             this.timeout(5000);
-    
+
             tools.api.config.get()
                 .then((result) => {
                     try {
@@ -96,10 +97,10 @@ describe('rockwell', function () {
                     };
                 });
         });
-    
+
         it('/api/config/update', function (done) {
             this.timeout(5000);
-    
+
             tools.api.config.update()
                 .then((result) => {
                     try {
@@ -118,11 +119,11 @@ describe('rockwell', function () {
                 });
         });
     });
-    
+
     describe('Send & Recieve Data', function () {
         it(config.mqtt.subscribe.data, function (done) {
             this.timeout(5000);
-    
+
             mqtt.on('message', (topic, message) => {
                 if (topic == config.mqtt.subscribe.data) {
                     var result = JSON.parse(message.toString())
@@ -133,7 +134,7 @@ describe('rockwell', function () {
                     done();
                 };
             });
-    
+
             mqtt.publish(config.mqtt.subscribe.data, JSON.stringify({
                 'dataIn': {
                     'IP': '0.0.0.0',
@@ -166,10 +167,10 @@ describe('rockwell', function () {
                 'moduleId': 0
             }));
         });
-    
+
         it(config.mqtt.subscribe.control, function (done) {
             this.timeout(5000);
-    
+
             mqtt.on('message', (topic, message) => {
                 if (topic == config.mqtt.subscribe.control) {
                     var result = JSON.parse(message.toString())
@@ -180,7 +181,7 @@ describe('rockwell', function () {
                     done();
                 };
             });
-    
+
             mqtt.publish(config.mqtt.subscribe.control, JSON.stringify({
                 'dataIn': {
                     'IP': '0.0.0.0',
@@ -214,42 +215,135 @@ describe('rockwell', function () {
             }));
         });
     });
-    
+
     describe('Clean Up Sockets', function () {
         it('Close Web Socket', function (done) {
             this.timeout(5000);
             connection.close();
             done();
         });
-    
+
         it('Close MQTT Socket', function (done) {
             this.timeout(5000);
             mqtt.end();
             done();
         });
     });
-        
-/*
-====================================
-1 - Connect To Web Socket       | ✓ |
-2 - Connect To MQTT Socket      | ✓ |
-3 - Subscribe To Data Topic     | ✓ |
-4 - Subscribe To Control Topic  | ✓ |
-5 - Get Config                  | ✓ |
-6 - Update Config               | ✓ |
-7 - Send MQTT Data              | ✓ |
-8 - Recieve MQTT Data           | ✓ |
-9 - Close Web Socket            | ✓ |
-9 - Close MQTT Socket           | ✓ |
-====================================
-*/    
+
+    /*
+    ====================================
+    1 - Connect To Web Socket       | ✓ |
+    2 - Connect To MQTT Socket      | ✓ |
+    3 - Subscribe To Data Topic     | ✓ |
+    4 - Subscribe To Control Topic  | ✓ |
+    5 - Get Config                  | ✓ |
+    6 - Update Config               | ✓ |
+    7 - Send MQTT Data              | ✓ |
+    8 - Recieve MQTT Data           | ✓ |
+    9 - Close Web Socket            | ✓ |
+    9 - Close MQTT Socket           | ✓ |
+    ====================================
+    */
 })
 
 
-describe('kGateway', function () {
-    describe('Connect', function () {
+describe.only('kGateway', function () {
+    global.__logger = require('../lib/logger')
+    global.__settings = require('../config.json');
+    let KGATEWAY = require('../lib/kGateway')
+    let kGateway
+    it('Run kGateway', function (done) {
+        kGateway = new KGATEWAY({ "tagFixedTxTime": 1 })
+        kGateway.clearTags({})
+        done()
+    })
+
+    it('process first tag', async function () {
+        let topic = "kbeacon/publish/68B9D3DFE78C"
+        let message = JSON.stringify({ "msg": "advData", "gmac": "68B9D3DFE78C", "obj": [{ "type": 2, "dmac": "AAAAAAAAAAAA", "refPwr": -14, "nid": "6B6B6D636E2E636F6D01", "sid": "000000000001", "rssi": -60, "time": "2021-05-20 18:12:48" }, { "type": 16, "dmac": "AAAAAAAAAAAA", "refPwr": -14, "url": "00696F742D6770732E636F2E7A61", "rssi": -64, "time": "2021-05-20 18:12:49" }] })
+        let response = { topic, message }
+        response = await kGateway.processData(response)
+        response = await kGateway.listTags(response)
+
+        response.arrTags[0].txCount.should.equal(1)
+        response.arrTags.length.should.equal(1)
+    })
+
+
+    it('process first tag again', async function () {
+        let topic = "kbeacon/publish/68B9D3DFE78C"
+        let message = JSON.stringify({ "msg": "advData", "gmac": "68B9D3DFE78C", "obj": [{ "type": 2, "dmac": "AAAAAAAAAAAA", "refPwr": -14, "nid": "6B6B6D636E2E636F6D01", "sid": "000000000001", "rssi": -60, "time": "2021-05-20 18:12:48" }, { "type": 16, "dmac": "AAAAAAAAAAAA", "refPwr": -14, "url": "00696F742D6770732E636F2E7A61", "rssi": -64, "time": "2021-05-20 18:12:49" }] })
+        let response = { topic, message }
+        response = await kGateway.processData(response)
+        response = await kGateway.listTags(response)
+
+        response.arrTags[0].txCount.should.equal(1)
+        response.arrTags.length.should.equal(1)
+    })
+
+    it('process second tag', async function () {
+        let topic = "kbeacon/publish/68B9D3DFE78C"
+        let message = JSON.stringify({ "msg": "advData", "gmac": "68B9D3DFE78C", "obj": [{ "type": 2, "dmac": "FFFFFFFFFFFF", "refPwr": -14, "nid": "6B6B6D636E2E636F6D01", "sid": "000000000001", "rssi": -60, "time": "2021-05-20 18:12:48" }, { "type": 16, "dmac": "FFFFFFFFFFFF", "refPwr": -14, "url": "00696F742D6770732E636F2E7A61", "rssi": -64, "time": "2021-05-20 18:12:49" }] })
+        let response = { topic, message }
+        response = await kGateway.processData(response)
+        response = await kGateway.listTags(response)
+
+        response.arrTags[1].txCount.should.equal(1)
+        response.arrTags.length.should.equal(2)
+    })
+
+    it('wait just over 1 minute and check fixed Tx been done for second tags', async function () {
+        this.timeout(70000)
+        function wait() {
+            let deferred = Q.defer()
+            setTimeout(async () => {
+                let topic = "kbeacon/publish/68B9D3DFE78C"
+                let message = JSON.stringify({ "msg": "advData", "gmac": "68B9D3DFE78C", "obj": [{ "type": 2, "dmac": "FFFFFFFFFFFF", "refPwr": -14, "nid": "6B6B6D636E2E636F6D01", "sid": "000000000001", "rssi": -60, "time": "2021-05-20 18:12:48" }, { "type": 16, "dmac": "FFFFFFFFFFFF", "refPwr": -14, "url": "00696F742D6770732E636F2E7A61", "rssi": -64, "time": "2021-05-20 18:12:49" }] })
+                let response = { topic, message }
+                response = await kGateway.processData(response)
+                deferred.resolve()
+            }, 65000);
+            return deferred.promise
+        }
+
+        console.log('wait just over 1 minute and check fixed Tx been done for both tags')
+        await wait()
+        let response = {}
+        response = await kGateway.listTags(response)
+        response.arrTags[0].txCount.should.equal(1)
+        response.arrTags[1].txCount.should.equal(2)
+        response.arrTags.length.should.equal(2)
 
     })
+
+    // describe('Connect', function () {
+
+    //     it('MQTT Socket', function (done) {
+    //         this.timeout(5000);
+
+    //         mqtt = MQTT.connect([config.mqttKGateway.socket, ':', config.mqttKGateway.port].join(''), {
+    //             'host': config.mqttKGateway.socket,
+    //             'port': config.mqttKGateway.port,
+    //             'username': config.mqttKGateway.username,
+    //             'password': config.mqttKGateway.password
+    //         });
+
+    //         mqtt.on('connect', () => {
+    //             let message = JSON.stringify({"msg":"advData","gmac":"68B9D3DFE78C","obj":[{"type":2,"dmac":"DD3304130897","refPwr":-14,"nid":"6B6B6D636E2E636F6D01","sid":"000000000001","rssi":-60,"time":"2021-05-20 18:12:48"},{"type":16,"dmac":"DD3304130897","refPwr":-14,"url":"00696F742D6770732E636F2E7A61","rssi":-64,"time":"2021-05-20 18:12:49"}]})
+    //             mqtt.publish('kbeacon/publish/68B9D3DFE78C', message)
+    //             done();
+    //         });
+    //     });
+
+    // })
+
+    // describe('Check', function () {
+
+    // })
+
+
+
+
 })
 
 var tools = {
