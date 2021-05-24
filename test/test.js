@@ -292,6 +292,20 @@ describe.only('kGateway', function () {
         response.arrTags.length.should.equal(2)
     })
 
+
+    it('process router alive message', async function () {
+        let topic = "kbeacon/publish/68B9D3DFE78C"
+        let message = JSON.stringify({"msg":"alive","gmac":"68B9D3DFE78C","ver":"KBGW_V3.5.3","subaction":"kbeacon/subaction/68B9D3DFE78C","pubaction":"kbeacon/pubaction/68B9D3DFE78C","downDevices":0,"blever":"v24.3","hver":"514","temp":22,"advDevices":1})
+        let response = { topic, message }
+        response = await kGateway.processData(response)
+        response = await kGateway.listTags(response)
+
+        response.arrTags[1].txCount.should.equal(1)
+        response.arrTags.length.should.equal(3)
+    })
+
+    //message:
+
     it('wait just over 1 minute and check fixed Tx been done for second tags', async function () {
         this.timeout(70000)
         function wait() {
@@ -312,7 +326,7 @@ describe.only('kGateway', function () {
         response = await kGateway.listTags(response)
         response.arrTags[0].txCount.should.equal(1)
         response.arrTags[1].txCount.should.equal(2)
-        response.arrTags.length.should.equal(2)
+        response.arrTags.length.should.equal(3)
 
     })
 
