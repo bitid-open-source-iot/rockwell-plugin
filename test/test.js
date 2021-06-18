@@ -12,10 +12,22 @@ const should = require('chai').should();
 const config = require('./config.json');
 const WebSocketClient = require('websocket').client;
 const { response } = require('express');
+require('dotenv').config()
 
 var mqtt = null;
 var socket = new WebSocketClient();
 var connection = null;
+
+
+config.mqttRockwell.username = process.env.BITID_LOCALROUTERS_MOSQUITTO_USERNAME
+config.mqttRockwell.password = process.env.BITID_LOCALROUTERS_MOSQUITTO_PASSWORD
+
+config.mqttServerBitid.username = process.env.BITID_LOCALROUTERS_MOSQUITTO_USERNAME
+config.mqttServerBitid.password = process.env.BITID_LOCALROUTERS_MOSQUITTO_PASSWORD
+
+config.mqttKGateway.username = process.env.BITID_LOCALROUTERS_MOSQUITTO_USERNAME
+config.mqttKGateway.password = process.env.BITID_LOCALROUTERS_MOSQUITTO_PASSWORD
+
 
 describe('rockwell', function () {
     describe('Connect', function () {
@@ -33,11 +45,11 @@ describe('rockwell', function () {
         it('MQTT Socket', function (done) {
             this.timeout(5000);
 
-            mqtt = MQTT.connect([config.mqtt.socket, ':', config.mqtt.port].join(''), {
-                'host': config.mqtt.socket,
-                'port': config.mqtt.port,
-                'username': config.mqtt.username,
-                'password': config.mqtt.password
+            mqtt = MQTT.connect([config.mqttRockwell.socket, ':', config.mqttRockwell.port].join(''), {
+                'host': config.mqttRockwell.socket,
+                'port': config.mqttRockwell.port,
+                'username': config.mqttServerBitid.username,
+                'password': config.mqttServerBitid.password
             });
 
             mqtt.on('connect', () => {
@@ -50,7 +62,7 @@ describe('rockwell', function () {
         it('Data Topic', function (done) {
             this.timeout(5000);
 
-            mqtt.subscribe(config.mqtt.subscribe.data, (error) => {
+            mqtt.subscribe(config.mqttRockwell.subscribe.data, (error) => {
                 if (error) {
                     done(error.message);
                 } else {
@@ -62,7 +74,7 @@ describe('rockwell', function () {
         it('Control Topic', function (done) {
             this.timeout(5000);
 
-            mqtt.subscribe(config.mqtt.subscribe.control, (error) => {
+            mqtt.subscribe(config.mqttRockwell.subscribe.control, (error) => {
                 if (error) {
                     done(error.message);
                 } else {
@@ -121,11 +133,11 @@ describe('rockwell', function () {
     });
 
     describe('Send & Recieve Data', function () {
-        it(config.mqtt.subscribe.data, function (done) {
+        it(config.mqttRockwell.subscribe.data, function (done) {
             this.timeout(5000);
 
             mqtt.on('message', (topic, message) => {
-                if (topic == config.mqtt.subscribe.data) {
+                if (topic == config.mqttRockwell.subscribe.data) {
                     var result = JSON.parse(message.toString())
                     result.should.have.property('rtuId');
                     result.should.have.property('dataIn');
@@ -135,7 +147,7 @@ describe('rockwell', function () {
                 };
             });
 
-            mqtt.publish(config.mqtt.subscribe.data, JSON.stringify({
+            mqtt.publish(config.mqttRockwell.subscribe.data, JSON.stringify({
                 'dataIn': {
                     'IP': '0.0.0.0',
                     'AI1': 0,
@@ -168,11 +180,11 @@ describe('rockwell', function () {
             }));
         });
 
-        it(config.mqtt.subscribe.control, function (done) {
+        it(config.mqttRockwell.subscribe.control, function (done) {
             this.timeout(5000);
 
             mqtt.on('message', (topic, message) => {
-                if (topic == config.mqtt.subscribe.control) {
+                if (topic == config.mqttRockwell.subscribe.control) {
                     var result = JSON.parse(message.toString())
                     result.should.have.property('rtuId');
                     result.should.have.property('dataIn');
@@ -182,7 +194,7 @@ describe('rockwell', function () {
                 };
             });
 
-            mqtt.publish(config.mqtt.subscribe.control, JSON.stringify({
+            mqtt.publish(config.mqttRockwell.subscribe.control, JSON.stringify({
                 'dataIn': {
                     'IP': '0.0.0.0',
                     'AI1': Math.floor(Math.random() * 100) + 1,
@@ -1149,13 +1161,13 @@ var tools = {
                     },
                     'server': {
                         'subscribe': {
-                            'data': config.mqtt.subscribe.data,
-                            'control': config.mqtt.subscribe.control
+                            'data': config.mqttRockwell.subscribe.data,
+                            'control': config.mqttRockwell.subscribe.control
                         },
-                        'host': config.mqtt.host,
-                        'port': config.mqtt.port,
-                        'username': config.mqtt.username,
-                        'password': config.mqtt.password
+                        'host': config.mqttRockwell.host,
+                        'port': config.mqttRockwell.port,
+                        'username': config.mqttRockwell.username,
+                        'password': config.mqttRockwell.password
                     },
                     'timeout': [
                         {

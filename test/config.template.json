@@ -1,21 +1,41 @@
 {
 	"plc": {
-		"ip": "255.255.255.255",
+		"ip": "10.18.85.59",
 		"slot": 0
 	},
-	"mqtt": {
+	"mqttRockwell": {
 		"subscribe": {
 			"data": "/rock/v1.1/data",
 			"control": "/rock/v1.1/control"
 		},
 		"port": 1888,
-		"socket": "mqtt://bitid.co.za",
+		"socket": "mqtt://localhost",
+		"username": "xxx",
+		"password": "xxx"
+	},
+    "mqttServerBitid": {
+        "host": "mqtt://localhost",
+        "port": 1888,
+        "username": "xxx",
+        "password": "xxx",
+        "subscribe": {
+            "data": "kGatewayServer/data",
+            "control": "kGatewayServer/control"
+        }
+    },
+	"mqttKGateway": {
+		"subscribe": {
+			"data": "/kGateway/data",
+			"control": "/kGateway/control"
+		},
+		"port": 1888,
+		"socket": "mqtt://localhost",
 		"username": "xxx",
 		"password": "xxx"
 	},
 	"api": "http://127.0.0.1:8000",
 	"email": "admin@bitid.co.za",
 	"appId": "000000000000000000000015",
-	"deviceId": "xxx",
+	"deviceId": "000000000000000015044874",
 	"websocket": "ws://127.0.0.1:8000"
 }

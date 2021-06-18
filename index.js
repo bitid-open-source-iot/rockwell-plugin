@@ -11,6 +11,7 @@ const bodyparser = require('body-parser');
 const ErrorResponse = require('./lib/error-response');
 const KGateway = require('./lib/kGateway');
 const { init } = require('./lib/logger');
+require('dotenv').config()
 
 global.__base = __dirname + '/';
 global.__logger = require('./lib/logger')
@@ -19,6 +20,20 @@ global.__socket = null;
 global.__deviceId = null;
 global.__settings = require('./config.json');
 global.__responder = require('./lib/responder');
+
+
+__settings.mqttServerBitid.username = process.env.BITID_SERVER_MOSQUITTO_USERNAME
+__settings.mqttServerBitid.password = process.env.BITID_SERVER_MOSQUITTO_PASSWORD
+
+__settings.mqttRouters.username = process.env.BITID_LOCALROUTERS_MOSQUITTO_USERNAME
+__settings.mqttRouters.password = process.env.BITID_LOCALROUTERS_MOSQUITTO_PASSWORD
+__settings.mqttRouters.host = 'mqtt://mosquitto'
+
+
+__settings.mqttServerBitidLocal.username = process.env.BITID_LOCALROUTERS_MOSQUITTO_USERNAME
+__settings.mqttServerBitidLocal.password = process.env.BITID_LOCALROUTERS_MOSQUITTO_PASSWORD
+
+
 
 var portal = async () => {
     try {

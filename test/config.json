@@ -3,21 +3,21 @@
 		"ip": "10.18.85.59",
 		"slot": 0
 	},
-	"mqtt": {
+	"mqttRockwell": {
 		"subscribe": {
 			"data": "/rock/v1.1/data",
 			"control": "/rock/v1.1/control"
 		},
 		"port": 1888,
 		"socket": "mqtt://localhost",
-		"username": "telemetry",
-		"password": "telemetry1!"
+		"username": "xxx",
+		"password": "xxx"
 	},
     "mqttServerBitid": {
         "host": "mqtt://localhost",
         "port": 1888,
-        "username": "unittest",
-        "password": "unittest1!",
+        "username": "xxx",
+        "password": "xxx",
         "subscribe": {
             "data": "kGatewayServer/data",
             "control": "kGatewayServer/control"
@@ -30,8 +30,8 @@
 		},
 		"port": 1888,
 		"socket": "mqtt://localhost",
-		"username": "unittest",
-		"password": "unittest1!"
+		"username": "xxx",
+		"password": "xxx"
 	},
 	"api": "http://127.0.0.1:8000",
 	"email": "admin@bitid.co.za",
