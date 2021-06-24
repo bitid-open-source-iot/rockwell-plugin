@@ -33,6 +33,8 @@ __settings.mqttRouters.host = 'mqtt://mosquitto'
 __settings.mqttServerBitidLocal.username = process.env.BITID_LOCALROUTERS_MOSQUITTO_USERNAME
 __settings.mqttServerBitidLocal.password = process.env.BITID_LOCALROUTERS_MOSQUITTO_PASSWORD
 
+console.log('SETTINGS**************************************************', __settings)
+
 
 
 var portal = async () => {
