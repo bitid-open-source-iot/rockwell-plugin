@@ -127,8 +127,8 @@ async function start(){
             setInterval(()=>{
                 modbusMainController.updateSource({
                     deviceId: 1,
-                    register: 69,
-                    value: tmpVal++
+                    register: 79,
+                    value: 7
                 })
             },5000)
         }
