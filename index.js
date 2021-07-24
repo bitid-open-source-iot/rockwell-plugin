@@ -2,19 +2,15 @@ const cors = require('cors');
 const http = require('http');
 const auth = require('./lib/auth');
 const express = require('express');
-const Rockwell = require('./lib/rockwell');
-const publicIp = require('public-ip').v4;
 const WebSocket = require('./lib/socket');
-const Telemetry = require('./lib/telemetry');
-const MqttSocket = require('./lib/mqtt');
 const bodyparser = require('body-parser');
 const ErrorResponse = require('./lib/error-response');
 const KGateway = require('./lib/kGateway');
-const { init } = require('./lib/logger');
+const RockwellMain = require('./lib/rockwellMain');
+const ModbusMainController = require('./lib/modbusMainController');
 require('dotenv').config()
 
 global.__base = __dirname + '/';
-global.__logger = require('./lib/logger')
 global.__server = null;
 global.__socket = null;
 global.__deviceId = null;
@@ -27,7 +23,7 @@ __settings.mqttServerBitid.password = process.env.BITID_SERVER_MOSQUITTO_PASSWOR
 
 __settings.mqttRouters.username = process.env.BITID_LOCALROUTERS_MOSQUITTO_USERNAME
 __settings.mqttRouters.password = process.env.BITID_LOCALROUTERS_MOSQUITTO_PASSWORD
-__settings.mqttRouters.host = 'mqtt://mosquitto'
+// __settings.mqttRouters.host = 'mqtt://mosquitto' //For use in Kubernettes
 
 
 __settings.mqttServerBitidLocal.username = process.env.BITID_LOCALROUTERS_MOSQUITTO_USERNAME
@@ -82,7 +78,7 @@ var portal = async () => {
 
         var config = require('./api/config');
         app.use('/api/config', config);
-        __logger.info('Loaded: ./api/config');
+        console.log('Loaded: ./api/config');
 
         app.use((error, req, res, next) => {
             var err = new ErrorResponse();
@@ -108,191 +104,39 @@ var portal = async () => {
 
         return true;
     } catch (error) {
-        __logger.error(error);
+        console.error(error);
         return false;
     };
 };
 
-var logger = async () => {
-    try {
-        __logger.init(__settings.logger);
-        return true;
-    } catch (error) {
-        return false;
-    };
-};
 
 async function start(){
     try{
-        await logger()
         await portal()
-        let kGateway = new KGateway()
+        if(__settings.drivers.kGatewayEnabled == true){
+            console.log('Starting kGateway Driver')
+            let kGateway = new KGateway()
+        }
+        if(__settings.drivers.rockwellEnabled == true){
+            console.log('Starting rockwell Driver')
+            let rockwell = new RockwellMain()
+        }
+        if(__settings.drivers.modbusEnabled == true){
+            let modbusMainController = new ModbusMainController({})
+            let tmpVal = 0
+            setInterval(()=>{
+                modbusMainController.updateSource({
+                    deviceId: 1,
+                    register: 69,
+                    value: tmpVal++
+                })
+            },5000)
+        }
+
+
     }catch(e){
         console.error(e)
     }
 }
 
 start()
-
-// (async () => {
-//     try {
-//         await logger();
-//         await portal();
-        
-//         const ip = await publicIp();
-//         const mqtt = new MqttSocket();
-//         const rockwell = new Rockwell();
-//         const telemetry = new Telemetry();
-
-//         // mqtt.on('data', event => {
-//         //     __logger.info(event);
-//         // });
-        
-//         mqtt.on('control', event => {
-//             var now = new Date().getTime();
-//             /* HARD CODE TO FIX DATE ON SITE */
-//             event.rtuDate = new Date(event.rtuDate);
-//             event.rtuDate.setHours(event.rtuDate.getHours() + 2);
-//             /* HARD CODE TO FIX DATE ON SITE */
-//             __settings.timeout.map(device => {
-//                 if (event.rtuId == device.deviceId && (now - event.rtuDate) < (device.timeout * 1000)) {
-//                     device.last = new Date().getTime();
-//                     device.status = 'healthy';
-//                     // write to registers
-//                     __settings.io.map(item => {
-//                         if (item.writeable && event.rtuId == item.in.deviceId && event.moduleId == item.in.moduleId) {
-//                             rockwell.write(item.inputId, event.dataIn[item.in.key]);
-//                         };
-//                     });
-//                     // set input register comms healthy
-//                     rockwell.write(device.inputId, 1);
-//                 };
-//             });
-//             __logger.info(event);
-//         });
-
-//         rockwell.on('data', data => {
-//             data = data.filter(o => typeof(o.value) != 'undefined' && o.value !== null && o.value !== '');
-    
-//             const modules = data.reduce((group, input) => {
-//                 if (group.hasOwnProperty(input.out.moduleId)) {
-//                     group[input.out.moduleId].push(input);
-//                 } else {
-//                     group[input.out.moduleId] = [input];
-//                 };
-//                 return group;
-//             }, {});
-    
-//             Object.keys(modules).map(async moduleId => {
-//                 var status = {
-//                     'IP': ip,
-//                     'AI1': 0,
-//                     'AI2': 0,
-//                     'AI3': 0,
-//                     'AI4': 0,
-//                     'CI1': 0,
-//                     'CI2': 0,
-//                     'CI3': 0,
-//                     'CI4': 0,
-//                     'CI5': 0,
-//                     'CI6': 0,
-//                     'CI7': 0,
-//                     'CI8': 0,
-//                     'SIG': 0,
-//                     'BATT': 0,
-//                     'AIExt1': 0,
-//                     'AIExt2': 0,
-//                     'AIExt3': 0,
-//                     'AIExt4': 0,
-//                     'AIExt5': 0,
-//                     'AIExt6': 0,
-//                     'AIExt7': 0,
-//                     'AIExt8': 0,
-//                     'digitalsIn': 0
-//                 };
-    
-//                 modules[moduleId].map(input => {
-//                     if (status.hasOwnProperty(input.out.key)) {
-//                         status[input.out.key] = input.value;
-//                     };
-//                 });
-
-//                 if (typeof(telemetry.deviceId) != 'undefined' && telemetry.deviceId !== null) {
-//                     __logger.info('Publishing Data To Server');
-//                     mqtt.send(__settings.server.subscribe.data, {
-//                         'rtuId': telemetry.deviceId,
-//                         'dataIn': status,
-//                         'rtuDate': new Date().getTime(),
-//                         'moduleId': moduleId
-//                     });
-//                 };
-//             });
-//         });
-
-//         rockwell.on('read', inputs => {
-//             __socket.send({
-//                 'inputs': inputs,
-//                 'barcode': rockwell.barcode(),
-//                 'deviceId': telemetry.deviceId
-//             });
-//         });
-
-//         rockwell.on('connect', () => {
-//             __logger.info('Rockwell PLC Connected: ' + rockwell.barcode());
-
-//             telemetry.connect(rockwell.barcode());
-//         });
-
-//         rockwell.on('disconnect', () => {
-//             __logger.warn('plc connection failure, reconnecting in a few seconds');
-//             setTimeout(() => {
-//                 rockwell.connect(__settings.plc);
-//             }, 3000);
-//         });
-
-//         telemetry.on('active', event => {
-//             __deviceId = telemetry.deviceId;
-//             __logger.info('Telemetry Connected: ' + telemetry.deviceId);
-
-//             setTimeout(async () => rockwell.watch(), 5000);
-
-//             setInterval(async () => rockwell.watch(), 30000);
-            
-//             setTimeout(async () => rockwell.read(), 7500);
-            
-//             setInterval(() => rockwell.read(), (__settings.txtime * 1000));
-
-//             __settings.timeout.map(device => {
-//                 device.last = new Date().getTime();
-//                 device.status = 'healthy';
-//                 setInterval(() => {
-//                     var now = new Date().getTime();
-//                     if (now - device.last > (device.timeout * 1000) && device.status == 'healthy') {
-//                         // set input register comms unhealthy
-//                         rockwell.write(device.inputId, 0);
-//                         device.status = 'unhealthy';
-//                     };
-//                 }, (device.timeout * 1000));
-//             });
-//         });
-
-//         telemetry.on('inactive', event => {
-//             __deviceId = null;
-//             setTimeout(() => telemetry.connect(rockwell.barcode()), 3000);
-//         });
-                
-//         __socket.on('connection', connection => {
-//             __socket.send({
-//                 'inputs': [],
-//                 'barcode': rockwell.barcode(),
-//                 'deviceId': telemetry.deviceId
-//             });
-//         });
-        
-//         mqtt.connect(__settings.server);
-        
-//         rockwell.connect(__settings.plc);
-//     } catch (error) {
-//         console.log(error.message);
-//     };
-// }) ();

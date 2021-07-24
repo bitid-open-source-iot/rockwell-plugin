@@ -260,7 +260,6 @@ describe('rockwell', function () {
 
 
 describe.only('kGateway', function () {
-    global.__logger = require('../lib/logger')
     global.__settings = require('../config.json');
     let KGATEWAY = require('../lib/kGateway')
     let kGateway

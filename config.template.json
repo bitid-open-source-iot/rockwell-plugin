@@ -40,5 +40,9 @@
     "timeout": [],
     "telemetry": "https://telemetry.bitid.co.za",
     "production": true,
-    "authentication": true
+    "authentication": true,
+    "drivers": {
+        "rockwellEnabled": false,
+        "kGatewayEnabled": false
+    }
 }
