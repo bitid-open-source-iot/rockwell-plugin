@@ -124,12 +124,20 @@ async function start(){
         if(__settings.drivers.modbusEnabled == true){
             let modbusMainController = new ModbusMainController({})
             let tmpVal = 0
-            setInterval(()=>{
-                modbusMainController.updateSource({
-                    deviceId: 1,
-                    register: 79,
-                    value: 7
-                })
+            setTimeout(()=>{
+                setInterval(()=>{
+                    modbusMainController.updateSource({
+                        deviceId: 1,
+                        register: 79,
+                        value: tmpVal
+                    })
+                    tmpVal++
+                    if(tmpVal > 255){
+                        tmpVal = 0
+                    }
+    
+                },1000)
+    
             },5000)
         }
 
