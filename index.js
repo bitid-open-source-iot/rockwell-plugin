@@ -2,13 +2,13 @@ const cors = require('cors');
 const http = require('http');
 const auth = require('./lib/auth');
 const express = require('express');
-const WebSocket = require('./lib/socket');
-const bodyparser = require('body-parser');
-const ErrorResponse = require('./lib/error-response');
 const KGateway = require('./lib/kGateway');
+const WebSocket = require('./lib/socket');
 const RockwellMain = require('./lib/rockwellMain');
+const ErrorResponse = require('./lib/error-response');
 const ModbusMainController = require('./lib/modbusMainController');
-require('dotenv').config()
+
+require('dotenv').config();
 
 global.__base = __dirname + '/';
 global.__server = null;
@@ -39,12 +39,12 @@ var portal = async () => {
 
         app.use(cors());
 
-        app.use(bodyparser.urlencoded({
+        app.use(express.urlencoded({
             'limit': '50mb',
             'extended': true
         }));
 
-        app.use(bodyparser.json({
+        app.use(express.json({
             'limit': '50mb'
         }));
 
@@ -99,7 +99,7 @@ var portal = async () => {
         __server.on('close', () => {
             setTimeout(() => __server.listen(__settings.port), 1000);
         });
-          
+
         __server.listen(__settings.port, () => __server.close());
 
         return true;
@@ -109,40 +109,59 @@ var portal = async () => {
     };
 };
 
+async function start() {
+    try {
+        var kGateway = null;
+        var rockwell = null;
+        var modbusMainController = null;
 
-async function start(){
-    try{
         await portal()
-        if(__settings.drivers.kGatewayEnabled == true){
+        if (__settings.drivers.kGatewayEnabled == true) {
             console.log('Starting kGateway Driver')
-            let kGateway = new KGateway()
+            kGateway = new KGateway()
         }
-        if(__settings.drivers.rockwellEnabled == true){
+        if (__settings.drivers.rockwellEnabled == true) {
             console.log('Starting rockwell Driver')
-            let rockwell = new RockwellMain()
+            rockwell = new RockwellMain();
+
+            rockwell.on('data', inputs => {
+                if (modbusMainController) {
+                    inputs.map(input => {
+                        __settings.sourceToDestinationModbusMapping.map(stdmm => {
+                            if (stdmm.source.deviceId == rockwell.getDeviceId()) {
+                                modbusMainController.updateSource({
+                                    value: input.value,
+                                    deviceId: stdmm.source.deviceId,
+                                    register: stdmm.source.register
+                                })
+                            };
+                        });
+                    });
+                };
+            });
         }
-        if(__settings.drivers.modbusEnabled == true){
-            let modbusMainController = new ModbusMainController({})
-            let tmpVal = 0
-            setTimeout(()=>{
-                setInterval(()=>{
-                    modbusMainController.updateSource({
-                        deviceId: 1,
-                        register: 79,
-                        value: tmpVal
-                    })
-                    tmpVal++
-                    if(tmpVal > 255){
-                        tmpVal = 0
-                    }
-    
-                },1000)
-    
-            },5000)
+        if (__settings.drivers.modbusEnabled == true) {
+            modbusMainController = new ModbusMainController({})
+            // let tmpVal = 0
+            // setTimeout(() => {
+            //     setInterval(() => {
+            //         modbusMainController.updateSource({
+            //             deviceId: 1,
+            //             register: 79,
+            //             value: tmpVal
+            //         })
+            //         tmpVal++
+            //         if (tmpVal > 255) {
+            //             tmpVal = 0
+            //         }
+
+            //     }, 1000)
+
+            // }, 5000)
         }
 
 
-    }catch(e){
+    } catch (e) {
         console.error(e)
     }
 }
