@@ -1,8 +1,9 @@
+const cors = require('cors');
+const http = require('http');
+const auth = require('./lib/auth');
+const express = require('express');
+
 try {
-    const cors = require('cors');
-    const http = require('http');
-    const auth = require('./lib/auth');
-    const express = require('express');
     // const KGateway = require('./lib/kGateway');
     // const WebSocket = require('./lib/socket');
     // const RockwellMain = require('./lib/rockwellMain');
