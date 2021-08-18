@@ -111,53 +111,53 @@ async function start() {
     try {
         await portal()
 
-        // var kGateway = null;
-        // var rockwell = null;
-        // var modbusMainController = null;
+        var kGateway = null;
+        var rockwell = null;
+        var modbusMainController = null;
 
-        // if (__settings.drivers.kGatewayEnabled == true) {
-        //     console.log('Starting kGateway Driver')
-        //     kGateway = new KGateway()
-        // }
-        // if (__settings.drivers.rockwellEnabled == true) {
-        //     console.log('Starting rockwell Driver')
-        //     rockwell = new RockwellMain();
+        if (__settings.drivers.kGatewayEnabled == true) {
+            console.log('Starting kGateway Driver')
+            kGateway = new KGateway()
+        }
+        if (__settings.drivers.rockwellEnabled == true) {
+            console.log('Starting rockwell Driver')
+            rockwell = new RockwellMain();
 
-        //     rockwell.on('data', inputs => {
-        //         if (modbusMainController) {
-        //             inputs.map(input => {
-        //                 __settings.sourceToDestinationModbusMapping.map(stdmm => {
-        //                     if (stdmm.source.deviceId == rockwell.getDeviceId()) {
-        //                         modbusMainController.updateSource({
-        //                             value: input.value,
-        //                             deviceId: stdmm.source.deviceId,
-        //                             register: stdmm.source.register
-        //                         })
-        //                     };
-        //                 });
-        //             });
-        //         };
-        //     });
-        // }
-        // if (__settings.drivers.modbusEnabled == true) {
-        //     modbusMainController = new ModbusMainController({})
-        //     // let tmpVal = 0
-        //     // setTimeout(() => {
-        //     //     setInterval(() => {
-        //     //         modbusMainController.updateSource({
-        //     //             deviceId: 1,
-        //     //             register: 79,
-        //     //             value: tmpVal
-        //     //         })
-        //     //         tmpVal++
-        //     //         if (tmpVal > 255) {
-        //     //             tmpVal = 0
-        //     //         }
+            rockwell.on('data', inputs => {
+                if (modbusMainController) {
+                    inputs.map(input => {
+                        __settings.sourceToDestinationModbusMapping.map(stdmm => {
+                            if (stdmm.source.deviceId == rockwell.getDeviceId()) {
+                                modbusMainController.updateSource({
+                                    value: input.value,
+                                    deviceId: stdmm.source.deviceId,
+                                    register: stdmm.source.register
+                                })
+                            };
+                        });
+                    });
+                };
+            });
+        }
+        if (__settings.drivers.modbusEnabled == true) {
+            modbusMainController = new ModbusMainController({})
+            // let tmpVal = 0
+            // setTimeout(() => {
+            //     setInterval(() => {
+            //         modbusMainController.updateSource({
+            //             deviceId: 1,
+            //             register: 79,
+            //             value: tmpVal
+            //         })
+            //         tmpVal++
+            //         if (tmpVal > 255) {
+            //             tmpVal = 0
+            //         }
 
-        //     //     }, 1000)
+            //     }, 1000)
 
-        //     // }, 5000)
-        // }
+            // }, 5000)
+        }
     } catch (e) {
         console.error(e)
     }
