@@ -1,4 +1,3 @@
-console.log(1);
 
 const cors = require('cors');
 const http = require('http');
@@ -9,8 +8,9 @@ const WebSocket = require('./lib/socket');
 const RockwellMain = require('./lib/rockwellMain');
 const ErrorResponse = require('./lib/error-response');
 const ModbusMainController = require('./lib/modbusMainController');
-
+console.log(1);
 require('dotenv').config();
+console.log(2);
 
 global.__base = __dirname + '/';
 global.__server = null;
