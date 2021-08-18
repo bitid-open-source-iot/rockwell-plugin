@@ -3,7 +3,7 @@ const http = require('http');
 const auth = require('./lib/auth');
 const express = require('express');
 // const KGateway = require('./lib/kGateway');
-const MyWebSocket = require('./lib/socket');
+const WebSocket = require('./lib/socket');
 // const RockwellMain = require('./lib/rockwellMain');
 const ErrorResponse = require('./lib/error-response');
 const ModbusMainController = require('./lib/modbusMainController');
@@ -90,7 +90,7 @@ var portal = async () => {
 
         __server = http.createServer(app);
 
-        // __socket = new WebSocket(__server);
+        __socket = new WebSocket(__server);
 
         console.log('Server running')
 
