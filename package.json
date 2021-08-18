@@ -17,7 +17,6 @@
     "http": "0.0.1-security",
     "ip": "^1.1.5",
     "log4js": "^6.3.0",
-    "macaddress": "^0.5.1",
     "mqtt": "^4.2.1",
     "node-cmd": "^3.0.0",
     "node-fetch": "^2.6.1",
