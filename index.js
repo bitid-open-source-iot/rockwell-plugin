@@ -11,7 +11,7 @@ console.log(5);
 console.log(6);
 // const WebSocket = require('./lib/socket');
 console.log(7);
-// const RockwellMain = require('./lib/rockwellMain');
+const RockwellMain = require('./lib/rockwellMain');
 console.log(8);
 const ErrorResponse = require('./lib/error-response');
 console.log(9);
@@ -129,26 +129,26 @@ async function start() {
         //     console.log('Starting kGateway Driver')
         //     kGateway = new KGateway()
         // }
-        // if (__settings.drivers.rockwellEnabled == true) {
-        //     console.log('Starting rockwell Driver')
-        //     rockwell = new RockwellMain();
+        if (__settings.drivers.rockwellEnabled == true) {
+            console.log('Starting rockwell Driver')
+            rockwell = new RockwellMain();
 
-        //     rockwell.on('data', inputs => {
-        //         if (modbusMainController) {
-        //             inputs.map(input => {
-        //                 __settings.sourceToDestinationModbusMapping.map(stdmm => {
-        //                     if (stdmm.source.deviceId == rockwell.getDeviceId()) {
-        //                         modbusMainController.updateSource({
-        //                             value: input.value,
-        //                             deviceId: stdmm.source.deviceId,
-        //                             register: stdmm.source.register
-        //                         })
-        //                     };
-        //                 });
-        //             });
-        //         };
-        //     });
-        // }
+            rockwell.on('data', inputs => {
+                if (modbusMainController) {
+                    inputs.map(input => {
+                        __settings.sourceToDestinationModbusMapping.map(stdmm => {
+                            if (stdmm.source.deviceId == rockwell.getDeviceId()) {
+                                modbusMainController.updateSource({
+                                    value: input.value,
+                                    deviceId: stdmm.source.deviceId,
+                                    register: stdmm.source.register
+                                })
+                            };
+                        });
+                    });
+                };
+            });
+        }
         // if (__settings.drivers.modbusEnabled == true) {
         //     modbusMainController = new ModbusMainController({})
         //     // let tmpVal = 0
