@@ -7,7 +7,7 @@ const auth = require('./lib/auth');
 console.log(4);
 const express = require('express');
 console.log(5);
-const KGateway = require('./lib/kGateway');
+// const KGateway = require('./lib/kGateway');
 console.log(6);
 const WebSocket = require('./lib/socket');
 console.log(7);
@@ -120,15 +120,15 @@ var portal = async () => {
 
 async function start() {
     try {
-        var kGateway = null;
+        // var kGateway = null;
         var rockwell = null;
         var modbusMainController = null;
 
         await portal()
-        if (__settings.drivers.kGatewayEnabled == true) {
-            console.log('Starting kGateway Driver')
-            kGateway = new KGateway()
-        }
+        // if (__settings.drivers.kGatewayEnabled == true) {
+        //     console.log('Starting kGateway Driver')
+        //     kGateway = new KGateway()
+        // }
         if (__settings.drivers.rockwellEnabled == true) {
             console.log('Starting rockwell Driver')
             rockwell = new RockwellMain();
