@@ -1,3 +1,5 @@
+console.log(1);
+
 const cors = require('cors');
 const http = require('http');
 const auth = require('./lib/auth');
