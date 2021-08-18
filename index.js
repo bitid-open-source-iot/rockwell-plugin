@@ -8,7 +8,7 @@ try {
     // const WebSocket = require('./lib/socket');
     // const RockwellMain = require('./lib/rockwellMain');
     const ErrorResponse = require('./lib/error-response');
-    // const ModbusMainController = require('./lib/modbusMainController');
+    const ModbusMainController = require('./lib/modbusMainController');
 } catch (error) {
     console.log(error.message)
 };
