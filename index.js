@@ -1,22 +1,17 @@
-console.log(1);
-const cors = require('cors');
-console.log(2);
-const http = require('http');
-console.log(3);
-const auth = require('./lib/auth');
-console.log(4);
-const express = require('express');
-console.log(5);
-// const KGateway = require('./lib/kGateway');
-console.log(6);
-// const WebSocket = require('./lib/socket');
-console.log(7);
-const RockwellMain = require('./lib/rockwellMain');
-console.log(8);
-const ErrorResponse = require('./lib/error-response');
-console.log(9);
-// const ModbusMainController = require('./lib/modbusMainController');
-console.log(10);
+try {
+    const cors = require('cors');
+    const http = require('http');
+    const auth = require('./lib/auth');
+    const express = require('express');
+    const KGateway = require('./lib/kGateway');
+    const WebSocket = require('./lib/socket');
+    const RockwellMain = require('./lib/rockwellMain');
+    const ErrorResponse = require('./lib/error-response');
+    const ModbusMainController = require('./lib/modbusMainController');
+} catch (error) {
+    console.log(error.message)
+};
+
 require('dotenv').config();
 
 global.__base = __dirname + '/';
@@ -101,7 +96,7 @@ var portal = async () => {
 
         __server = http.createServer(app);
 
-        // __socket = new WebSocket(__server);
+        __socket = new WebSocket(__server);
 
         console.log('Server running')
 
@@ -120,15 +115,15 @@ var portal = async () => {
 
 async function start() {
     try {
-        // var kGateway = null;
+        var kGateway = null;
         var rockwell = null;
         var modbusMainController = null;
 
         await portal()
-        // if (__settings.drivers.kGatewayEnabled == true) {
-        //     console.log('Starting kGateway Driver')
-        //     kGateway = new KGateway()
-        // }
+        if (__settings.drivers.kGatewayEnabled == true) {
+            console.log('Starting kGateway Driver')
+            kGateway = new KGateway()
+        }
         if (__settings.drivers.rockwellEnabled == true) {
             console.log('Starting rockwell Driver')
             rockwell = new RockwellMain();
@@ -149,25 +144,25 @@ async function start() {
                 };
             });
         }
-        // if (__settings.drivers.modbusEnabled == true) {
-        //     modbusMainController = new ModbusMainController({})
-        //     // let tmpVal = 0
-        //     // setTimeout(() => {
-        //     //     setInterval(() => {
-        //     //         modbusMainController.updateSource({
-        //     //             deviceId: 1,
-        //     //             register: 79,
-        //     //             value: tmpVal
-        //     //         })
-        //     //         tmpVal++
-        //     //         if (tmpVal > 255) {
-        //     //             tmpVal = 0
-        //     //         }
+        if (__settings.drivers.modbusEnabled == true) {
+            modbusMainController = new ModbusMainController({})
+            // let tmpVal = 0
+            // setTimeout(() => {
+            //     setInterval(() => {
+            //         modbusMainController.updateSource({
+            //             deviceId: 1,
+            //             register: 79,
+            //             value: tmpVal
+            //         })
+            //         tmpVal++
+            //         if (tmpVal > 255) {
+            //             tmpVal = 0
+            //         }
 
-        //     //     }, 1000)
+            //     }, 1000)
 
-        //     // }, 5000)
-        // }
+            // }, 5000)
+        }
 
 
     } catch (e) {
