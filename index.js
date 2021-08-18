@@ -7,7 +7,7 @@ const auth = require('./lib/auth');
 console.log(4);
 const express = require('express');
 console.log(5);
-const KGateway = require('./lib/kGateway');
+// const KGateway = require('./lib/kGateway');
 console.log(6);
 const WebSocket = require('./lib/socket');
 console.log(7);
