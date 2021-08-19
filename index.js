@@ -126,9 +126,9 @@ async function start() {
             rockwell.on('data', inputs => {
                 if (modbusMainController) {
                     inputs.map(input => {
-                        console.log(input)
                         __settings.sourceToDestinationModbusMapping.map(stdmm => {
                             if (stdmm.source.register == input.tagId) {
+                                console.log(input)
                                 modbusMainController.updateSource({
                                     value: input.value,
                                     deviceId: stdmm.source.deviceId,
