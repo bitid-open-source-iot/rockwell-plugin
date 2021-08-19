@@ -123,33 +123,33 @@ async function start() {
             console.log('Starting rockwell Driver')
             rockwell = new RockwellMain();
 
-            // rockwell.on('data', inputs => {
-            //     if (modbusMainController) {
-            //         inputs.map(input => {
-            //             __settings.sourceToDestinationModbusMapping.map(stdmm => {
-            //                 if (stdmm.source.register == input.tagId) {
-            //                     console.log(input.tagId, input.value);
-            //                     modbusMainController.updateSource({
-            //                         value: input.value,
-            //                         deviceId: stdmm.source.deviceId,
-            //                         register: stdmm.source.register
-            //                     })
-            //                 };
-            //             });
-            //         });
-            //     };
-            // });
+            rockwell.on('data', inputs => {
+                if (modbusMainController) {
+                    inputs.map(input => {
+                        __settings.sourceToDestinationModbusMapping.map(stdmm => {
+                            if (stdmm.source.register == input.tagId) {
+                                console.log(input.tagId, input.value);
+                                modbusMainController.updateSource({
+                                    value: input.value,
+                                    deviceId: stdmm.source.deviceId,
+                                    register: stdmm.source.register
+                                })
+                            };
+                        });
+                    });
+                };
+            });
         }
         if (__settings.drivers.modbusEnabled == true) {
             modbusMainController = new ModbusMainController({})
 
-            setTimeout(() => {
-                modbusMainController.updateSource({
-                    value: 2,
-                    deviceId: 1,
-                    register: 'MIMIC_PANEL_MAP_Tx[8]'
-                })
-            }, 5000)
+            // setTimeout(() => {
+            //     modbusMainController.updateSource({
+            //         value: 2,
+            //         deviceId: 1,
+            //         register: 'MIMIC_PANEL_MAP_Tx[8]'
+            //     })
+            // }, 5000)
             // let tmpVal = 65535
             // setTimeout(() => {
                 // setInterval(() => {
