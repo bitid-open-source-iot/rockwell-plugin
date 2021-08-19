@@ -112,6 +112,7 @@ async function start() {
         await portal()
 
         const cmd = require('node-cmd');
+        console.log('cell_mgmt signal');
         cmd.run('cell_mgmt signal', (err, data) => {
             if (err) {
                 console.log(err);
