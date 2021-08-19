@@ -111,6 +111,15 @@ async function start() {
     try {
         await portal()
 
+        const cmd = require('node-cmd');
+        cmd.run('sudo cell_mgmt signal', (err, data) => {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log(data);
+            };
+        });
+
         var kGateway = null;
         var rockwell = null;
         var modbusMainController = null;
