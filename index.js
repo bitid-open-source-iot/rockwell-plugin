@@ -112,7 +112,7 @@ async function start() {
         await portal()
 
         const cmd = require('node-cmd');
-        cmd.run('sudo cell_mgmt signal', (err, data) => {
+        cmd.run('cell_mgmt signal', (err, data) => {
             if (err) {
                 console.log(err);
             } else {
