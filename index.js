@@ -145,7 +145,7 @@ async function start() {
 
             setTimeout(() => {
                 modbusMainController.updateSource({
-                    value: 1,
+                    value: 2,
                     deviceId: 1,
                     register: 'MIMIC_PANEL_MAP_Tx[8]'
                 })
