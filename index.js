@@ -127,15 +127,15 @@ async function start() {
                 if (modbusMainController) {
                     inputs.map(input => {
                         console.log(input)
-                        // __settings.sourceToDestinationModbusMapping.map(stdmm => {
-                            // if (stdmm.source.deviceId == rockwell.getDeviceId()) {
-                            //     modbusMainController.updateSource({
-                            //         value: input.value,
-                            //         deviceId: stdmm.source.deviceId,
-                            //         register: stdmm.source.register
-                            //     })
-                            // };
-                        // });
+                        __settings.sourceToDestinationModbusMapping.map(stdmm => {
+                            if (stdmm.source.register == input.tagId) {
+                                modbusMainController.updateSource({
+                                    value: input.value,
+                                    deviceId: stdmm.source.deviceId,
+                                    register: stdmm.source.register
+                                })
+                            };
+                        });
                     });
                 };
             });
