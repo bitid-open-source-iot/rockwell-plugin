@@ -128,7 +128,7 @@ async function start() {
                     inputs.map(input => {
                         __settings.sourceToDestinationModbusMapping.map(stdmm => {
                             if (stdmm.source.register == input.tagId) {
-                                console.log(input)
+                                console.log(input.tagId, input.value);
                                 modbusMainController.updateSource({
                                     value: input.value,
                                     deviceId: stdmm.source.deviceId,
@@ -142,6 +142,12 @@ async function start() {
         }
         if (__settings.drivers.modbusEnabled == true) {
             modbusMainController = new ModbusMainController({})
+
+            modbusMainController.updateSource({
+                value: 1,
+                deviceId: 1,
+                register: 'MIMIC_PANEL_MAP_Tx[8]'
+            })
             // let tmpVal = 0
             // setTimeout(() => {
             //     setInterval(() => {
