@@ -29,7 +29,7 @@ __settings.mqttRouters.password = process.env.BITID_LOCALROUTERS_MOSQUITTO_PASSW
 __settings.mqttServerBitidLocal.username = process.env.BITID_LOCALROUTERS_MOSQUITTO_USERNAME
 __settings.mqttServerBitidLocal.password = process.env.BITID_LOCALROUTERS_MOSQUITTO_PASSWORD
 
-console.log('SETTINGS**************************************************', __settings)
+// console.log('SETTINGS**************************************************', __settings)
 
 var portal = async () => {
     try {
@@ -123,44 +123,45 @@ async function start() {
             console.log('Starting rockwell Driver')
             rockwell = new RockwellMain();
 
-            rockwell.on('data', inputs => {
-                if (modbusMainController) {
-                    inputs.map(input => {
-                        __settings.sourceToDestinationModbusMapping.map(stdmm => {
-                            if (stdmm.source.register == input.tagId) {
-                                console.log(input.tagId, input.value);
-                                modbusMainController.updateSource({
-                                    value: input.value,
-                                    deviceId: stdmm.source.deviceId,
-                                    register: stdmm.source.register
-                                })
-                            };
-                        });
-                    });
-                };
-            });
+            // rockwell.on('data', inputs => {
+            //     if (modbusMainController) {
+            //         inputs.map(input => {
+            //             __settings.sourceToDestinationModbusMapping.map(stdmm => {
+            //                 if (stdmm.source.register == input.tagId) {
+            //                     console.log(input.tagId, input.value);
+            //                     modbusMainController.updateSource({
+            //                         value: input.value,
+            //                         deviceId: stdmm.source.deviceId,
+            //                         register: stdmm.source.register
+            //                     })
+            //                 };
+            //             });
+            //         });
+            //     };
+            // });
         }
         if (__settings.drivers.modbusEnabled == true) {
             modbusMainController = new ModbusMainController({})
 
-            modbusMainController.updateSource({
-                value: 1,
-                deviceId: 1,
-                register: 'MIMIC_PANEL_MAP_Tx[8]'
-            })
-            // let tmpVal = 0
+            setTimeout(() => {
+                modbusMainController.updateSource({
+                    value: 1,
+                    deviceId: 1,
+                    register: 'MIMIC_PANEL_MAP_Tx[8]'
+                })
+            }, 5000)
+            // let tmpVal = 65535
             // setTimeout(() => {
-            //     setInterval(() => {
-            //         modbusMainController.updateSource({
-            //             deviceId: 1,
-            //             register: 79,
-            //             value: tmpVal
-            //         })
-            //         tmpVal++
-            //         if (tmpVal > 255) {
-            //             tmpVal = 0
-            //         }
-
+                // setInterval(() => {
+                //     modbusMainController.updateSource({
+                //         deviceId: 1,
+                //         register: 'MIMIC_PANEL_MAP_Tx[8]',
+                //         value: tmpVal
+                //     })
+                    // tmpVal++
+                    // if (tmpVal > 65535) {
+                    //     tmpVal = 0
+                    // }
             //     }, 1000)
             // }, 5000)
         }
