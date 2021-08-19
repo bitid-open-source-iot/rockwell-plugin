@@ -126,15 +126,16 @@ async function start() {
             rockwell.on('data', inputs => {
                 if (modbusMainController) {
                     inputs.map(input => {
-                        __settings.sourceToDestinationModbusMapping.map(stdmm => {
-                            if (stdmm.source.deviceId == rockwell.getDeviceId()) {
-                                modbusMainController.updateSource({
-                                    value: input.value,
-                                    deviceId: stdmm.source.deviceId,
-                                    register: stdmm.source.register
-                                })
-                            };
-                        });
+                        console.log(input)
+                        // __settings.sourceToDestinationModbusMapping.map(stdmm => {
+                            // if (stdmm.source.deviceId == rockwell.getDeviceId()) {
+                            //     modbusMainController.updateSource({
+                            //         value: input.value,
+                            //         deviceId: stdmm.source.deviceId,
+                            //         register: stdmm.source.register
+                            //     })
+                            // };
+                        // });
                     });
                 };
             });
@@ -155,7 +156,6 @@ async function start() {
             //         }
 
             //     }, 1000)
-
             // }, 5000)
         }
     } catch (e) {
