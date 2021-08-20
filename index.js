@@ -123,7 +123,7 @@ async function start() {
             console.log('Starting rockwell Driver')
             rockwell = new RockwellMain();
 
-            rockwell.on('read', inputs => {
+            rockwell.on('data', inputs => {
                 if (modbusMainController) {
                     inputs.map(input => {
                         __settings.sourceToDestinationModbusMapping.map(stdmm => {
