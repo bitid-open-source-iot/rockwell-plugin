@@ -111,16 +111,6 @@ async function start() {
     try {
         await portal()
 
-        const cmd = require('node-cmd');
-        console.log('cell_mgmt signal');
-        cmd.run('cell_mgmt signal', (err, data) => {
-            if (err) {
-                console.log(err);
-            } else {
-                console.log(data);
-            };
-        });
-
         var kGateway = null;
         var rockwell = null;
         var modbusMainController = null;
