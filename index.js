@@ -150,20 +150,23 @@ async function start() {
             //         register: 'MIMIC_PANEL_MAP_Tx[8]'
             //     })
             // }, 5000)
-            // let tmpVal = 65535
-            // setTimeout(() => {
-                // setInterval(() => {
-                //     modbusMainController.updateSource({
-                //         deviceId: 1,
-                //         register: 'MIMIC_PANEL_MAP_Tx[8]',
-                //         value: tmpVal
-                //     })
-                    // tmpVal++
-                    // if (tmpVal > 65535) {
-                    //     tmpVal = 0
-                    // }
-            //     }, 1000)
-            // }, 5000)
+            let tmpVal = 1500
+            setTimeout(() => {
+                setInterval(() => {
+                    for (let i = 0; i < __settings.sourceToDestinationModbusMapping.length; i++) {
+                        const element = __settings.sourceToDestinationModbusMapping[i];
+                        modbusMainController.updateSource({
+                            deviceId: 1,
+                            register: element.source.register,
+                            value: tmpVal
+                        })
+                        // tmpVal++
+                        // if (tmpVal > 65535) {
+                        //     tmpVal = 0
+                        // }
+                    }
+                }, 1000)
+            }, 5000)
         }
     } catch (e) {
         console.error(e)
