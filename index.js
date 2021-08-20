@@ -147,17 +147,17 @@ async function start() {
         if (__settings.drivers.modbusEnabled == true) {
             modbusMainController = new ModbusMainController({})
 
-            // setTimeout(() => {
-            //     let tmpVal = 819
-            //     for (let i = 0; i < __settings.sourceToDestinationModbusMapping.length; i++) {
-            //         const element = __settings.sourceToDestinationModbusMapping[i];
-            //         modbusMainController.updateSource({
-            //             deviceId: 1,
-            //             register: element.source.register,
-            //             value: tmpVal
-            //         })
-            //     }
-            // }, 500)
+            setTimeout(() => {
+                let tmpVal = 819
+                for (let i = 0; i < __settings.sourceToDestinationModbusMapping.length; i++) {
+                    const element = __settings.sourceToDestinationModbusMapping[i];
+                    modbusMainController.updateSource({
+                        deviceId: 1,
+                        register: element.source.register,
+                        value: tmpVal
+                    })
+                }
+            }, 500)
         }
     } catch (e) {
         console.error(e)
