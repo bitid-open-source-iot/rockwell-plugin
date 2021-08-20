@@ -144,29 +144,16 @@ async function start() {
             modbusMainController = new ModbusMainController({})
 
             // setTimeout(() => {
-            //     modbusMainController.updateSource({
-            //         value: 2,
-            //         deviceId: 1,
-            //         register: 'MIMIC_PANEL_MAP_Tx[8]'
-            //     })
-            // }, 5000)
-            let tmpVal = 1500
-            setTimeout(() => {
-                setInterval(() => {
-                    for (let i = 0; i < __settings.sourceToDestinationModbusMapping.length; i++) {
-                        const element = __settings.sourceToDestinationModbusMapping[i];
-                        modbusMainController.updateSource({
-                            deviceId: 1,
-                            register: element.source.register,
-                            value: tmpVal
-                        })
-                        // tmpVal++
-                        // if (tmpVal > 65535) {
-                        //     tmpVal = 0
-                        // }
-                    }
-                }, 1000)
-            }, 5000)
+            //     let tmpVal = 4095
+            //     for (let i = 0; i < __settings.sourceToDestinationModbusMapping.length; i++) {
+            //         const element = __settings.sourceToDestinationModbusMapping[i];
+            //         modbusMainController.updateSource({
+            //             deviceId: 1,
+            //             register: element.source.register,
+            //             value: tmpVal
+            //         })
+            //     }
+            // }, 500)
         }
     } catch (e) {
         console.error(e)
