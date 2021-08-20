@@ -144,7 +144,7 @@ async function start() {
             modbusMainController = new ModbusMainController({})
 
             // setTimeout(() => {
-            //     let tmpVal = 4095
+            //     let tmpVal = 819
             //     for (let i = 0; i < __settings.sourceToDestinationModbusMapping.length; i++) {
             //         const element = __settings.sourceToDestinationModbusMapping[i];
             //         modbusMainController.updateSource({
