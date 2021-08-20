@@ -1,6 +1,7 @@
 const cors = require('cors');
 const http = require('http');
 const auth = require('./lib/auth');
+const logger = require('./lib/logger');
 const express = require('express');
 const KGateway = require('./lib/kGateway');
 const WebSocket = require('./lib/socket');
@@ -12,6 +13,7 @@ require('dotenv').config();
 
 global.__base = __dirname + '/';
 global.__server = null;
+global.__logger = logger;
 global.__socket = null;
 global.__deviceId = null;
 global.__settings = require('./config.json');
@@ -29,7 +31,7 @@ __settings.mqttRouters.password = process.env.BITID_LOCALROUTERS_MOSQUITTO_PASSW
 __settings.mqttServerBitidLocal.username = process.env.BITID_LOCALROUTERS_MOSQUITTO_USERNAME
 __settings.mqttServerBitidLocal.password = process.env.BITID_LOCALROUTERS_MOSQUITTO_PASSWORD
 
-// console.log('SETTINGS**************************************************', __settings)
+// __logger.info('SETTINGS**************************************************', __settings)
 
 var portal = async () => {
     try {
@@ -76,7 +78,9 @@ var portal = async () => {
 
         var config = require('./api/config');
         app.use('/api/config', config);
-        console.log('Loaded: ./api/config');
+        __logger.info('Loaded: ./api/config');
+
+        __logger.init();
 
         app.use((error, req, res, next) => {
             var err = new ErrorResponse();
@@ -92,7 +96,7 @@ var portal = async () => {
 
         __socket = new WebSocket(__server);
 
-        console.log('Server running')
+        __logger.info('Server running')
 
         __server.on('close', () => {
             setTimeout(() => __server.listen(__settings.port), 1000);
@@ -116,11 +120,11 @@ async function start() {
         var modbusMainController = null;
 
         if (__settings.drivers.kGatewayEnabled == true) {
-            console.log('Starting kGateway Driver')
+            __logger.info('Starting kGateway Driver')
             kGateway = new KGateway()
         }
         if (__settings.drivers.rockwellEnabled == true) {
-            console.log('Starting rockwell Driver')
+            __logger.info('Starting rockwell Driver')
             rockwell = new RockwellMain();
 
             rockwell.on('data', inputs => {
@@ -128,7 +132,7 @@ async function start() {
                     inputs.map(input => {
                         __settings.sourceToDestinationModbusMapping.map(stdmm => {
                             if (stdmm.source.register == input.tagId) {
-                                console.log(input.tagId, input.value);
+                                __logger.info(input.tagId, input.value);
                                 modbusMainController.updateSource({
                                     value: input.value,
                                     deviceId: stdmm.source.deviceId,
