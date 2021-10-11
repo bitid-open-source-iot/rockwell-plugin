@@ -11,7 +11,6 @@
 **/*.*proj.user
 **/*.dbmdl
 **/*.jfm
-**/azds.yaml
 **/charts
 **/docker-compose*
 **/compose*
@@ -22,4 +21,3 @@
 **/secrets.dev.yaml
 **/values.dev.yaml
 README.md
-# config.json
